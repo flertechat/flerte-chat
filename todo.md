@@ -51,3 +51,8 @@
 - [x] Melhorar CTAs para serem mais persuasivos
 - [x] Adicionar seção "Como Funciona" com passos visuais
 - [x] Adicionar seção de estatísticas/resultados
+
+## Senso de Urgência
+- [x] Adicionar cronômetro regressivo na página de planos
+- [x] Adicionar badge de oferta limitada
+- [x] Adicionar mensagem de escassez
