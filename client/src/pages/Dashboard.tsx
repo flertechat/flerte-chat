@@ -1,6 +1,7 @@
+import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { APP_LOGO, getLoginUrl } from "@/const";
+import { APP_LOGO, APP_TITLE, getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
 import {
   Loader2,
@@ -8,43 +9,77 @@ import {
   Copy,
   Check,
   Sparkles,
+  Send,
+  CreditCard,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { toast } from "sonner";
 
+interface Message {
+  role: "user" | "assistant";
+  content: string;
+  options?: string[]; // For AI generated options
+}
+
 export default function Dashboard() {
+  const { user, isAuthenticated } = useAuth();
   const [, setLocation] = useLocation();
   const [context, setContext] = useState("");
-  const [generatedMessages, setGeneratedMessages] = useState<string[]>([]);
-  const [copied, setCopied] = useState<number | null>(null);
-  const [tone, setTone] = useState<"natural" | "bold" | "funny">("natural");
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [copied, setCopied] = useState<string | null>(null);
+  const [tone, setTone] = useState<"natural" | "bold" | "funny">("bold");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const toneOptions = [
-    { id: "bold", label: "Safado", icon: "😏" },
-    { id: "natural", label: "Normal", icon: "🙂" },
-    { id: "funny", label: "Engraçado", icon: "😄" },
+    { id: "bold", label: "Safado", icon: "😏", color: "from-rose-500 to-pink-600" },
+    { id: "natural", label: "Normal", icon: "🙂", color: "from-blue-500 to-cyan-600" },
+    { id: "funny", label: "Engraçado", icon: "😄", color: "from-yellow-500 to-orange-600" },
   ];
 
-  const creditsQuery = trpc.subscription.get.useQuery();
+  const creditsQuery = trpc.subscription.get.useQuery(undefined, {
+    enabled: isAuthenticated,
+  });
 
   const generateMutation = trpc.flerte.generateMessage.useMutation({
     onSuccess: (data: any) => {
-      const messages = data.messages || [];
-      setGeneratedMessages(messages.map((m: any) => m.content));
+      const generatedOptions = data.messages || [];
+      const optionsContent = generatedOptions.map((m: any) => m.content);
+      
+      // Add assistant message with options
+      setMessages(prev => [
+        ...prev,
+        {
+          role: "assistant",
+          content: "",
+          options: optionsContent,
+        }
+      ]);
+      
       creditsQuery.refetch();
-      toast.success("3 mensagens geradas!");
+      toast.success("3 respostas geradas!");
+      
+      // Scroll to bottom
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
     },
     onError: (error: any) => {
       if (error.message === "NO_CREDITS") {
         toast.error("Seus créditos acabaram!");
         setLocation("/plans");
       } else {
-        toast.error("Erro ao gerar mensagem.");
+        toast.error("Erro ao gerar mensagem: " + error.message);
       }
     },
   });
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      window.location.href = getLoginUrl();
+    }
+  }, [isAuthenticated]);
 
   useEffect(() => {
     textareaRef.current?.focus();
@@ -52,32 +87,46 @@ export default function Dashboard() {
 
   const handleGenerate = () => {
     if (!context.trim()) {
-      toast.error("Digite um contexto");
+      toast.error("Digite a mensagem que você recebeu");
       return;
     }
 
+    // Add user message to chat
+    setMessages(prev => [
+      ...prev,
+      {
+        role: "user",
+        content: context.trim(),
+      }
+    ]);
+
+    // Clear input
+    setContext("");
+
+    // Generate responses
     generateMutation.mutate({
       context: context.trim(),
       tone,
     });
   };
 
-  const handleCopy = (message: string, index: number) => {
+  const handleCopy = (message: string) => {
     navigator.clipboard.writeText(message);
-    setCopied(index);
+    setCopied(message);
     toast.success("Mensagem copiada!");
     setTimeout(() => setCopied(null), 2000);
   };
 
-  const handleNewChat = () => {
-    setContext("");
-    setGeneratedMessages([]);
-    setTone("natural");
-    textareaRef.current?.focus();
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleGenerate();
+    }
   };
 
   const handleLogout = () => {
-    trpc.auth.logout.useMutation().mutate(undefined, {
+    const logoutMutation = trpc.auth.logout.useMutation();
+    logoutMutation.mutate(undefined, {
       onSuccess: () => {
         toast.success("Até logo!");
         setLocation("/");
@@ -85,163 +134,218 @@ export default function Dashboard() {
     });
   };
 
-  const credits = creditsQuery.isError || !creditsQuery.data
-    ? undefined
-    : creditsQuery.data.creditsRemaining;
-  const creditsLabel = credits ?? "-";
-  const hasMessages = generatedMessages.length > 0;
+  const credits = creditsQuery.data?.creditsRemaining ?? 0;
+  const plan = creditsQuery.data?.plan || "free";
+
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-100 via-rose-200 to-orange-200 flex flex-col">
-      {/* Header Minimalista */}
-      <header className="p-6 flex items-center justify-between max-w-4xl w-full mx-auto">
-        <div className="flex items-center gap-3">
-          {/* Logo com chama estilizada */}
-          <div className="flex items-center gap-2">
-            {/* Chama com gradiente */}
-            <div className="relative w-12 h-12 flex items-center justify-center">
-              <svg
-                width="48"
-                height="48"
-                viewBox="0 0 100 100"
-                xmlns="http://www.w3.org/2000/svg"
-                className="drop-shadow-lg"
-              >
-                <defs>
-                  <linearGradient id="flameGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" style={{ stopColor: '#ff6b6b', stopOpacity: 1 }} />
-                    <stop offset="50%" style={{ stopColor: '#ff5252', stopOpacity: 1 }} />
-                    <stop offset="100%" style={{ stopColor: '#e63946', stopOpacity: 1 }} />
-                  </linearGradient>
-                </defs>
-                {/* Chama principal */}
-                <path
-                  d="M50 10 C40 10, 35 20, 35 30 C35 35, 37 40, 40 45 C30 48, 25 55, 25 65 C25 80, 35 90, 50 90 C65 90, 75 80, 75 65 C75 55, 70 48, 60 45 C63 40, 65 35, 65 30 C65 20, 60 10, 50 10 Z"
-                  fill="url(#flameGrad)"
-                />
-                {/* Centro brilhante */}
-                <ellipse cx="50" cy="65" rx="12" ry="15" fill="#ffcccb" opacity="0.7"/>
-              </svg>
-            </div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-rose-600 via-pink-600 to-rose-500 bg-clip-text text-transparent tracking-tight">
-              Flerte Chat
-            </h1>
+    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-orange-50 flex flex-col">
+      {/* Header */}
+      <header className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+        <div className="container max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <span className="text-3xl">{APP_LOGO}</span>
+            <span className="font-bold text-xl text-gray-800">{APP_TITLE}</span>
           </div>
-        </div>
-
-        <div className="flex items-center gap-4">
-          <div className="text-sm text-gray-700 font-medium">
-            Créditos: <span className="text-rose-600 font-bold">{creditsLabel}</span>
+          
+          <div className="flex items-center gap-4">
+            <Button
+              onClick={() => setLocation("/plans")}
+              variant="outline"
+              size="sm"
+              className="gap-2"
+            >
+              <CreditCard className="w-4 h-4" />
+              <span className="font-bold text-rose-600">{credits} créditos</span>
+            </Button>
+            <Button
+              onClick={handleLogout}
+              variant="ghost"
+              size="sm"
+              className="gap-2"
+            >
+              <LogOut className="w-4 h-4" />
+              Sair
+            </Button>
           </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-gray-600 hover:text-gray-900"
-            onClick={handleLogout}
-          >
-            <LogOut className="w-4 h-4" />
-          </Button>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="flex-1 flex flex-col items-center justify-center px-4 py-8 max-w-3xl w-full mx-auto">
-        {/* Input Area - Sempre visível */}
-        <div className="w-full mb-8">
-          <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-lg p-6 space-y-4">
+      {/* Main Chat Area */}
+      <main className="flex-1 container max-w-5xl mx-auto px-4 py-8 flex flex-col">
+        {/* Welcome Message */}
+        {messages.length === 0 && (
+          <div className="flex-1 flex flex-col items-center justify-center text-center px-4">
+            <div className="mb-8">
+              <div className="text-6xl mb-4 animate-pulse">{APP_LOGO}</div>
+              <h1 className="text-4xl font-black text-gray-800 mb-4">
+                Nunca Mais Fique Sem Resposta
+              </h1>
+              <p className="text-xl text-gray-600 max-w-2xl">
+                Cole a mensagem que você recebeu, escolha o tom e receba 3 respostas irresistíveis!
+              </p>
+            </div>
+            
+            {/* Tone Selector */}
+            <div className="mb-8">
+              <p className="text-sm font-semibold text-gray-700 mb-3">Escolha o tom:</p>
+              <div className="flex gap-3">
+                {toneOptions.map((option) => (
+                  <button
+                    key={option.id}
+                    onClick={() => setTone(option.id as any)}
+                    className={`px-6 py-3 rounded-2xl font-bold text-white transition-all ${
+                      tone === option.id
+                        ? `bg-gradient-to-r ${option.color} scale-110 shadow-lg`
+                        : "bg-gray-300 hover:bg-gray-400"
+                    }`}
+                  >
+                    <span className="text-2xl mr-2">{option.icon}</span>
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Messages */}
+        {messages.length > 0 && (
+          <div className="flex-1 overflow-y-auto mb-4 space-y-6">
+            {messages.map((message, index) => (
+              <div key={index}>
+                {message.role === "user" && (
+                  <div className="flex justify-start mb-6">
+                    <div className="bg-white/60 backdrop-blur-sm rounded-3xl rounded-tl-sm px-6 py-4 max-w-[80%] shadow-md border border-gray-200">
+                      <p className="text-gray-800 italic text-lg">"{message.content}"</p>
+                    </div>
+                  </div>
+                )}
+                
+                {message.role === "assistant" && message.options && (
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-center gap-2 mb-4">
+                      <div className="h-px bg-gradient-to-r from-transparent via-rose-300 to-transparent flex-1"></div>
+                      <span className="text-rose-600 font-bold text-lg">Responda:</span>
+                      <div className="h-px bg-gradient-to-r from-transparent via-rose-300 to-transparent flex-1"></div>
+                    </div>
+                    
+                    {message.options.map((option, optIndex) => (
+                      <div
+                        key={optIndex}
+                        className="bg-white rounded-3xl px-6 py-5 shadow-lg border-2 border-rose-100 hover:border-rose-300 transition-all hover:scale-[1.02] group"
+                      >
+                        <div className="flex items-start justify-between gap-4">
+                          <p className="text-gray-800 text-lg flex-1">{option}</p>
+                          <button
+                            onClick={() => handleCopy(option)}
+                            className="flex-shrink-0 p-3 rounded-full bg-rose-50 hover:bg-rose-100 transition-colors"
+                            title="Copiar"
+                          >
+                            {copied === option ? (
+                              <Check className="w-5 h-5 text-green-600" />
+                            ) : (
+                              <Copy className="w-5 h-5 text-rose-600" />
+                            )}
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                    
+                    <div className="flex justify-center mt-6">
+                      <Button
+                        onClick={handleGenerate}
+                        disabled={!context.trim() || generateMutation.isPending}
+                        className="bg-gradient-to-r from-gray-700 to-gray-900 hover:from-gray-800 hover:to-black text-white px-8 py-6 rounded-full font-bold text-lg shadow-xl"
+                      >
+                        {generateMutation.isPending ? (
+                          <>
+                            <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                            Gerando...
+                          </>
+                        ) : (
+                          <>
+                            <Sparkles className="w-5 h-5 mr-2" />
+                            Gerar mais
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+            <div ref={messagesEndRef} />
+          </div>
+        )}
+
+        {/* Input Area */}
+        <div className="bg-white rounded-3xl shadow-xl border-2 border-gray-200 p-6">
+          {messages.length > 0 && (
+            <div className="mb-4">
+              <p className="text-sm font-semibold text-gray-700 mb-3">Tom:</p>
+              <div className="flex gap-3">
+                {toneOptions.map((option) => (
+                  <button
+                    key={option.id}
+                    onClick={() => setTone(option.id as any)}
+                    className={`px-4 py-2 rounded-xl font-bold text-white transition-all text-sm ${
+                      tone === option.id
+                        ? `bg-gradient-to-r ${option.color} scale-105 shadow-md`
+                        : "bg-gray-300 hover:bg-gray-400"
+                    }`}
+                  >
+                    <span className="text-lg mr-1">{option.icon}</span>
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          <div className="flex gap-3 items-end">
             <Textarea
               ref={textareaRef}
               value={context}
               onChange={(e) => setContext(e.target.value)}
-              placeholder="(OI MEU LINDO QUERIA TE VER HJ...)"
-              className="min-h-[100px] bg-gray-50 border-gray-200 rounded-2xl resize-none text-sm"
+              onKeyPress={handleKeyPress}
+              placeholder="Cole aqui a mensagem que você recebeu..."
+              className="flex-1 min-h-[80px] resize-none border-2 border-gray-200 focus:border-rose-400 rounded-2xl text-lg"
             />
-
-            {/* Tone Selection */}
-            <div className="flex gap-2 justify-center flex-wrap">
-              {toneOptions.map((t) => (
-                <button
-                  key={t.id}
-                  type="button"
-                  onClick={() => setTone(t.id as typeof tone)}
-                  className={`px-4 py-2 rounded-full text-xs font-medium transition-all ${
-                    tone === t.id
-                      ? "bg-gray-900 text-white shadow-md"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                  }`}
-                >
-                  <span className="mr-1">{t.icon}</span>
-                  {t.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Generated Messages */}
-        {hasMessages ? (
-          <div className="w-full space-y-6">
-            <h2 className="text-center text-2xl font-bold text-rose-600">
-              Responda:
-            </h2>
-
-            <div className="space-y-3">
-              {generatedMessages.map((msg, idx) => (
-                <div
-                  key={idx}
-                  className="bg-white rounded-3xl shadow-md p-5 flex items-center gap-4 hover:shadow-lg transition-shadow"
-                >
-                  <div className="flex-1">
-                    <p className="text-gray-800 text-sm leading-relaxed">{msg}</p>
-                  </div>
-                  <button
-                    onClick={() => handleCopy(msg, idx)}
-                    className="flex-shrink-0 w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
-                  >
-                    {copied === idx ? (
-                      <Check className="w-5 h-5 text-green-600" />
-                    ) : (
-                      <Copy className="w-5 h-5 text-gray-600" />
-                    )}
-                  </button>
-                </div>
-              ))}
-            </div>
-
-            <div className="flex justify-center pt-4">
-              <Button
-                onClick={handleNewChat}
-                className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-6 rounded-full font-medium shadow-lg"
-              >
-                Gerar mais
-              </Button>
-            </div>
-
-            <p className="text-center text-sm text-gray-600">
-              Créditos restantes: <span className="font-bold text-rose-600">{creditsLabel}</span>
-            </p>
-          </div>
-        ) : (
-          <div className="flex justify-center">
             <Button
               onClick={handleGenerate}
-              disabled={!context.trim() || generateMutation.isPending}
-              className="bg-gray-900 hover:bg-gray-800 text-white px-12 py-6 rounded-full font-medium text-lg shadow-lg disabled:opacity-50"
+              disabled={!context.trim() || generateMutation.isPending || credits === 0}
+              className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white px-8 py-6 rounded-2xl font-bold shadow-lg"
             >
               {generateMutation.isPending ? (
-                <span className="flex items-center gap-2">
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  Gerando...
-                </span>
+                <Loader2 className="w-6 h-6 animate-spin" />
               ) : (
-                <span className="flex items-center gap-2">
-                  <Sparkles className="w-5 h-5" />
-                  Gerar respostas
-                </span>
+                <Send className="w-6 h-6" />
               )}
             </Button>
           </div>
-        )}
+          
+          {credits === 0 && (
+            <div className="mt-4 text-center">
+              <p className="text-red-600 font-semibold mb-2">
+                Você não tem mais créditos!
+              </p>
+              <Button
+                onClick={() => setLocation("/plans")}
+                className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700"
+              >
+                Ver Planos
+              </Button>
+            </div>
+          )}
+          
+          <div className="mt-4 text-center text-sm text-gray-500">
+            Créditos restantes: <span className="font-bold text-rose-600">{credits}</span>
+          </div>
+        </div>
       </main>
     </div>
   );

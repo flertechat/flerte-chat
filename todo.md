@@ -56,3 +56,11 @@
 - [x] Adicionar cronômetro regressivo na página de planos
 - [x] Adicionar badge de oferta limitada
 - [x] Adicionar mensagem de escassez
+
+## Melhorias do Chat
+- [x] Redesenhar interface do chat com design moderno
+- [x] Implementar chat contínuo que mantém histórico de mensagens
+- [x] Adicionar botão de copiar em cada resposta gerada
+- [x] Melhorar layout responsivo para mobile
+- [x] Adicionar animações suaves nas interações
+- [x] Preservar contexto das mensagens anteriores na geração
