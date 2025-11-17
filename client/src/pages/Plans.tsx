@@ -1,4 +1,3 @@
-import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -8,6 +7,7 @@ import { Check, Loader2, ArrowLeft, Flame, Clock, Zap } from "lucide-react";
 import { useLocation } from "wouter";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 export default function Plans() {
   const { user, isAuthenticated } = useAuth();
@@ -30,13 +30,13 @@ export default function Plans() {
     },
   });
 
-  const handleSubscribe = async (plan: string, interval: "weekly" | "monthly") => {
+  const handleSubscribe = async (plan: string) => {
     if (!isAuthenticated) {
       window.location.href = getLoginUrl();
       return;
     }
 
-    createCheckoutMutation.mutate({ plan, interval });
+    createCheckoutMutation.mutate({ planId: plan as string });
   };
 
   // Countdown Timer
@@ -88,7 +88,7 @@ export default function Plans() {
               Voltar
             </Button>
             <div className="flex items-center gap-3">
-              <img src={APP_LOGO} alt="Logo" className="w-10 h-10 object-contain animate-pulse" />
+              <img src={APP_LOGO} alt="Logo" className="w-10 h-10 object-contain logo-pulse" />
               <span className="font-bold text-2xl text-white drop-shadow-lg app-title">{APP_TITLE}</span>
             </div>
           </div>
@@ -234,7 +234,7 @@ export default function Plans() {
                 </div>
                 <Button
                   className="w-full bg-rose-500 hover:bg-rose-600 text-lg font-bold"
-                  onClick={() => handleSubscribe("pro", "weekly")}
+                  onClick={() => handleSubscribe("proWeekly")}
                   disabled={currentPlan === "pro_weekly" || createCheckoutMutation.isPending}
                 >
                   {createCheckoutMutation.isPending ? (
@@ -251,7 +251,7 @@ export default function Plans() {
                 </div>
                 <Button
                   className="w-full bg-rose-600 hover:bg-rose-700 text-lg font-bold"
-                  onClick={() => handleSubscribe("pro", "monthly")}
+                  onClick={() => handleSubscribe("proMonthly")}
                   disabled={currentPlan === "pro_monthly" || createCheckoutMutation.isPending}
                 >
                   {createCheckoutMutation.isPending ? (
@@ -302,7 +302,7 @@ export default function Plans() {
                 </div>
                 <Button
                   className="w-full bg-orange-500 hover:bg-orange-600 text-lg font-bold"
-                  onClick={() => handleSubscribe("premium", "weekly")}
+                  onClick={() => handleSubscribe("premiumWeekly")}
                   disabled={currentPlan === "premium_weekly" || createCheckoutMutation.isPending}
                 >
                   {createCheckoutMutation.isPending ? (
@@ -319,7 +319,7 @@ export default function Plans() {
                 </div>
                 <Button
                   className="w-full bg-orange-600 hover:bg-orange-700 text-lg font-bold"
-                  onClick={() => handleSubscribe("premium", "monthly")}
+                  onClick={() => handleSubscribe("premiumMonthly")}
                   disabled={currentPlan === "premium_monthly" || createCheckoutMutation.isPending}
                 >
                   {createCheckoutMutation.isPending ? (

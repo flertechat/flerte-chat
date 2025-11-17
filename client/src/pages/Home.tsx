@@ -1,13 +1,15 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { APP_LOGO, APP_TITLE, getLoginUrl } from "@/const";
-import { Sparkles, MessageCircle, Zap, Heart, Check, Star, TrendingUp } from "lucide-react";
+import { Sparkles, MessageCircle, Zap, Heart, Check, Star, TrendingUp, Moon } from "lucide-react";
 import { useLocation } from "wouter";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { BackToTop } from "@/components/BackToTop";
+import { useTheme } from "@/contexts/ThemeContext";
 
 export default function Home() {
   const { isAuthenticated } = useAuth();
+  const { cycleTheme } = useTheme();
   const [, setLocation] = useLocation();
   
   // Refs for scroll animations
@@ -27,124 +29,192 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-500 via-pink-500 to-orange-500">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-black/30 backdrop-blur-md border-b border-white/20 sticky top-0 z-50">
-        <div className="container max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2 sm:gap-3">
-            <img src={APP_LOGO} alt="Logo" className="w-8 sm:w-10 h-8 sm:h-10 object-contain" />
-            <span className="font-black text-xl sm:text-2xl text-white drop-shadow-lg app-title">{APP_TITLE}</span>
+      <header className="bg-white shadow-sm sticky top-0 z-50">
+        <div className="container max-w-7xl mx-auto px-3 md:px-4 py-3 md:py-4 flex items-center justify-between">
+          <div className="flex items-center">
+            <img src={APP_LOGO} alt="FlerteChat" className="h-8 md:h-10 object-contain logo-pulse" />
           </div>
-          <div className="flex items-center gap-2 sm:gap-4">
+          <div className="flex items-center gap-1 md:gap-6">
+            <a href="#como-funciona" className="hidden sm:block text-gray-700 hover:text-gray-900 text-xs md:text-sm font-medium border-b-2 border-dotted border-transparent hover:border-gray-400 transition-all">
+              Como funciona?
+            </a>
+            <a href="#faq" className="hidden md:block text-gray-700 hover:text-gray-900 text-sm font-medium border-b-2 border-dotted border-transparent hover:border-gray-400 transition-all">
+              Perguntas frequentes
+            </a>
+            <a href="#avaliacoes" className="hidden md:block text-gray-700 hover:text-gray-900 text-sm font-medium border-b-2 border-dotted border-transparent hover:border-gray-400 transition-all">
+              Avaliações
+            </a>
             <Button
               onClick={() => setLocation("/plans")}
-              variant="ghost"
-              className="text-white hover:bg-white/20 text-sm sm:text-base"
+              className="text-gray-700 hover:text-gray-900 text-xs md:text-sm font-medium border-b-2 border-dotted border-transparent hover:border-gray-400 transition-all bg-transparent hover:bg-transparent shadow-none"
             >
               Planos
             </Button>
             <Button
-              onClick={handleGetStarted}
-              className="bg-white text-rose-600 hover:bg-gray-100 font-bold text-sm sm:text-base px-3 sm:px-4 py-2 sm:py-2 whitespace-nowrap"
+              onClick={cycleTheme}
+              variant="ghost"
+              size="icon"
+              className="text-gray-700 hover:text-gray-900 hover:bg-gray-100 h-8 w-8 md:h-10 md:w-10"
+              title="Mudar tema"
             >
-              {isAuthenticated ? "App" : "Comear"}
+              <Moon className="h-4 w-4 md:h-5 md:w-5" />
+            </Button>
+            <Button
+              onClick={handleGetStarted}
+              className="bg-gradient-to-r from-pink-500 to-rose-500 text-white hover:from-pink-600 hover:to-rose-600 font-bold text-xs md:text-sm px-3 md:px-6 py-2 rounded-full shadow-lg"
+            >
+              {isAuthenticated ? "App" : "Grátis"}
             </Button>
           </div>
         </div>
       </header>
 
       {/* Hero Section com Chat Demo */}
-      <main className="container max-w-7xl mx-auto px-4 py-12">
-        <div ref={heroRef} className="scroll-animate grid lg:grid-cols-2 gap-12 items-center mb-20">
+      <section className="bg-theme-gradient py-8 md:py-16">
+      <main className="container max-w-7xl mx-auto px-3 md:px-4">
+        <div ref={heroRef} className="scroll-animate grid lg:grid-cols-2 gap-8 md:gap-12 items-center mb-12 md:mb-20">
           {/* Left: Headline + CTA */}
-          <div className="text-white">
-            <div className="inline-block bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
-              <span className="text-sm font-semibold">✨ Mais de 10.000 mensagens geradas</span>
-            </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black mb-6 drop-shadow-2xl leading-tight">
-              Nunca Mais Fique Sem Resposta
+          <div className="text-white text-center lg:text-left">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-4 md:mb-6 leading-tight">
+              Assistente de IA para Flertar
             </h1>
-            <p className="text-lg sm:text-xl lg:text-2xl mb-8 opacity-95">
-              IA que gera respostas <span className="font-bold underline">irresistíveis 😈🔥</span> para suas conversas de flerte. 
-              Escolha o tom e impressione!
+            <p className="text-base sm:text-lg md:text-xl mb-3 md:mb-4 opacity-95 font-semibold">
+              Respostas de flerte prontas e personalizadas em segundos
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 mb-8">
+            <p className="text-sm sm:text-base md:text-lg mb-6 md:mb-8 opacity-85">
+              Nossa IA foi treinada com 91.600 mensagens reais para criar respostas que impressionam e geram resultados.
+            </p>
+            
+            {/* Avatares de usuários */}
+            <div className="flex items-center justify-center lg:justify-start gap-4 mb-6 md:mb-8">
+              <div className="flex -space-x-2 md:-space-x-3">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white overflow-hidden bg-white">
+                  <img src="/avatar-1.jpg" alt="Usuário satisfeito do FlerteChat" className="w-full h-full object-cover" />
+                </div>
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white overflow-hidden bg-white">
+                  <img src="/avatar-2.jpg" alt="Usuária satisfeita do FlerteChat" className="w-full h-full object-cover" />
+                </div>
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white overflow-hidden bg-white">
+                  <img src="/avatar-3.jpg" alt="Usuário feliz do FlerteChat" className="w-full h-full object-cover" />
+                </div>
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white overflow-hidden bg-white">
+                  <img src="/avatar-4.jpg" alt="Usuária feliz do FlerteChat" className="w-full h-full object-cover" />
+                </div>
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white bg-white/20 backdrop-blur-sm flex items-center justify-center text-white font-bold text-xs md:text-sm">
+                  +3
+                </div>
+              </div>
+            </div>
+            <p className="text-xs sm:text-sm mb-6 md:mb-8 opacity-80 font-semibold">
+              Junte-se a milhares de usuários satisfeitos ;)
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center lg:justify-start">
               <Button
-                onClick={handleGetStarted}
+                onClick={() => setLocation("/app")}
                 size="lg"
-                className="bg-white text-rose-600 hover:bg-gray-100 text-base sm:text-lg lg:text-xl px-8 sm:px-12 py-6 sm:py-7 font-bold shadow-2xl w-full sm:w-auto"
+                className="bg-white text-pink-600 hover:bg-gray-100 text-base md:text-xl px-8 md:px-12 py-4 md:py-6 font-black shadow-2xl rounded-2xl w-full sm:w-auto"
               >
-                <Sparkles className="w-6 h-6 mr-2" />
-                Começar Grátis
+                <Sparkles className="w-5 h-5 md:w-6 md:h-6 mr-2 md:mr-3" />
+                Acessar App
               </Button>
               <Button
-                onClick={() => setLocation("/plans")}
-                size="lg"
+                onClick={handleGetStarted}
                 variant="outline"
-                className="bg-transparent border-2 border-white text-white hover:bg-white/20 text-xl px-8 py-7 font-bold"
+                size="lg"
+                className="bg-white/10 border-2 border-white text-white hover:bg-white/20 font-semibold px-6 md:px-8 py-4 md:py-6 rounded-2xl w-full sm:w-auto"
               >
                 Ver Planos
               </Button>
             </div>
-            <div className="flex items-center gap-6 text-sm">
-              <div className="flex items-center gap-2">
-                <Check className="w-5 h-5 text-green-300" />
-                <span>Sem cartão de crédito</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Check className="w-5 h-5 text-green-300" />
-                <span>Cancele quando quiser</span>
-              </div>
-            </div>
           </div>
 
-          {/* Right: Chat Demo */}
-          <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 border-2 border-white/30 shadow-2xl">
-            <div className="bg-white rounded-2xl p-6 shadow-xl">
-              <div className="flex items-center gap-3 mb-6 pb-4 border-b">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-rose-400 to-pink-500 flex items-center justify-center text-white font-bold text-lg">
-                  J
-                </div>
-                <div>
-                  <div className="font-bold text-gray-900">Julia</div>
-                  <div className="text-sm text-green-500 flex items-center gap-1">
-                    <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                    Online agora
+          {/* Right: Chat Demo com círculos decorativos */}
+          <div className="relative mt-8 lg:mt-0">
+            {/* Círculos decorativos - ocultos em mobile */}
+            <div className="hidden lg:block absolute -top-20 -right-20 w-96 h-96 rounded-full bg-gradient-to-br from-orange-400/40 to-orange-500/40 blur-3xl"></div>
+            <div className="hidden lg:block absolute -top-10 -right-10 w-80 h-80 rounded-full bg-gradient-to-br from-orange-300/30 to-pink-400/30 blur-2xl"></div>
+            <div className="hidden lg:block absolute top-10 right-10 w-64 h-64 rounded-full bg-gradient-to-br from-pink-300/20 to-orange-300/20 blur-xl"></div>
+            
+            {/* iPhone Mockup */}
+            <div className="relative z-10 mx-auto w-[280px] sm:w-[320px] bg-black rounded-[2.5rem] sm:rounded-[3rem] p-2 sm:p-3 shadow-2xl">
+              {/* Notch */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-7 bg-black rounded-b-3xl z-20"></div>
+              
+              {/* Screen */}
+              <div className="bg-white rounded-[2.5rem] overflow-hidden h-[600px] relative">
+                {/* Status Bar */}
+                <div className="bg-gray-50 px-6 py-3 flex items-center justify-between text-xs">
+                  <span className="font-semibold">9:41</span>
+                  <div className="flex items-center gap-1">
+                    <div className="w-4 h-3 border border-gray-400 rounded-sm"></div>
                   </div>
                 </div>
-              </div>
-
-              {/* Mensagem recebida */}
-              <div className="mb-6">
-                <div className="bg-gray-100 rounded-2xl rounded-tl-sm p-4 inline-block max-w-[80%]">
-                  <p className="text-gray-800 text-sm">
-                    Oi! Sumiu né? Tava com saudade de conversar com você 😊
-                  </p>
-                  <div className="text-xs text-gray-500 mt-1">14:23</div>
+                
+                {/* Chat Header */}
+                <div className="bg-white border-b px-4 py-3 flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-pink-200 bg-white">
+                    <img src="/maria-avatar.jpg" alt="Maria" className="w-full h-full object-cover" />
+                  </div>
+                  <div>
+                    <div className="font-bold text-sm">Maria</div>
+                    <div className="text-xs text-green-500">Online</div>
+                  </div>
                 </div>
-              </div>
-
-              {/* Mensagem gerada pela IA */}
-              <div className="flex justify-end mb-4">
-                <div className="bg-gradient-to-br from-rose-500 to-pink-600 rounded-2xl rounded-tr-sm p-4 inline-block max-w-[80%]">
-                  <p className="text-white text-sm">
-                    Saudade eu também tava sentindo... e confesso que de você inteirinha 😏
-                  </p>
-                  <div className="text-xs text-white/80 mt-1 text-right">14:24</div>
+                
+                {/* Messages */}
+                <div className="p-4 space-y-4 bg-gray-50 h-[480px]">
+                  {/* Mensagem recebida 1 */}
+                  <div className="flex justify-start">
+                    <div className="bg-white rounded-2xl rounded-tl-sm px-4 py-3 max-w-[75%] shadow-sm">
+                      <p className="text-sm text-gray-800">Oi Mateus, faz dias que te vi, hein?</p>
+                    </div>
+                  </div>
+                  
+                  {/* Mensagem enviada (IA) */}
+                  <div className="flex justify-end">
+                    <div className="bg-gradient-to-br from-orange-400 to-orange-500 rounded-2xl rounded-tr-sm px-4 py-3 max-w-[75%] shadow-md">
+                      <p className="text-sm text-white font-medium">á com saudade é, bb? Bora marcar de se ver entt pow... se o clima esquentar.... já sabe né?! 😏🔥</p>
+                    </div>
+                  </div>
+                  
+                  {/* Mensagem recebida 2 */}
+                  <div className="flex justify-start">
+                    <div className="bg-white rounded-2xl rounded-tl-sm px-4 py-3 max-w-[75%] shadow-sm">
+                      <p className="text-sm text-gray-800">O que você tem em mente pro "esquentar"?</p>
+                      <p className="text-xs text-gray-500 mt-1">10:45 a</p>
+                    </div>
+                  </div>
+                  
+                  {/* Mensagem enviada 2 (IA) */}
+                  <div className="flex justify-end">
+                    <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl rounded-tr-sm px-4 py-3 max-w-[75%] shadow-md">
+                      <p className="text-sm text-white font-medium">Hmmm, primeiro um vinho pra soltar a língua... depois eu te mostro como eu solto o resto. 😈💋</p>
+                    </div>
+                  </div>
+                  
+                  {/* Mensagem enviada 3 (IA) */}
+                  <div className="flex justify-end">
+                    <div className="bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl rounded-tr-sm px-4 py-3 max-w-[75%] shadow-md">
+                      <p className="text-sm text-white font-medium">I know exactly where I'm finding me on our first</p>
+                    </div>
+                  </div>
+                  
+                  {/* Input area */}
+                  <div className="absolute bottom-4 left-4 right-4 bg-white rounded-full px-4 py-2 flex items-center gap-2 shadow-lg">
+                    <span className="text-sm text-gray-400 flex-1">Message</span>
+                    <div className="w-6 h-6 rounded-full bg-gray-200"></div>
+                  </div>
                 </div>
-              </div>
-
-              {/* Badge IA */}
-              <div className="flex items-center justify-center gap-2 text-xs text-gray-500 bg-gradient-to-r from-rose-50 to-pink-50 rounded-full px-4 py-2 w-fit mx-auto">
-                <Sparkles className="w-4 h-4 text-rose-500" />
-                <span className="font-semibold">Gerado por IA em 2 segundos</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Social Proof */}
-        <div ref={statsRef} className="scroll-animate bg-white/10 backdrop-blur-md rounded-3xl p-8 mb-20 border border-white/20">
+        <div ref={statsRef} className="scroll-animate bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20">
           <div className="grid md:grid-cols-3 gap-8 text-center text-white">
             <div>
               <div className="text-5xl font-black mb-2">10.000+</div>
@@ -163,47 +233,157 @@ export default function Home() {
             </div>
           </div>
         </div>
+      </main>
+      </section>
 
-        {/* Como Funciona */}
-        <div ref={howItWorksRef} className="scroll-animate mb-20">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white text-center mb-12 drop-shadow-xl">
+      {/* Carrossel de Demonstração */}
+      <section className="bg-white py-8 md:py-16">
+        <main className="container max-w-7xl mx-auto px-3 md:px-4">
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 mb-3 md:mb-4">
+              Veja a IA em Ação
+            </h2>
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto px-4">
+              Exemplos reais de mensagens e as 3 respostas geradas: Normal, Safado e Engraçado
+            </p>
+          </div>
+          
+          <div className="relative max-w-4xl mx-auto">
+            {/* Carrossel Container */}
+            <div className="overflow-x-auto snap-x snap-mandatory flex gap-4 md:gap-6 pb-4 scrollbar-hide">
+              {/* Exemplo 1 */}
+              <div className="flex-shrink-0 w-full snap-center">
+                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl md:rounded-3xl p-4 sm:p-6 md:p-8 shadow-xl">
+                  <div className="bg-white rounded-xl md:rounded-2xl p-4 sm:p-5 md:p-6 mb-4 md:mb-6 shadow-md">
+                    <p className="text-xs sm:text-sm text-gray-500 mb-2 font-semibold">MENSAGEM RECEBIDA:</p>
+                    <p className="text-sm sm:text-base md:text-lg text-gray-800 font-medium">"Oi! Vi que você gosta de viajar. Qual foi o lugar mais legal que você já foi?"</p>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
+                    <div className="bg-blue-50 rounded-xl p-4 border-2 border-blue-200">
+                      <p className="text-xs font-bold text-blue-600 mb-2">💬 NORMAL</p>
+                      <p className="text-sm text-gray-800">"Oi! Sim, adoro viajar! O lugar mais incrível foi a Grécia, as praias são de outro mundo. E você, gosta de viajar também?"</p>
+                    </div>
+                    <div className="bg-red-50 rounded-xl p-4 border-2 border-red-200">
+                      <p className="text-xs font-bold text-red-600 mb-2">🔥 SAFADO</p>
+                      <p className="text-sm text-gray-800">"Grécia foi incrível, mas confesso que tô mais interessado em explorar novos territórios por aqui... que tal a gente começar com um drink? 😏"</p>
+                    </div>
+                    <div className="bg-yellow-50 rounded-xl p-4 border-2 border-yellow-200">
+                      <p className="text-xs font-bold text-yellow-600 mb-2">😂 ENGRAÇADO</p>
+                      <p className="text-sm text-gray-800">"Grécia! Mas o lugar mais legal mesmo foi a padaria da esquina às 3h da manhã... aquele pão de queijo não tem preço 😂"</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Exemplo 2 */}
+              <div className="flex-shrink-0 w-full snap-center">
+                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl md:rounded-3xl p-4 sm:p-6 md:p-8 shadow-xl">
+                  <div className="bg-white rounded-xl md:rounded-2xl p-4 sm:p-5 md:p-6 mb-4 md:mb-6 shadow-md">
+                    <p className="text-xs sm:text-sm text-gray-500 mb-2 font-semibold">MENSAGEM RECEBIDA:</p>
+                    <p className="text-sm sm:text-base md:text-lg text-gray-800 font-medium">"Que foto linda! Você é modelo?"</p>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
+                    <div className="bg-blue-50 rounded-xl p-4 border-2 border-blue-200">
+                      <p className="text-xs font-bold text-blue-600 mb-2">💬 NORMAL</p>
+                      <p className="text-sm text-gray-800">"Obrigado! Não sou modelo não, só gosto de tirar umas fotos legais. Você também curte fotografia?"</p>
+                    </div>
+                    <div className="bg-red-50 rounded-xl p-4 border-2 border-red-200">
+                      <p className="text-xs font-bold text-red-600 mb-2">🔥 SAFADO</p>
+                      <p className="text-sm text-gray-800">"Modelo só nas horas vagas 😏 Mas confesso que você tem bom gosto... bora marcar e eu te mostro meu lado mais 'profissional'? 👀"</p>
+                    </div>
+                    <div className="bg-yellow-50 rounded-xl p-4 border-2 border-yellow-200">
+                      <p className="text-xs font-bold text-yellow-600 mb-2">😂 ENGRAÇADO</p>
+                      <p className="text-sm text-gray-800">"Modelo? Só de papel machê que eu fiz na escola 😂 Mas valeu, você tem bom gosto pra elogios hein!"</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Exemplo 3 */}
+              <div className="flex-shrink-0 w-full snap-center">
+                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl md:rounded-3xl p-4 sm:p-6 md:p-8 shadow-xl">
+                  <div className="bg-white rounded-xl md:rounded-2xl p-4 sm:p-5 md:p-6 mb-4 md:mb-6 shadow-md">
+                    <p className="text-xs sm:text-sm text-gray-500 mb-2 font-semibold">MENSAGEM RECEBIDA:</p>
+                    <p className="text-sm sm:text-base md:text-lg text-gray-800 font-medium">"Oi sumido! Faz tempo que não te vejo por aqui..."</p>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
+                    <div className="bg-blue-50 rounded-xl p-4 border-2 border-blue-200">
+                      <p className="text-xs font-bold text-blue-600 mb-2">💬 NORMAL</p>
+                      <p className="text-sm text-gray-800">"Oi! Verdade, andei meio ocupado. Mas agora tô de volta! Como você tem passado?"</p>
+                    </div>
+                    <div className="bg-red-50 rounded-xl p-4 border-2 border-red-200">
+                      <p className="text-xs font-bold text-red-600 mb-2">🔥 SAFADO</p>
+                      <p className="text-sm text-gray-800">"Sumido mas não esquecido 😏 Tô com saudade... bora matar essa saudade pessoalmente? Prometo compensar o tempo perdido 🔥"</p>
+                    </div>
+                    <div className="bg-yellow-50 rounded-xl p-4 border-2 border-yellow-200">
+                      <p className="text-xs font-bold text-yellow-600 mb-2">😂 ENGRAÇADO</p>
+                      <p className="text-sm text-gray-800">"Sumido? Eu tô aqui o tempo todo, você que não olha pro lado certo 😂 Bora marcar um café pra eu te ensinar a me achar?"</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Indicador de scroll */}
+            <div className="flex justify-center gap-2 mt-6">
+              <div className="w-2 h-2 rounded-full bg-pink-500"></div>
+              <div className="w-2 h-2 rounded-full bg-gray-300"></div>
+              <div className="w-2 h-2 rounded-full bg-gray-300"></div>
+            </div>
+            
+            <p className="text-center text-gray-500 mt-4 text-sm">
+              ← Arraste para ver mais exemplos →
+            </p>
+          </div>
+        </main>
+      </section>
+
+      {/* Como Funciona */}
+      <section className="bg-white py-10 md:py-16">
+      <main className="container max-w-7xl mx-auto px-3 md:px-4">
+        <div id="como-funciona" ref={howItWorksRef} className="scroll-animate">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 text-center mb-8 md:mb-12">
             Como Funciona?
           </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-3xl p-8 text-center shadow-2xl transform hover:scale-105 transition-all">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            <div className="bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 text-center shadow-2xl transform hover:scale-105 transition-all">
               <div className="w-20 h-20 bg-gradient-to-br from-rose-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-6 text-white text-3xl font-bold">
                 1
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">Cole a Mensagem</h3>
-              <p className="text-gray-600 text-lg">
+              <p className="text-gray-600 text-base md:text-lg">
                 Copie a mensagem que você recebeu e cole no app
               </p>
             </div>
 
-            <div className="bg-white rounded-3xl p-8 text-center shadow-2xl transform hover:scale-105 transition-all">
+            <div className="bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 text-center shadow-2xl transform hover:scale-105 transition-all">
               <div className="w-20 h-20 bg-gradient-to-br from-rose-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-6 text-white text-3xl font-bold">
                 2
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">Escolha o Tom</h3>
-              <p className="text-gray-600 text-lg">
+              <p className="text-gray-600 text-base md:text-lg">
                 Normal, Safado ou Engraçado - você decide o estilo
               </p>
             </div>
 
-            <div className="bg-white rounded-3xl p-8 text-center shadow-2xl transform hover:scale-105 transition-all">
+            <div className="bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 text-center shadow-2xl transform hover:scale-105 transition-all">
               <div className="w-20 h-20 bg-gradient-to-br from-rose-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-6 text-white text-3xl font-bold">
                 3
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">Copie e Envie</h3>
-              <p className="text-gray-600 text-lg">
+              <p className="text-gray-600 text-base md:text-lg">
                 Escolha entre 3 opções e mande a melhor resposta
               </p>
             </div>
           </div>
         </div>
+      </main>
+      </section>
 
-        {/* Features com Imagens */}
-        <div ref={whyChooseRef} className="scroll-animate mb-20">
+      {/* Features com Imagens */}
+      <section className="bg-theme-gradient py-10 md:py-16">
+      <main className="container max-w-7xl mx-auto px-4">
+        <div ref={whyChooseRef} className="scroll-animate">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white text-center mb-12 drop-shadow-xl">
             Por Que Escolher o Flerte Chat?
           </h2>
@@ -229,15 +409,15 @@ export default function Home() {
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
                   <Check className="w-6 h-6 text-green-300 flex-shrink-0 mt-1" />
-                  <span className="text-lg">100% brasileiro - com gírias e expressões autênticas</span>
+                  <span className="text-lg" style={{fontWeight: '600'}}>100% brasileiro - com gírias e expressões autênticas</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <Check className="w-6 h-6 text-green-300 flex-shrink-0 mt-1" />
-                  <span className="text-lg">3 opções diferentes para cada situação</span>
+                  <span className="text-lg" style={{fontWeight: '600'}}>3 opções diferentes para cada situação</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <Check className="w-6 h-6 text-green-300 flex-shrink-0 mt-1" />
-                  <span className="text-lg">Geração instantânea em menos de 3 segundos</span>
+                  <span className="text-lg" style={{fontWeight: '600'}}>Geração instantânea em menos de 3 segundos</span>
                 </li>
               </ul>
             </div>
@@ -257,15 +437,15 @@ export default function Home() {
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
                   <Check className="w-6 h-6 text-green-300 flex-shrink-0 mt-1" />
-                  <span className="text-lg">Responda em segundos, não em horas</span>
+                  <span className="text-lg" style={{fontWeight: '600'}}>Responda em segundos, não em horas</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <Check className="w-6 h-6 text-green-300 flex-shrink-0 mt-1" />
-                  <span className="text-lg">Mantenha a conversa sempre fluindo</span>
+                  <span className="text-lg" style={{fontWeight: '600'}}>Mantenha a conversa sempre fluindo</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <Check className="w-6 h-6 text-green-300 flex-shrink-0 mt-1" />
-                  <span className="text-lg">Impressione com respostas criativas</span>
+                  <span className="text-lg" style={{fontWeight: '600'}}>Impressione com respostas criativas</span>
                 </li>
               </ul>
             </div>
@@ -278,26 +458,30 @@ export default function Home() {
             </div>
           </div>
         </div>
+      </main>
+      </section>
 
-        {/* Depoimentos */}
-        <div id="testimonials" ref={testimonialsRef} className="scroll-animate mb-20">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white text-center mb-12 drop-shadow-xl">
+      {/* Depoimentos */}
+      <section className="bg-white py-10 md:py-16">
+      <main className="container max-w-7xl mx-auto px-3 md:px-4">
+        <div id="avaliacoes" ref={testimonialsRef} className="scroll-animate">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 text-center mb-8 md:mb-12">
             O Que Nossos Usuários Dizem
           </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-3xl p-8 shadow-2xl">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            <div className="bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-2xl">
               <div className="flex gap-1 mb-4">
                 {[1,2,3,4,5].map(i => (
                   <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
                 ))}
               </div>
-              <p className="text-gray-700 mb-6 text-lg">
+              <p className="text-gray-700 mb-6 text-lg" style={{fontWeight: '600'}}>
                 "Cara, esse app salvou minha vida! Tava travado numa conversa e o Flerte Chat 
                 me deu UMA resposta que fez ela rir demais. Agora a gente tá saindo 😂"
               </p>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-bold">
-                  R
+                <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-200 bg-white">
+                  <img src="/avatar-1.jpg" alt="Rafael" className="w-full h-full object-cover" />
                 </div>
                 <div>
                   <div className="font-bold text-gray-900">Rafael, 25</div>
@@ -306,19 +490,19 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="bg-white rounded-3xl p-8 shadow-2xl">
+            <div className="bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-2xl">
               <div className="flex gap-1 mb-4">
                 {[1,2,3,4,5].map(i => (
                   <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
                 ))}
               </div>
-              <p className="text-gray-700 mb-6 text-lg">
+              <p className="text-gray-700 mb-6 text-base md:text-lg" style={{fontWeight: '600'}}>
                 "Melhor investimento que fiz! As respostas são tão naturais que ninguém 
                 percebe que foi IA. Já consegui 3 dates esse mês 🔥"
               </p>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-white font-bold">
-                  M
+                <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-200 bg-white">
+                  <img src="/avatar-2.jpg" alt="Marcos" className="w-full h-full object-cover" />
                 </div>
                 <div>
                   <div className="font-bold text-gray-900">Marcos, 28</div>
@@ -327,19 +511,19 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="bg-white rounded-3xl p-8 shadow-2xl">
+            <div className="bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-2xl">
               <div className="flex gap-1 mb-4">
                 {[1,2,3,4,5].map(i => (
                   <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
                 ))}
               </div>
-              <p className="text-gray-700 mb-6 text-lg">
+              <p className="text-gray-700 mb-6 text-base md:text-lg">
                 "Eu sou péssima pra flertar por texto, mas com esse app eu pareço 
                 profissional! Recomendo demais ❤️"
               </p>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-400 to-pink-600 flex items-center justify-center text-white font-bold">
-                  C
+                <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-200 bg-white">
+                  <img src="/avatar-3.jpg" alt="Carolina" className="w-full h-full object-cover" />
                 </div>
                 <div>
                   <div className="font-bold text-gray-900">Carolina, 23</div>
@@ -349,13 +533,248 @@ export default function Home() {
             </div>
           </div>
         </div>
+      </main>
+      </section>
 
-        {/* CTA Final */}
-        <div ref={ctaRef} className="scroll-animate text-center bg-white/10 backdrop-blur-md rounded-3xl p-16 border-2 border-white/30 shadow-2xl">
-          <h2 className="text-5xl font-black text-white mb-6 drop-shadow-xl">
+      {/* Planos e Preços */}
+      <section className="bg-white py-10 md:py-20">
+        <main className="container max-w-7xl mx-auto px-3 md:px-4">
+          <div className="text-center mb-8 md:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 mb-3 md:mb-4">
+              Escolha Seu Plano
+            </h2>
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto px-4">
+              Comece grátis e desbloqueie recursos premium quando precisar
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6 max-w-7xl mx-auto">
+            {/* Plano Free */}
+            <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-200 hover:shadow-xl transition-all">
+              <div className="text-center mb-6">
+                <h3 className="text-xl font-black text-gray-900 mb-2">Free</h3>
+                <div className="text-4xl font-black text-gray-900 mb-2">R$0</div>
+                <p className="text-gray-500 text-sm">Para começar</p>
+              </div>
+              <ul className="space-y-3 mb-8">
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700 text-sm"><strong>10 mensagens</strong>/mês</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700 text-sm">3 estilos</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-gray-300 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-400 text-sm">Sem suporte</span>
+                </li>
+              </ul>
+              <Button
+                onClick={handleGetStarted}
+                variant="outline"
+                className="w-full text-sm py-4 font-bold border-2 border-gray-300 hover:bg-gray-50"
+              >
+                Começar Grátis
+              </Button>
+            </div>
+
+            {/* Plano Pro Semanal */}
+            <div className="bg-gradient-to-br from-pink-500 to-rose-500 rounded-2xl p-6 shadow-xl border-3 border-pink-300 hover:shadow-2xl transition-all transform hover:scale-105 relative">
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-yellow-400 text-gray-900 px-3 py-1 rounded-full font-black text-xs shadow-lg">
+                ⭐ POPULAR
+              </div>
+              <div className="text-center mb-6">
+                <h3 className="text-lg font-black text-white mb-1">Pro Semanal</h3>
+                <div className="text-3xl font-black text-white mb-1">R$9,90</div>
+                <p className="text-pink-100 text-xs">200 msg/mês</p>
+              </div>
+              <ul className="space-y-2 mb-6">
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-green-300 flex-shrink-0 mt-0.5" />
+                  <span className="text-white text-xs"><strong>200</strong> msg/mês</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-green-300 flex-shrink-0 mt-0.5" />
+                  <span className="text-white text-xs">3 estilos</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-green-300 flex-shrink-0 mt-0.5" />
+                  <span className="text-white text-xs">Suporte</span>
+                </li>
+              </ul>
+              <Button
+                onClick={() => setLocation("/plans")}
+                className="w-full text-xs py-3 font-black bg-white text-pink-600 hover:bg-gray-100 shadow-lg"
+              >
+                Assinar
+              </Button>
+            </div>
+
+            {/* Plano Pro Mensal */}
+            <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-200 hover:shadow-xl transition-all">
+              <div className="text-center mb-6">
+                <h3 className="text-lg font-black text-gray-900 mb-1">Pro Mensal</h3>
+                <div className="text-3xl font-black text-gray-900 mb-1">R$29,90</div>
+                <p className="text-gray-500 text-xs">50 msg/semana</p>
+              </div>
+              <ul className="space-y-2 mb-6">
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700 text-xs"><strong>50</strong> msg/sem</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700 text-xs">3 estilos</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-gray-700 text-xs">Suporte</span>
+                </li>
+              </ul>
+              <Button
+                onClick={() => setLocation("/plans")}
+                variant="outline"
+                className="w-full text-xs py-3 font-bold border-2 border-gray-900 hover:bg-gray-900 hover:text-white"
+              >
+                Assinar
+              </Button>
+            </div>
+
+            {/* Plano Premium Semanal */}
+            <div className="bg-gradient-to-br from-violet-500 to-purple-500 rounded-2xl p-6 shadow-xl border-3 border-violet-300 hover:shadow-2xl transition-all">
+              <div className="text-center mb-6">
+                <h3 className="text-lg font-black text-white mb-1">Premium Semanal</h3>
+                <div className="text-3xl font-black text-white mb-1">R$19,90</div>
+                <p className="text-violet-100 text-xs">Ilimitado/semana</p>
+              </div>
+              <ul className="space-y-2 mb-6">
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-green-300 flex-shrink-0 mt-0.5" />
+                  <span className="text-white text-xs"><strong>Ilimitado</strong>/sem</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-green-300 flex-shrink-0 mt-0.5" />
+                  <span className="text-white text-xs">3 estilos</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-green-300 flex-shrink-0 mt-0.5" />
+                  <span className="text-white text-xs">Suporte</span>
+                </li>
+              </ul>
+              <Button
+                onClick={() => setLocation("/plans")}
+                className="w-full text-xs py-3 font-black bg-white text-violet-600 hover:bg-gray-100 shadow-lg"
+              >
+                Assinar
+              </Button>
+            </div>
+
+            {/* Plano Premium Mensal */}
+            <div className="bg-gradient-to-br from-purple-600 to-indigo-600 rounded-2xl p-6 shadow-xl border-3 border-purple-400 hover:shadow-2xl transition-all relative">
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-yellow-400 text-gray-900 px-3 py-1 rounded-full font-black text-xs shadow-lg">
+                ⭐ MELHOR
+              </div>
+              <div className="text-center mb-6">
+                <h3 className="text-lg font-black text-white mb-1">Premium Mensal</h3>
+                <div className="text-3xl font-black text-white mb-1">R$59,90</div>
+                <p className="text-purple-100 text-xs">Ilimitado/mês</p>
+              </div>
+              <ul className="space-y-2 mb-6">
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-green-300 flex-shrink-0 mt-0.5" />
+                  <span className="text-white text-xs"><strong>Ilimitado</strong>/mês</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-green-300 flex-shrink-0 mt-0.5" />
+                  <span className="text-white text-xs">3 estilos</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-4 h-4 text-green-300 flex-shrink-0 mt-0.5" />
+                  <span className="text-white text-xs">VIP 24/7</span>
+                </li>
+              </ul>
+              <Button
+                onClick={() => setLocation("/plans")}
+                className="w-full text-xs py-3 font-black bg-white text-purple-600 hover:bg-gray-100 shadow-lg"
+              >
+                Assinar
+              </Button>
+            </div>
+          </div>
+          
+          <p className="text-center text-gray-500 mt-12 text-sm">
+            Todos os planos incluem garantia de 7 dias. Cancele quando quiser, sem complicação.
+          </p>
+        </main>
+      </section>
+
+      {/* Segurança e LGPD */}
+      <section className="bg-gray-50 py-10 md:py-16">
+        <main className="container max-w-7xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 mb-4">
+              Sua Privacidade é Nossa Prioridade
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Protegemos seus dados com os mais altos padrões de segurança
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div className="bg-white rounded-2xl p-8 shadow-lg text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Criptografia de Ponta</h3>
+              <p className="text-gray-600">
+                Todas as suas mensagens são criptografadas com AES-256, o mesmo padrão usado por bancos.
+              </p>
+            </div>
+
+            <div className="bg-white rounded-2xl p-8 shadow-lg text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Conforme LGPD</h3>
+              <p className="text-gray-600">
+                100% em conformidade com a Lei Geral de Proteção de Dados brasileira. Seus dados são seus.
+              </p>
+            </div>
+
+            <div className="bg-white rounded-2xl p-8 shadow-lg text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Armazenamento Temporário</h3>
+              <p className="text-gray-600">
+                Suas mensagens são processadas e deletadas automaticamente após 24 horas. Zero histórico permanente.
+              </p>
+            </div>
+          </div>
+          
+          <div className="text-center mt-12">
+            <p className="text-gray-500 text-sm max-w-2xl mx-auto">
+              Não compartilhamos, vendemos ou armazenamos suas conversas. Nosso compromisso é com sua privacidade e segurança.
+            </p>
+          </div>
+        </main>
+      </section>
+
+      {/* CTA Final */}
+      <section className="bg-theme-gradient py-10 md:py-16">
+      <main className="container max-w-7xl mx-auto px-3 md:px-4">
+        <div ref={ctaRef} className="scroll-animate text-center bg-white/10 backdrop-blur-md rounded-2xl md:rounded-3xl p-6 sm:p-10 md:p-16 border-2 border-white/30 shadow-2xl">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white mb-4 md:mb-6 drop-shadow-xl">
             Pronto para Impressionar?
           </h2>
-          <p className="text-2xl text-white/95 mb-8 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/95 mb-6 md:mb-8 max-w-3xl mx-auto">
             Junte-se a milhares de pessoas que já estão conquistando com mensagens irresistíveis. 
             <span className="font-bold"> Comece grátis agora!</span>
           </p>
@@ -363,34 +782,35 @@ export default function Home() {
             <Button
               onClick={handleGetStarted}
               size="lg"
-              className="bg-white text-rose-600 hover:bg-gray-100 text-2xl px-16 py-8 font-black shadow-2xl"
+              className="bg-white text-rose-600 hover:bg-gray-100 text-lg sm:text-xl md:text-2xl px-8 sm:px-12 md:px-16 py-6 sm:py-7 md:py-8 font-black shadow-2xl"
             >
-              <Sparkles className="w-7 h-7 mr-3" />
+              <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 mr-2 md:mr-3" />
               Começar Grátis
             </Button>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
-            <div className="bg-black/40 backdrop-blur-md rounded-2xl p-4 border border-white/20">
-              <p className="text-white font-black text-center text-lg">Sem cartão de crédito</p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 mt-6 md:mt-8">
+            <div className="bg-black/40 backdrop-blur-md rounded-xl md:rounded-2xl p-3 md:p-4 border border-white/20">
+              <p className="text-white font-black text-center text-sm sm:text-base md:text-lg">Sem cartão de crédito</p>
             </div>
-            <div className="bg-black/40 backdrop-blur-md rounded-2xl p-4 border border-white/20">
-              <p className="text-white font-black text-center text-lg">10 mensagens grátis</p>
+            <div className="bg-black/40 backdrop-blur-md rounded-xl md:rounded-2xl p-3 md:p-4 border border-white/20">
+              <p className="text-white font-black text-center text-sm sm:text-base md:text-lg">10 mensagens grátis</p>
             </div>
-            <div className="bg-black/40 backdrop-blur-md rounded-2xl p-4 border border-white/20">
-              <p className="text-white font-black text-center text-lg">Cancele quando quiser</p>
+            <div className="bg-black/40 backdrop-blur-md rounded-xl md:rounded-2xl p-3 md:p-4 border border-white/20">
+              <p className="text-white font-black text-center text-sm sm:text-base md:text-lg">Cancele quando quiser</p>
             </div>
           </div>
         </div>
       </main>
+      </section>
 
       {/* Footer */}
-      <footer className="bg-black/30 backdrop-blur-md border-t border-white/20 mt-20">
+      <footer className="bg-gray-900 text-white py-12">
         <div className="container max-w-7xl mx-auto px-4 py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             {/* Logo e Tagline */}
             <div className="col-span-1 md:col-span-2">
               <div className="flex items-center gap-3 mb-4">
-                <img src={APP_LOGO} alt="Logo" className="w-10 h-10 object-contain" />
+                <img src={APP_LOGO} alt="Logo" className="w-10 h-10 object-contain logo-pulse" />
                 <span className="font-bold text-2xl text-white app-title">{APP_TITLE}</span>
               </div>
               <p className="text-white/80 text-lg mb-4" style={{fontWeight: '800'}}>"Sua arma secreta para quebrar o gelo"</p>
@@ -404,7 +824,7 @@ export default function Home() {
               <h3 className="text-white font-bold text-lg mb-4">Suporte</h3>
               <ul className="space-y-2">
                 <li><a href="mailto:pauloromulo2000k@gmail.com" className="text-white/70 hover:text-white transition-colors">Contato</a></li>
-                <li><a href="#testimonials" className="text-white/70 hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); document.getElementById('testimonials')?.scrollIntoView({ behavior: 'smooth' }); }}>Avaliações</a></li>
+                <li><a href="#avaliacoes" className="text-white/70 hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); document.getElementById('avaliacoes')?.scrollIntoView({ behavior: 'smooth' }); }}>Avaliações</a></li>
                 <li><a href="/faq" className="text-white/70 hover:text-white transition-colors">Perguntas Frequentes</a></li>
               </ul>
             </div>

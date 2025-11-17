@@ -65,7 +65,7 @@ export const appRouter = router({
     createCheckout: protectedProcedure
       .input((val: unknown) => {
         if (typeof val === "object" && val !== null) {
-          const data = val as { plan: string; interval: "weekly" | "monthly" };
+          const data = val as { planId: string };
           return data;
         }
         throw new Error("Invalid input");
@@ -74,14 +74,12 @@ export const appRouter = router({
         const { createCheckoutSession } = await import("./stripe");
         const { SUBSCRIPTION_PLANS } = await import("@shared/products");
         
-        const planConfig = SUBSCRIPTION_PLANS[input.plan];
+        const planConfig = SUBSCRIPTION_PLANS[input.planId];
         if (!planConfig) {
           throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid plan" });
         }
 
-        const priceId = input.interval === "weekly" 
-          ? planConfig.stripePriceIdWeekly 
-          : planConfig.stripePriceIdMonthly;
+        const priceId = planConfig.stripePriceId;
 
         const origin = ctx.req.headers.origin || `http://localhost:3000`;
 
@@ -90,13 +88,43 @@ export const appRouter = router({
           userEmail: ctx.user.email || "",
           userName: ctx.user.name || "",
           priceId,
-          plan: input.plan,
-          interval: input.interval,
+          plan: input.planId,
+          interval: "monthly",
           origin,
         });
 
         return { url: session.url };
       }),
+
+    // Cancel subscription
+    cancel: protectedProcedure.mutation(async ({ ctx }) => {
+      const subscription = await getUserSubscription(ctx.user.id);
+      
+      if (!subscription) {
+        throw new TRPCError({ code: "NOT_FOUND", message: "Subscription not found" });
+      }
+
+      if (subscription.plan === "free") {
+        throw new TRPCError({ code: "BAD_REQUEST", message: "Cannot cancel free plan" });
+      }
+
+      // Cancel Stripe subscription if it exists
+      if (subscription.stripeSubscriptionId) {
+        try {
+          const stripe = (await import("stripe")).default;
+          const stripeClient = new stripe(process.env.STRIPE_SECRET_KEY || "");
+          await stripeClient.subscriptions.cancel(subscription.stripeSubscriptionId);
+        } catch (error) {
+          console.error("Error cancelling Stripe subscription:", error);
+          // Continue anyway - update our database
+        }
+      }
+
+      // Update subscription status to cancelled (user keeps their credits)
+      return updateSubscription(ctx.user.id, {
+        status: "cancelled",
+      });
+    }),
   }),
 
   flerte: router({

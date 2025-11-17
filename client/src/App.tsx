@@ -7,6 +7,8 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import Plans from "./pages/Plans";
+import Success from "./pages/Success";
+import Subscription from "./pages/Subscription";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import FAQ from "./pages/FAQ";
@@ -17,6 +19,8 @@ function Router() {
       <Route path={"/"} component={Home} />
       <Route path={"/app"} component={Dashboard} />
       <Route path={"/plans"} component={Plans} />
+      <Route path={"/subscription"} component={Subscription} />
+      <Route path={"/success"} component={Success} />
       <Route path={"/privacy"} component={Privacy} />
       <Route path={"/terms"} component={Terms} />
       <Route path={"/faq"} component={FAQ} />
@@ -30,7 +34,7 @@ function Router() {
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider defaultTheme="light">
+      <ThemeProvider defaultTheme="dark">
         <TooltipProvider>
           <Toaster />
           <Router />

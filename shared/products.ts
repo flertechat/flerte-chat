@@ -9,10 +9,8 @@ export interface SubscriptionPlan {
   id: string;
   name: string;
   description: string;
-  priceWeekly: number; // in cents (BRL)
-  priceMonthly: number; // in cents (BRL)
-  stripePriceIdWeekly: string;
-  stripePriceIdMonthly: string;
+  price: number; // in cents (BRL)
+  stripePriceId: string;
   features: string[];
   credits: number; // -1 for unlimited
   popular?: boolean;
@@ -23,10 +21,8 @@ export const SUBSCRIPTION_PLANS: Record<string, SubscriptionPlan> = {
     id: "free",
     name: "Grátis",
     description: "Para testar",
-    priceWeekly: 0,
-    priceMonthly: 0,
-    stripePriceIdWeekly: "",
-    stripePriceIdMonthly: "",
+    price: 0,
+    stripePriceId: "",
     features: [
       "10 mensagens grátis",
       "Todos os tons de voz",
@@ -34,34 +30,57 @@ export const SUBSCRIPTION_PLANS: Record<string, SubscriptionPlan> = {
     ],
     credits: 10,
   },
-  pro: {
-    id: "pro",
-    name: "Pro",
-    description: "Para uso regular",
-    priceWeekly: 990, // R$ 9,90
-    priceMonthly: 2990, // R$ 29,90
-    stripePriceIdWeekly: "price_1SUDL5GYEWk0KjWQPBVgRk5A",
-    stripePriceIdMonthly: "price_1SUDLbGYEWk0KjWQUYJqOuR3",
+  proWeekly: {
+    id: "proWeekly",
+    name: "Pro Semanal",
+    description: "200 mensagens por mês",
+    price: 990, // R$ 9,90
+    stripePriceId: "price_1SUDL5GYEWk0KjWQPBVgRk5A",
     features: [
-      "50 mensagens/semana ou 200/mês",
+      "200 mensagens por mês",
       "Histórico ilimitado",
       "Favoritos ilimitados",
     ],
-    credits: 200, // For monthly
+    credits: 200,
     popular: true,
   },
-  premium: {
-    id: "premium",
-    name: "Premium",
-    description: "Para uso intenso",
-    priceWeekly: 1990, // R$ 19,90
-    priceMonthly: 5990, // R$ 59,90
-    stripePriceIdWeekly: "price_1SUDLzGYEWk0KjWQWXZuCKv0",
-    stripePriceIdMonthly: "price_1SUDMMGYEWk0KjWQc0iOPAfh",
+  proMonthly: {
+    id: "proMonthly",
+    name: "Pro Mensal",
+    description: "50 mensagens por semana",
+    price: 2990, // R$ 29,90
+    stripePriceId: "price_1SUDLbGYEWk0KjWQUYJqOuR3",
     features: [
-      "Mensagens ilimitadas",
+      "50 mensagens por semana",
+      "Histórico ilimitado",
+      "Favoritos ilimitados",
+    ],
+    credits: 200,
+  },
+  premiumWeekly: {
+    id: "premiumWeekly",
+    name: "Premium Semanal",
+    description: "Mensagens ilimitadas por semana",
+    price: 1990, // R$ 19,90
+    stripePriceId: "price_1SUDLzGYEWk0KjWQWXZuCKv0",
+    features: [
+      "Mensagens ilimitadas por semana",
       "Prioridade na geração",
       "Suporte prioritário",
+      "Novos recursos primeiro",
+    ],
+    credits: -1, // Unlimited
+  },
+  premiumMonthly: {
+    id: "premiumMonthly",
+    name: "Premium Mensal",
+    description: "Mensagens ilimitadas por mês",
+    price: 5990, // R$ 59,90
+    stripePriceId: "price_1SUDMMGYEWk0KjWQc0iOPAfh",
+    features: [
+      "Mensagens ilimitadas por mês",
+      "Prioridade na geração",
+      "Suporte VIP 24/7",
       "Novos recursos primeiro",
     ],
     credits: -1, // Unlimited
