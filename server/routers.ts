@@ -197,25 +197,54 @@ export const appRouter = router({
         let examples = "";
 
         if (input.tone === "bold") {
-          toneInstructions = `TOM SAFADO/OUSADO: Seja MUITO atrevido, sensual, explícito e provocador. Use linguagem CRUA e direta de WhatsApp brasileiro. Abrevie palavras (mt, vc, tb, pq, entt, hj, td, etc). Responda NO MESMO NÍVEL DE INTENSIDADE da mensagem recebida - se mandar algo explícito, responda explícito também. Use palavras como "foder", "transar", "meter", "comer", "gozar" quando a pessoa usar. Seja safado(a) de verdade, não tenha medo de ser ousado(a).`;
+          toneInstructions = `TOM SAFADO/OUSADO: IMPORTANTE - Você deve ANALISAR O NÍVEL DE INTIMIDADE da mensagem recebida ANTES de responder!
+
+🔍 ANÁLISE OBRIGATÓRIA:
+1. Se a mensagem for LEVE/INICIAL (ex: "oi", "sumido", "como vai?") → Responda com FLERTE LEVE, apenas insinuando
+2. Se a mensagem for PROVOCANTE (ex: "tô com saudade", "quero te ver") → Responda com FLERTE MÉDIO, mais ousado mas SEM palavrões
+3. Se a mensagem for EXPLÍCITA (ex: contém palavras como "foder", "transar", "tesão", "gozar", "molhada", "pau duro") → AÍ SIM responda de forma MUITO EXPLÍCITA
+
+⚠️ NUNCA use linguagem explícita (foder, comer, meter, gozar) se a pessoa não iniciou nesse nível primeiro!
+
+Use linguagem brasileira e abrevie palavras (mt, vc, tb, pq, entt, hj, td, etc).`;
           examples = `
-EXEMPLOS DE RESPOSTAS SAFADAS/OUSADAS (do mais leve ao mais pesado):
+EXEMPLOS - RESPONDA DE ACORDO COM O NÍVEL DA MENSAGEM RECEBIDA:
 
-LEVE/FLERTE:
-1. "Saudade de conversar… e se eu for sincero, saudade de vc inteirinho tb"
-2. "Tô mt mais afim do que vc imagina, só falta vc me dar uma chance de mostrar"
-3. "Fofo agora, mas posso ser perigosamente safado se vc deixar"
+━━━ NÍVEL 1: MENSAGENS LEVES/INICIAIS ━━━
+Input: "Oi sumido! Faz tempo que não te vejo"
+Output: "E aí! Verdade né… senti falta de conversar com vc 😏"
 
-MÉDIO/PROVOCANTE:
-4. "Vc me deixa doido assim de propósito né? Tô querendo mt te ver"
-5. "Se depender de mim a gente se vê hj ainda, tô com uma vontade danada de vc"
-6. "Vc não sabe o quanto eu tô louco pra te ter do meu lado e fazer td que tá na minha cabeça"
+Input: "Tudo bem? Como você está?"
+Output: "Tô bem! Melhor agora falando com vc 😊 e vc?"
 
-PESADO/EXPLÍCITO (use quando a pessoa mandar algo explícito):
-7. "Caralho, vc me deixa louco falando assim… tô querendo mt te foder hj msm"
-8. "Se eu pegar vc hj, cê não vai querer sair da cama não viu… vou te comer gostoso"
-9. "Tô doido pra te meter gostoso e te fazer gozar mt, quando vc vem?"
-10. "Vc falando assim me deixa de pau duro… quero te comer de 4 e te fazer gritar"`;
+Input: "Que foto linda!"
+Output: "Obg! Vc tb tá mt bem nessa foto viu 👀"
+
+━━━ NÍVEL 2: MENSAGENS PROVOCANTES/FLERTE ━━━
+Input: "Tô com saudade de você..."
+Output: "Tb tô... saudade de conversar e de ficar pertinho de vc 😏"
+
+Input: "Quero te ver logo"
+Output: "Eu tb tô doido pra te ver... bora marcar logo? Tô com mt vontade 🔥"
+
+Input: "Você me deixa louco"
+Output: "Imagina quando eu te pegar de pertinho entt... vc vai pirar 😈"
+
+Input: "Tô afim de você"
+Output: "Tô mt mais afim de vc do que vc imagina... quando a gente se vê? 😏🔥"
+
+━━━ NÍVEL 3: MENSAGENS EXPLÍCITAS (SÓ AQUI USA LINGUAGEM CRUA) ━━━
+Input: "Tô com tesão em você"
+Output: "Caralho, vc falando assim me deixa doido... vem logo q eu quero mt te foder 🔥😈"
+
+Input: "Tô molhada pensando em você"
+Output: "Porra, assim vc me mata... tô de pau duro aqui querendo te comer gostoso 😈💦"
+
+Input: "Quero transar com você hoje"
+Output: "Vem logo entt bb... vou te meter gostoso e te fazer gozar mt 🔥😈"
+
+Input: "Faz tempo que não te fodo"
+Output: "Tb tô com saudade de te comer assim... bora matar essa vontade hj msm? 😈🔥"`;
         } else if (input.tone === "funny") {
           toneInstructions = `TOM ENGRAÇADO BRASILEIRO: Seja ZOEIRO de forma NATURAL, como um brasileiro de verdade fala no WhatsApp. NUNCA force referências ou comparações complexas. Seja SIMPLES e ENGRAÇADO. Use "kkkkk" ou "kkkk". Abrevie palavras naturalmente (vc, mt, tb, pq, hj, mn). O humor tem que parecer ESPONTÂNEO, não forçado. Pense: "como meu amigo zoeiro responderia isso?"`;
           examples = `
