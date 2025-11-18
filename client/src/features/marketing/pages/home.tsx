@@ -8,11 +8,13 @@ import { BackToTop } from "@/shared/components/back-to-top";
 import { useTheme } from "@/shared/contexts/ThemeContext";
 import { CountdownBanner } from "@/features/subscription/components/countdown-banner";
 import { OnlineUsersBadge } from "@/shared/components/online-users-badge";
+import { useState, useEffect } from "react";
 
 export default function Home() {
   const { isAuthenticated } = useAuth();
   const { cycleTheme } = useTheme();
   const [, setLocation] = useLocation();
+  const [activeSlide, setActiveSlide] = useState(0);
 
   // Refs for scroll animations
   const heroRef = useScrollAnimation<HTMLDivElement>();
@@ -29,6 +31,16 @@ export default function Home() {
       setLocation("/login");
     }
   };
+
+  // Auto-play carousel
+  useEffect(() => {
+    const carouselExamples = 3; // Total de slides
+    const interval = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % carouselExamples);
+    }, 5000); // Muda a cada 5 segundos
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-background">
@@ -188,21 +200,21 @@ export default function Home() {
                   {/* Mensagem recebida 1 */}
                   <div className="flex justify-start">
                     <div className="bg-white rounded-2xl rounded-tl-sm px-4 py-3 max-w-[75%] shadow-sm">
-                      <p className="text-sm text-gray-800">Oi Mateus, faz dias que te vi, hein?</p>
+                      <p className="text-sm text-gray-800">Ai Mateus... tô com mt vontade de te ver hj 😏</p>
                     </div>
                   </div>
-                  
+
                   {/* Mensagem enviada (IA) */}
                   <div className="flex justify-end">
                     <div className="bg-gradient-to-br from-pink-500 to-rose-500 rounded-2xl rounded-tr-sm px-4 py-3 max-w-[75%] shadow-md">
-                      <p className="text-sm text-white font-medium">Tá com saudade é, bb? Bora marcar de se ver então... se o clima esquentar, já sabe né?! 😏🔥</p>
+                      <p className="text-sm text-white font-medium">Cê tá me deixando louco falando assim... vem logo q eu vou te comer gostoso 🔥😈</p>
                     </div>
                   </div>
 
                   {/* Mensagem recebida 2 */}
                   <div className="flex justify-start">
                     <div className="bg-white rounded-2xl rounded-tl-sm px-4 py-3 max-w-[75%] shadow-sm">
-                      <p className="text-sm text-gray-800">O que você tem em mente pro "esquentar"?</p>
+                      <p className="text-sm text-gray-800">Tô molhadinha só de pensar... vem msm?</p>
                       <p className="text-xs text-gray-500 mt-1">10:45</p>
                     </div>
                   </div>
@@ -210,17 +222,24 @@ export default function Home() {
                   {/* Mensagem enviada 2 (IA) */}
                   <div className="flex justify-end">
                     <div className="bg-gradient-to-br from-pink-600 to-rose-600 rounded-2xl rounded-tr-sm px-4 py-3 max-w-[75%] shadow-md">
-                      <p className="text-sm text-white font-medium">Hmm, primeiro um drink pra relaxar... depois eu te mostro como eu sei esquentar bem as coisas 😈💋</p>
+                      <p className="text-sm text-white font-medium">Vou sim bb... e vc vai gozar mt hj, isso eu garanto 😏💦</p>
+                    </div>
+                  </div>
+
+                  {/* Mensagem recebida 3 */}
+                  <div className="flex justify-start">
+                    <div className="bg-white rounded-2xl rounded-tl-sm px-4 py-3 max-w-[75%] shadow-sm">
+                      <p className="text-sm text-gray-800">Promete? Então chega logo 🔥😘</p>
                     </div>
                   </div>
 
                   {/* Mensagem enviada 3 (IA) */}
                   <div className="flex justify-end">
-                    <div className="bg-gradient-to-br from-cyan-400 to-blue-500 rounded-2xl rounded-tr-sm px-4 py-3 max-w-[75%] shadow-md">
-                      <p className="text-sm text-white font-medium">Você vai descobrir... 😏✨</p>
+                    <div className="bg-gradient-to-br from-pink-600 to-rose-600 rounded-2xl rounded-tr-sm px-4 py-3 max-w-[75%] shadow-md">
+                      <p className="text-sm text-white font-medium">Já tô saindo... se prepara q vou te foder bem gostoso 😈🔥</p>
                     </div>
                   </div>
-                  
+
                   {/* Input area */}
                   <div className="absolute bottom-4 left-4 right-4 bg-white rounded-full px-4 py-2 flex items-center gap-2 shadow-lg">
                     <span className="text-sm text-gray-400 flex-1">Message</span>
@@ -256,142 +275,266 @@ export default function Home() {
       </section>
 
       {/* Carrossel de Demonstração */}
-      <section className="bg-white py-8 md:py-16">
+      <section className="bg-gradient-to-b from-white via-pink-50 to-white py-12 md:py-20">
         <main className="container max-w-7xl mx-auto px-3 md:px-4">
-          <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 mb-3 md:mb-4">
-              Veja a IA em Ação
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white px-6 py-2 rounded-full font-bold mb-6 shadow-lg">
+              <Flame className="w-5 h-5" />
+              <span>Veja a Magia Acontecer</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-gray-900 mb-4">
+              Do Bloqueio à Conquista em 3 Segundos ⚡
             </h2>
-            <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto px-4">
-              Exemplos reais de mensagens e as 3 respostas geradas: Normal, Safado e Engraçado
+            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+              Exemplos REAIS de como transformar qualquer mensagem em respostas irresistíveis
             </p>
           </div>
-          
-          <div className="relative max-w-4xl mx-auto">
-            {/* Carrossel Container */}
-            <div className="overflow-x-auto snap-x snap-mandatory flex gap-4 md:gap-6 pb-4 scrollbar-hide">
-              {/* Exemplo 1 */}
-              <div className="flex-shrink-0 w-full snap-center">
-                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl md:rounded-3xl p-4 sm:p-6 md:p-8 shadow-xl">
-                  <div className="bg-white rounded-xl md:rounded-2xl p-4 sm:p-5 md:p-6 mb-4 md:mb-6 shadow-md">
-                    <p className="text-xs sm:text-sm text-gray-500 mb-2 font-semibold">MENSAGEM RECEBIDA:</p>
-                    <p className="text-sm sm:text-base md:text-lg text-gray-800 font-medium">"Oi! Vi que você gosta de viajar. Qual foi o lugar mais legal que você já foi?"</p>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
-                    <div className="bg-blue-50 rounded-xl p-4 border-2 border-blue-200">
-                      <p className="text-xs font-bold text-blue-600 mb-2">💬 NORMAL</p>
-                      <p className="text-sm text-gray-800">"Oi! Sim, adoro viajar! O lugar mais incrível foi a Grécia, as praias são de outro mundo. E você, gosta de viajar também?"</p>
+
+          <div className="relative max-w-5xl mx-auto">
+            {/* Carrossel Container com transição suave */}
+            <div className="relative overflow-hidden rounded-3xl shadow-2xl">
+              <div
+                className="flex transition-transform duration-700 ease-in-out"
+                style={{ transform: `translateX(-${activeSlide * 100}%)` }}
+              >
+                {/* Exemplo 1 - Paquera Quente */}
+                <div className="flex-shrink-0 w-full">
+                  <div className="bg-gradient-to-br from-rose-500 via-pink-500 to-red-500 p-8 md:p-12">
+                    <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 md:p-8 mb-6 shadow-xl border-2 border-white">
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-xs font-bold">MENSAGEM RECEBIDA</span>
+                      </div>
+                      <p className="text-lg md:text-2xl text-gray-800 font-semibold">"Tô com vontade de te ver... mas só se vc prometer ser ousado 😏"</p>
                     </div>
-                    <div className="bg-red-50 rounded-xl p-4 border-2 border-red-200">
-                      <p className="text-xs font-bold text-red-600 mb-2">🔥 SAFADO</p>
-                      <p className="text-sm text-gray-800">"Grécia foi incrível, mas confesso que tô mais interessado em explorar novos territórios por aqui... que tal a gente começar com um drink? 😏"</p>
-                    </div>
-                    <div className="bg-yellow-50 rounded-xl p-4 border-2 border-yellow-200">
-                      <p className="text-xs font-bold text-yellow-600 mb-2">😂 ENGRAÇADO</p>
-                      <p className="text-sm text-gray-800">"Grécia! Mas o lugar mais legal mesmo foi a padaria da esquina às 3h da manhã... aquele pão de queijo não tem preço 😂"</p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="bg-white rounded-2xl p-5 shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-1">
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="text-sm font-black text-blue-600">💬 NORMAL</span>
+                          <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">Seguro</span>
+                        </div>
+                        <p className="text-sm text-gray-800 leading-relaxed">"Oi! Claro, vamos marcar sim. Que tal amanhã? Podemos tomar um café e conversar melhor 😊"</p>
+                      </div>
+                      <div className="bg-gradient-to-br from-red-50 to-pink-50 rounded-2xl p-5 shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-1 border-3 border-pink-300">
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="text-sm font-black text-red-600">🔥 SAFADO</span>
+                          <span className="text-xs bg-red-500 text-white px-2 py-1 rounded-full animate-pulse">TOP!</span>
+                        </div>
+                        <p className="text-sm text-gray-900 font-medium leading-relaxed">"Ousado é pouco... vou te deixar sem ar bb. Vem hj q eu te mostro como eu sei ser BEM ousado 😈🔥"</p>
+                      </div>
+                      <div className="bg-white rounded-2xl p-5 shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-1">
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="text-sm font-black text-yellow-600">😂 ENGRAÇADO</span>
+                          <span className="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full">Divertido</span>
+                        </div>
+                        <p className="text-sm text-gray-800 leading-relaxed">"Ousado eu sou até no pedido de pizza kkkk mas prometo te surpreender 😄"</p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Exemplo 2 */}
-              <div className="flex-shrink-0 w-full snap-center">
-                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl md:rounded-3xl p-4 sm:p-6 md:p-8 shadow-xl">
-                  <div className="bg-white rounded-xl md:rounded-2xl p-4 sm:p-5 md:p-6 mb-4 md:mb-6 shadow-md">
-                    <p className="text-xs sm:text-sm text-gray-500 mb-2 font-semibold">MENSAGEM RECEBIDA:</p>
-                    <p className="text-sm sm:text-base md:text-lg text-gray-800 font-medium">"Que foto linda! Você é modelo?"</p>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
-                    <div className="bg-blue-50 rounded-xl p-4 border-2 border-blue-200">
-                      <p className="text-xs font-bold text-blue-600 mb-2">💬 NORMAL</p>
-                      <p className="text-sm text-gray-800">"Obrigado! Não sou modelo não, só gosto de tirar umas fotos legais. Você também curte fotografia?"</p>
+                {/* Exemplo 2 - Investida Direta */}
+                <div className="flex-shrink-0 w-full">
+                  <div className="bg-gradient-to-br from-purple-500 via-violet-500 to-indigo-500 p-8 md:p-12">
+                    <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 md:p-8 mb-6 shadow-xl border-2 border-white">
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-bold">MENSAGEM RECEBIDA</span>
+                      </div>
+                      <p className="text-lg md:text-2xl text-gray-800 font-semibold">"Esse seu sorriso tá me deixando doido... 🤤"</p>
                     </div>
-                    <div className="bg-red-50 rounded-xl p-4 border-2 border-red-200">
-                      <p className="text-xs font-bold text-red-600 mb-2">🔥 SAFADO</p>
-                      <p className="text-sm text-gray-800">"Modelo só nas horas vagas 😏 Mas confesso que você tem bom gosto... bora marcar e eu te mostro meu lado mais 'profissional'? 👀"</p>
-                    </div>
-                    <div className="bg-yellow-50 rounded-xl p-4 border-2 border-yellow-200">
-                      <p className="text-xs font-bold text-yellow-600 mb-2">😂 ENGRAÇADO</p>
-                      <p className="text-sm text-gray-800">"Modelo? Só de papel machê que eu fiz na escola 😂 Mas valeu, você tem bom gosto pra elogios hein!"</p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="bg-white rounded-2xl p-5 shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-1">
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="text-sm font-black text-blue-600">💬 NORMAL</span>
+                          <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">Educado</span>
+                        </div>
+                        <p className="text-sm text-gray-800 leading-relaxed">"Muito obrigado! Você é muito simpático também 😊 Adorei conversar com você"</p>
+                      </div>
+                      <div className="bg-gradient-to-br from-red-50 to-pink-50 rounded-2xl p-5 shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-1 border-3 border-purple-300">
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="text-sm font-black text-red-600">🔥 SAFADO</span>
+                          <span className="text-xs bg-red-500 text-white px-2 py-1 rounded-full animate-pulse">QUENTE!</span>
+                        </div>
+                        <p className="text-sm text-gray-900 font-medium leading-relaxed">"Imagina quando vc me ver de pertinho entt... prometo te deixar mt mais doido 😏🔥"</p>
+                      </div>
+                      <div className="bg-white rounded-2xl p-5 shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-1">
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="text-sm font-black text-yellow-600">😂 ENGRAÇADO</span>
+                          <span className="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full">Leve</span>
+                        </div>
+                        <p className="text-sm text-gray-800 leading-relaxed">"Opa, cuidado aí que esse sorriso é registrado kkkk mas pode olhar à vontade 😄✨"</p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Exemplo 3 */}
-              <div className="flex-shrink-0 w-full snap-center">
-                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl md:rounded-3xl p-4 sm:p-6 md:p-8 shadow-xl">
-                  <div className="bg-white rounded-xl md:rounded-2xl p-4 sm:p-5 md:p-6 mb-4 md:mb-6 shadow-md">
-                    <p className="text-xs sm:text-sm text-gray-500 mb-2 font-semibold">MENSAGEM RECEBIDA:</p>
-                    <p className="text-sm sm:text-base md:text-lg text-gray-800 font-medium">"Oi sumido! Faz tempo que não te vejo por aqui..."</p>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
-                    <div className="bg-blue-50 rounded-xl p-4 border-2 border-blue-200">
-                      <p className="text-xs font-bold text-blue-600 mb-2">💬 NORMAL</p>
-                      <p className="text-sm text-gray-800">"Oi! Verdade, andei meio ocupado. Mas agora tô de volta! Como você tem passado?"</p>
+                {/* Exemplo 3 - Volta do Ex */}
+                <div className="flex-shrink-0 w-full">
+                  <div className="bg-gradient-to-br from-orange-500 via-amber-500 to-yellow-500 p-8 md:p-12">
+                    <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 md:p-8 mb-6 shadow-xl border-2 border-white">
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-bold">MENSAGEM RECEBIDA</span>
+                      </div>
+                      <p className="text-lg md:text-2xl text-gray-800 font-semibold">"Oi... faz mt tempo né? Tô com saudade da gente"</p>
                     </div>
-                    <div className="bg-red-50 rounded-xl p-4 border-2 border-red-200">
-                      <p className="text-xs font-bold text-red-600 mb-2">🔥 SAFADO</p>
-                      <p className="text-sm text-gray-800">"Sumido mas não esquecido 😏 Tô com saudade... bora matar essa saudade pessoalmente? Prometo compensar o tempo perdido 🔥"</p>
-                    </div>
-                    <div className="bg-yellow-50 rounded-xl p-4 border-2 border-yellow-200">
-                      <p className="text-xs font-bold text-yellow-600 mb-2">😂 ENGRAÇADO</p>
-                      <p className="text-sm text-gray-800">"Sumido? Eu tô aqui o tempo todo, você que não olha pro lado certo 😂 Bora marcar um café pra eu te ensinar a me achar?"</p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="bg-white rounded-2xl p-5 shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-1">
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="text-sm font-black text-blue-600">💬 NORMAL</span>
+                          <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">Neutro</span>
+                        </div>
+                        <p className="text-sm text-gray-800 leading-relaxed">"Oi! Sim, faz tempo mesmo. Como você está? Vamos conversar melhor pra ver"</p>
+                      </div>
+                      <div className="bg-gradient-to-br from-red-50 to-pink-50 rounded-2xl p-5 shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-1 border-3 border-orange-300">
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="text-sm font-black text-red-600">🔥 SAFADO</span>
+                          <span className="text-xs bg-red-500 text-white px-2 py-1 rounded-full animate-pulse">POWER!</span>
+                        </div>
+                        <p className="text-sm text-gray-900 font-medium leading-relaxed">"Saudade da gente ou do que a gente fazia? 😏 Se for a segunda opção, bora relembrar hj msm 🔥"</p>
+                      </div>
+                      <div className="bg-white rounded-2xl p-5 shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-1">
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="text-sm font-black text-yellow-600">😂 ENGRAÇADO</span>
+                          <span className="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full">Leve</span>
+                        </div>
+                        <p className="text-sm text-gray-800 leading-relaxed">"Olha quem acordou da hibernação kkkk que saudade suspeita hein 😂 mas tá perdoado(a)"</p>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            
-            {/* Indicador de scroll */}
-            <div className="flex justify-center gap-2 mt-6">
-              <div className="w-2 h-2 rounded-full bg-pink-500"></div>
-              <div className="w-2 h-2 rounded-full bg-gray-300"></div>
-              <div className="w-2 h-2 rounded-full bg-gray-300"></div>
+
+            {/* Indicadores modernos com animação */}
+            <div className="flex justify-center gap-3 mt-8">
+              {[0, 1, 2].map((index) => (
+                <button
+                  key={index}
+                  onClick={() => setActiveSlide(index)}
+                  className={`transition-all duration-300 rounded-full ${
+                    activeSlide === index
+                      ? 'w-12 h-3 bg-gradient-to-r from-pink-500 to-rose-500'
+                      : 'w-3 h-3 bg-gray-300 hover:bg-gray-400'
+                  }`}
+                  aria-label={`Ir para slide ${index + 1}`}
+                />
+              ))}
             </div>
-            
-            <p className="text-center text-gray-500 mt-4 text-sm">
-              ← Arraste para ver mais exemplos →
+
+            <p className="text-center text-gray-600 mt-6 text-sm font-semibold flex items-center justify-center gap-2">
+              <Sparkles className="w-4 h-4 text-pink-500" />
+              Carrossel automático - muda a cada 5 segundos
             </p>
           </div>
         </main>
       </section>
 
       {/* Como Funciona */}
-      <section className="bg-white py-10 md:py-16">
-      <main className="container max-w-7xl mx-auto px-3 md:px-4">
+      <section className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-black py-16 md:py-24 overflow-hidden">
+        {/* Background decorativo */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-20 left-10 w-96 h-96 bg-pink-500 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-rose-500 rounded-full blur-3xl"></div>
+        </div>
+
+      <main className="container max-w-7xl mx-auto px-3 md:px-4 relative z-10">
         <div id="como-funciona" ref={howItWorksRef} className="scroll-animate">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 text-center mb-8 md:mb-12">
-            Como Funciona?
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-            <div className="bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 text-center shadow-2xl transform hover:scale-105 transition-all">
-              <div className="w-20 h-20 bg-gradient-to-br from-rose-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-6 text-white text-3xl font-bold">
-                1
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white px-6 py-2 rounded-full font-bold mb-6 border border-white/20">
+              <Zap className="w-5 h-5 text-yellow-400" />
+              <span>Simples, Rápido e Eficaz</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6">
+              Como Funciona?
+            </h2>
+            <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
+              Em 3 passos simples, você vai de "sem resposta" para "conquistando" em segundos
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+            {/* Step 1 */}
+            <div className="relative group">
+              <div className="bg-gradient-to-br from-pink-500/20 to-rose-500/20 backdrop-blur-sm rounded-3xl p-8 text-center border-2 border-pink-500/30 hover:border-pink-500 transition-all duration-300 transform hover:scale-105 hover:-translate-y-2">
+                {/* Número animado */}
+                <div className="relative mb-8">
+                  <div className="absolute inset-0 bg-gradient-to-br from-pink-500 to-rose-600 rounded-full blur-xl opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                  <div className="relative w-24 h-24 bg-gradient-to-br from-pink-500 to-rose-600 rounded-full flex items-center justify-center mx-auto text-white text-4xl font-black shadow-2xl">
+                    1
+                  </div>
+                </div>
+
+                <div className="mb-4">
+                  <MessageCircle className="w-12 h-12 text-pink-400 mx-auto mb-4" />
+                </div>
+
+                <h3 className="text-2xl sm:text-3xl font-black text-white mb-4">Cole a Mensagem</h3>
+                <p className="text-gray-300 text-lg leading-relaxed">
+                  Recebeu aquela mensagem difícil? Cole no app e deixa a IA trabalhar pra você 📱
+                </p>
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">Cole a Mensagem</h3>
-              <p className="text-gray-600 text-base md:text-lg">
-                Copie a mensagem que você recebeu e cole no app
-              </p>
+
+              {/* Seta conectora - apenas em desktop */}
+              <div className="hidden md:block absolute top-1/2 -right-6 transform -translate-y-1/2 z-20">
+                <div className="text-pink-500 text-4xl">→</div>
+              </div>
             </div>
 
-            <div className="bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 text-center shadow-2xl transform hover:scale-105 transition-all">
-              <div className="w-20 h-20 bg-gradient-to-br from-rose-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-6 text-white text-3xl font-bold">
-                2
+            {/* Step 2 */}
+            <div className="relative group">
+              <div className="bg-gradient-to-br from-purple-500/20 to-violet-500/20 backdrop-blur-sm rounded-3xl p-8 text-center border-2 border-purple-500/30 hover:border-purple-500 transition-all duration-300 transform hover:scale-105 hover:-translate-y-2">
+                {/* Número animado */}
+                <div className="relative mb-8">
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-violet-600 rounded-full blur-xl opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                  <div className="relative w-24 h-24 bg-gradient-to-br from-purple-500 to-violet-600 rounded-full flex items-center justify-center mx-auto text-white text-4xl font-black shadow-2xl">
+                    2
+                  </div>
+                </div>
+
+                <div className="mb-4">
+                  <Sparkles className="w-12 h-12 text-purple-400 mx-auto mb-4" />
+                </div>
+
+                <h3 className="text-2xl sm:text-3xl font-black text-white mb-4">Escolha o Tom</h3>
+                <p className="text-gray-300 text-lg leading-relaxed">
+                  Normal, Safado ou Engraçado - você decide como quer conquistar 🎯
+                </p>
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">Escolha o Tom</h3>
-              <p className="text-gray-600 text-base md:text-lg">
-                Normal, Safado ou Engraçado - você decide o estilo
-              </p>
+
+              {/* Seta conectora - apenas em desktop */}
+              <div className="hidden md:block absolute top-1/2 -right-6 transform -translate-y-1/2 z-20">
+                <div className="text-purple-500 text-4xl">→</div>
+              </div>
             </div>
 
-            <div className="bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 text-center shadow-2xl transform hover:scale-105 transition-all">
-              <div className="w-20 h-20 bg-gradient-to-br from-rose-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-6 text-white text-3xl font-bold">
-                3
+            {/* Step 3 */}
+            <div className="relative group">
+              <div className="bg-gradient-to-br from-orange-500/20 to-amber-500/20 backdrop-blur-sm rounded-3xl p-8 text-center border-2 border-orange-500/30 hover:border-orange-500 transition-all duration-300 transform hover:scale-105 hover:-translate-y-2">
+                {/* Número animado */}
+                <div className="relative mb-8">
+                  <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-amber-600 rounded-full blur-xl opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                  <div className="relative w-24 h-24 bg-gradient-to-br from-orange-500 to-amber-600 rounded-full flex items-center justify-center mx-auto text-white text-4xl font-black shadow-2xl">
+                    3
+                  </div>
+                </div>
+
+                <div className="mb-4">
+                  <Flame className="w-12 h-12 text-orange-400 mx-auto mb-4" />
+                </div>
+
+                <h3 className="text-2xl sm:text-3xl font-black text-white mb-4">Copie e Conquiste</h3>
+                <p className="text-gray-300 text-lg leading-relaxed">
+                  Escolha entre 3 respostas perfeitas e mande a que mais combina com você 🔥
+                </p>
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">Copie e Envie</h3>
-              <p className="text-gray-600 text-base md:text-lg">
-                Escolha entre 3 opções e mande a melhor resposta
+            </div>
+          </div>
+
+          {/* Call to action extra */}
+          <div className="text-center mt-16">
+            <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm px-8 py-4 rounded-2xl border border-white/20">
+              <Zap className="w-6 h-6 text-yellow-400" />
+              <p className="text-white font-bold text-lg">
+                Tempo médio de resposta: <span className="text-yellow-400">3 segundos ⚡</span>
               </p>
             </div>
           </div>
@@ -400,43 +543,62 @@ export default function Home() {
       </section>
 
       {/* Features com Imagens */}
-      <section className="bg-theme-gradient py-10 md:py-16">
+      <section className="bg-theme-gradient py-16 md:py-24">
       <main className="container max-w-7xl mx-auto px-4">
         <div ref={whyChooseRef} className="scroll-animate">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white text-center mb-12 drop-shadow-xl">
-            Por Que Escolher o Flerte Chat?
-          </h2>
-          
+          <div className="text-center mb-16">
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-6 drop-shadow-xl">
+              Por Que Escolher o Flerte Chat?
+            </h2>
+            <p className="text-xl text-white/90 max-w-3xl mx-auto">
+              A ferramenta que transforma seus dates em conquistas reais
+            </p>
+          </div>
+
           {/* Feature 1 */}
-          <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
-            <div className="order-2 lg:order-1">
-              <img 
-                src="/couple-flirting.jpg" 
-                alt="Casal flertando" 
-                className="rounded-3xl shadow-2xl w-full h-[400px] object-cover"
-              />
+          <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
+            <div className="order-2 lg:order-1 relative group">
+              {/* Imagem com overlay romântico/sexy */}
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl transform group-hover:scale-105 transition-all duration-500">
+                <div className="absolute inset-0 bg-gradient-to-br from-pink-500/30 to-rose-600/30 z-10"></div>
+                <img
+                  src="/couple-flirting.jpg"
+                  alt="Casal apaixonado se beijando intensamente - flerte e conquista real"
+                  className="w-full h-[400px] md:h-[500px] object-cover"
+                />
+                {/* Badge flutuante */}
+                <div className="absolute bottom-6 left-6 bg-white/95 backdrop-blur-sm rounded-2xl px-6 py-3 z-20 shadow-xl">
+                  <p className="text-pink-600 font-black text-lg flex items-center gap-2">
+                    <Heart className="w-5 h-5 fill-pink-600" />
+                    95% Taxa de Sucesso
+                  </p>
+                </div>
+              </div>
             </div>
             <div className="text-white order-1 lg:order-2">
-              <div className="inline-block bg-rose-600 rounded-full px-4 py-2 mb-4">
-                <span className="text-sm font-bold">🔥 MAIS POPULAR</span>
+              <div className="inline-flex items-center gap-2 bg-rose-600 rounded-full px-6 py-3 mb-6 shadow-lg">
+                <Flame className="w-5 h-5" />
+                <span className="font-bold">MAIS POPULAR</span>
               </div>
-              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black mb-6">Respostas que Funcionam de Verdade</h3>
-              <p className="text-xl mb-6 opacity-95">
-                Nossa IA foi treinada com milhares de conversas reais. Ela entende o contexto e gera 
-                respostas naturais que parecem escritas por você.
+              <h3 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-6 leading-tight">
+                Respostas que Provocam, Seduzem e Conquistam 💋
+              </h3>
+              <p className="text-xl mb-8 opacity-95 leading-relaxed">
+                Nossa IA foi treinada com <strong>91.600 mensagens reais</strong> de flerte. Ela entende o contexto,
+                capta a vibe e gera respostas tão naturais e provocantes que parecem escritas por você.
               </p>
-              <ul className="space-y-3">
-                <li className="flex items-start gap-3">
-                  <Check className="w-6 h-6 text-green-300 flex-shrink-0 mt-1" />
-                  <span className="text-lg" style={{fontWeight: '600'}}>100% brasileiro - com gírias e expressões autênticas</span>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                  <Check className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
+                  <span className="text-lg font-semibold">100% brasileiro - com gírias, safadeza e expressões autênticas 🇧🇷</span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <Check className="w-6 h-6 text-green-300 flex-shrink-0 mt-1" />
-                  <span className="text-lg" style={{fontWeight: '600'}}>3 opções diferentes para cada situação</span>
+                <li className="flex items-start gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                  <Check className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
+                  <span className="text-lg font-semibold">3 tons: Normal, Safado ou Engraçado - você escolhe a vibe 😏</span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <Check className="w-6 h-6 text-green-300 flex-shrink-0 mt-1" />
-                  <span className="text-lg" style={{fontWeight: '600'}}>Geração instantânea em menos de 3 segundos</span>
+                <li className="flex items-start gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                  <Check className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
+                  <span className="text-lg font-semibold">Respostas em menos de 3 segundos - strike while the iron is hot ⚡</span>
                 </li>
               </ul>
             </div>
@@ -445,35 +607,49 @@ export default function Home() {
           {/* Feature 2 */}
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="text-white">
-              <div className="inline-block bg-orange-600 rounded-full px-4 py-2 mb-4">
-                <span className="text-sm font-bold">⚡ SUPER RÁPIDO</span>
+              <div className="inline-flex items-center gap-2 bg-orange-600 rounded-full px-6 py-3 mb-6 shadow-lg">
+                <Zap className="w-5 h-5" />
+                <span className="font-bold">SUPER RÁPIDO</span>
               </div>
-              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black mb-6">Nunca Mais Deixe no Vácuo</h3>
-              <p className="text-xl mb-6 opacity-95">
-                Acabou aquela ansiedade de não saber o que responder. Com o Flerte Chat, 
-                você sempre tem a resposta perfeita na ponta dos dedos.
+              <h3 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-6 leading-tight">
+                Nunca Mais Deixe no Vácuo 🚀
+              </h3>
+              <p className="text-xl mb-8 opacity-95 leading-relaxed">
+                Acabou aquela ansiedade de não saber o que responder. Com o Flerte Chat,
+                você sempre tem a resposta perfeita, provocante e irresistível na ponta dos dedos.
               </p>
-              <ul className="space-y-3">
-                <li className="flex items-start gap-3">
-                  <Check className="w-6 h-6 text-green-300 flex-shrink-0 mt-1" />
-                  <span className="text-lg" style={{fontWeight: '600'}}>Responda em segundos, não em horas</span>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                  <Check className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
+                  <span className="text-lg font-semibold">Responda em segundos, não em horas - mantenha o fogo aceso 🔥</span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <Check className="w-6 h-6 text-green-300 flex-shrink-0 mt-1" />
-                  <span className="text-lg" style={{fontWeight: '600'}}>Mantenha a conversa sempre fluindo</span>
+                <li className="flex items-start gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                  <Check className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
+                  <span className="text-lg font-semibold">Conversas fluindo naturalmente - sem bloqueios, só conquistas 💬</span>
                 </li>
-                <li className="flex items-start gap-3">
-                  <Check className="w-6 h-6 text-green-300 flex-shrink-0 mt-1" />
-                  <span className="text-lg" style={{fontWeight: '600'}}>Impressione com respostas criativas</span>
+                <li className="flex items-start gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                  <Check className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
+                  <span className="text-lg font-semibold">Impressione com criatividade e ousadia - seja inesquecível 😈</span>
                 </li>
               </ul>
             </div>
-            <div>
-              <img 
-                src="/couple-texting.jpg" 
-                alt="Casal usando celular" 
-                className="rounded-3xl shadow-2xl w-full h-[400px] object-cover"
-              />
+            <div className="relative group">
+              {/* Imagem com overlay romântico/sexy */}
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl transform group-hover:scale-105 transition-all duration-500">
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/30 to-amber-600/30 z-10"></div>
+                <img
+                  src="/couple-texting.jpg"
+                  alt="Casal jovem se olhando apaixonadamente, sorrindo e flertando - romance e paixão"
+                  className="w-full h-[400px] md:h-[500px] object-cover"
+                />
+                {/* Badge flutuante */}
+                <div className="absolute bottom-6 right-6 bg-white/95 backdrop-blur-sm rounded-2xl px-6 py-3 z-20 shadow-xl">
+                  <p className="text-orange-600 font-black text-lg flex items-center gap-2">
+                    <Flame className="w-5 h-5 fill-orange-600" />
+                    10.000+ Mensagens
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

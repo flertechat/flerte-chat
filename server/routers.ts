@@ -141,7 +141,7 @@ export const appRouter = router({
         }
         throw new Error("Invalid input");
       })
-      .query(async ({ ctx, input }) => {
+      .mutation(async ({ ctx, input }) => {
         return getConversationWithMessages(input.id as number, ctx.user.id);
       }),
 

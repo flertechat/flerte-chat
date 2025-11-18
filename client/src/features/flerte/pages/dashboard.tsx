@@ -41,6 +41,7 @@ export default function Dashboard() {
   const [tone, setTone] = useState<"natural" | "bold" | "funny">("bold");
   const [showContactModal, setShowContactModal] = useState(false);
   const [showHistoryModal, setShowHistoryModal] = useState(false);
+  const [selectedConversationId, setSelectedConversationId] = useState<number | null>(null);
   const [contactForm, setContactForm] = useState({
     name: "",
     phone: "",
@@ -62,6 +63,39 @@ export default function Dashboard() {
 
   const conversationsQuery = trpc.flerte.listConversations.useQuery(undefined, {
     enabled: isAuthenticated && showHistoryModal,
+  });
+
+  const getConversationMutation = trpc.flerte.getConversation.useMutation({
+    onSuccess: (data: any) => {
+      if (data && data.messages) {
+        // Restaurar o contexto original
+        setContext(data.context || "");
+        setTone(data.tone || "bold");
+
+        // Reconstruir mensagens com as opções geradas
+        const userMessage: Message = {
+          role: "user",
+          content: data.context || "",
+        };
+
+        const assistantMessage: Message = {
+          role: "assistant",
+          content: "",
+          options: data.messages.map((m: any) => m.content),
+        };
+
+        setMessages([userMessage, assistantMessage]);
+        setShowHistoryModal(false);
+
+        // Scroll to messages
+        setTimeout(() => {
+          messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      }
+    },
+    onError: (error: any) => {
+      toast.error("Erro ao carregar conversa: " + error.message);
+    },
   });
 
   const generateMutation = trpc.flerte.generateMessage.useMutation({
@@ -641,8 +675,7 @@ export default function Dashboard() {
                 className="bg-gradient-to-br from-rose-50 to-pink-50 rounded-2xl p-4 border border-rose-200 hover:shadow-lg transition-all cursor-pointer"
                 onClick={() => {
                   // Carregar conversa
-                  trpc.flerte.getConversation.useQuery({ id: conversation.id });
-                  setShowHistoryModal(false);
+                  getConversationMutation.mutate({ id: conversation.id });
                 }}
               >
                 <div className="flex items-start justify-between mb-2">
