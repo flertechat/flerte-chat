@@ -1,15 +1,19 @@
 import { eq, and, desc } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, subscriptions, conversations, messages, transactions, InsertSubscription, InsertConversation, InsertMessage, InsertTransaction } from "../drizzle/schema";
+import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
+import { InsertUser, users, subscriptions, conversations, messages, transactions, referrals, messageRatings, InsertSubscription, InsertConversation, InsertMessage, InsertTransaction, InsertReferral, InsertMessageRating } from "../drizzle/schema";
 import { ENV } from './_core/env';
+import { nanoid } from 'nanoid';
 
 let _db: ReturnType<typeof drizzle> | null = null;
+let _client: ReturnType<typeof postgres> | null = null;
 
 // Lazily create the drizzle instance so local tooling can run without a DB.
 export async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
     try {
-      _db = drizzle(process.env.DATABASE_URL);
+      _client = postgres(process.env.DATABASE_URL);
+      _db = drizzle(_client);
     } catch (error) {
       console.warn("[Database] Failed to connect:", error);
       _db = null;
@@ -68,7 +72,8 @@ export async function upsertUser(user: InsertUser): Promise<void> {
       updateSet.lastSignedIn = new Date();
     }
 
-    await db.insert(users).values(values).onDuplicateKeyUpdate({
+    await db.insert(users).values(values).onConflictDoUpdate({
+      target: users.openId,
       set: updateSet,
     });
   } catch (error) {
@@ -172,11 +177,8 @@ export async function createConversation(data: InsertConversation) {
   const db = await getDb();
   if (!db) return null;
 
-  const result = await db.insert(conversations).values(data);
-  const insertId = result[0].insertId;
-  
-  const created = await db.select().from(conversations).where(eq(conversations.id, Number(insertId))).limit(1);
-  return created.length > 0 ? created[0] : null;
+  const result = await db.insert(conversations).values(data).returning();
+  return result.length > 0 ? result[0] : null;
 }
 
 // Message helpers
@@ -184,11 +186,8 @@ export async function addMessage(data: InsertMessage) {
   const db = await getDb();
   if (!db) return null;
 
-  const result = await db.insert(messages).values(data);
-  const insertId = result[0].insertId;
-  
-  const created = await db.select().from(messages).where(eq(messages.id, Number(insertId))).limit(1);
-  return created.length > 0 ? created[0] : null;
+  const result = await db.insert(messages).values(data).returning();
+  return result.length > 0 ? result[0] : null;
 }
 
 export async function toggleMessageFavorite(messageId: number, userId: number) {
@@ -216,5 +215,134 @@ export async function createTransaction(data: InsertTransaction) {
   if (!db) return null;
 
   await db.insert(transactions).values(data);
+  return true;
+}
+
+// Referral helpers
+export async function getUserReferralCode(userId: number): Promise<string> {
+  const db = await getDb();
+  if (!db) return '';
+
+  // Check if user already has a referral code
+  const existing = await db.select()
+    .from(referrals)
+    .where(eq(referrals.referrerId, userId))
+    .limit(1);
+
+  if (existing.length > 0) {
+    return existing[0].code;
+  }
+
+  // Generate a unique code
+  const code = nanoid(10).toUpperCase();
+
+  // Create new referral entry
+  await db.insert(referrals).values({
+    referrerId: userId,
+    code,
+    status: 'pending',
+  });
+
+  return code;
+}
+
+export async function getReferralStats(userId: number) {
+  const db = await getDb();
+  if (!db) return { totalReferrals: 0, totalCreditsEarned: 0 };
+
+  const refs = await db.select()
+    .from(referrals)
+    .where(eq(referrals.referrerId, userId));
+
+  const totalReferrals = refs.filter(r => r.status === 'completed').length;
+  const totalCreditsEarned = refs.reduce((sum, r) => sum + r.creditsEarned, 0);
+
+  return { totalReferrals, totalCreditsEarned };
+}
+
+export async function useReferralCode(code: string, userId: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not available');
+
+  // Find the referral code
+  const referral = await db.select()
+    .from(referrals)
+    .where(eq(referrals.code, code))
+    .limit(1);
+
+  if (referral.length === 0) {
+    throw new Error('Código de indicação inválido');
+  }
+
+  const ref = referral[0];
+
+  // Check if already used
+  if (ref.referredId !== null) {
+    throw new Error('Este código já foi usado');
+  }
+
+  // Check if user is trying to use their own code
+  if (ref.referrerId === userId) {
+    throw new Error('Você não pode usar seu próprio código');
+  }
+
+  // Update referral
+  await db.update(referrals)
+    .set({
+      referredId: userId,
+      status: 'completed',
+      creditsEarned: 20, // Reward for referrer
+      usedAt: new Date(),
+    })
+    .where(eq(referrals.id, ref.id));
+
+  // Add credits to referrer
+  const referrerSub = await getUserSubscription(ref.referrerId);
+  if (referrerSub) {
+    await db.update(subscriptions)
+      .set({
+        creditsRemaining: referrerSub.creditsRemaining + 20,
+      })
+      .where(eq(subscriptions.userId, ref.referrerId));
+
+    // Log transaction for referrer
+    await createTransaction({
+      userId: ref.referrerId,
+      type: 'credit_added',
+      amount: 20,
+      description: 'Créditos ganhos por indicação',
+    });
+  }
+
+  // Add credits to new user
+  const userSub = await getUserSubscription(userId);
+  if (userSub) {
+    await db.update(subscriptions)
+      .set({
+        creditsRemaining: userSub.creditsRemaining + 10,
+      })
+      .where(eq(subscriptions.userId, userId));
+
+    // Log transaction for new user
+    await createTransaction({
+      userId,
+      type: 'credit_added',
+      amount: 10,
+      description: 'Bônus por usar código de indicação',
+    });
+  }
+
+  return {
+    success: true,
+    message: 'Código aplicado! Você ganhou 10 créditos grátis! 🎉',
+  };
+}
+
+// Message Rating helpers
+export async function addMessageRating(data: InsertMessageRating) {
+  const db = await getDb();
+  if (!db) return null;
+
+  await db.insert(messageRatings).values(data);
   return true;
 }
