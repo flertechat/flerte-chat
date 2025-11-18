@@ -35,7 +35,7 @@ export const SUBSCRIPTION_PLANS: Record<string, SubscriptionPlan> = {
     name: "Pro Semanal",
     description: "200 mensagens por mês",
     price: 990, // R$ 9,90
-    stripePriceId: "price_1SUDL5GYEWk0KjWQPBVgRk5A",
+    stripePriceId: "price_1SUtnaROt9620AeF15uSi74D",
     features: [
       "200 mensagens por mês",
       "Histórico ilimitado",
@@ -49,7 +49,7 @@ export const SUBSCRIPTION_PLANS: Record<string, SubscriptionPlan> = {
     name: "Pro Mensal",
     description: "50 mensagens por semana",
     price: 2990, // R$ 29,90
-    stripePriceId: "price_1SUDLbGYEWk0KjWQUYJqOuR3",
+    stripePriceId: "price_1SUtoSROt9620AeFzlPnP0He",
     features: [
       "50 mensagens por semana",
       "Histórico ilimitado",
@@ -62,7 +62,7 @@ export const SUBSCRIPTION_PLANS: Record<string, SubscriptionPlan> = {
     name: "Premium Semanal",
     description: "Mensagens ilimitadas por semana",
     price: 1990, // R$ 19,90
-    stripePriceId: "price_1SUDLzGYEWk0KjWQWXZuCKv0",
+    stripePriceId: "price_1SUtp9ROt9620AeF3m4jhSuz",
     features: [
       "Mensagens ilimitadas por semana",
       "Prioridade na geração",
@@ -76,7 +76,7 @@ export const SUBSCRIPTION_PLANS: Record<string, SubscriptionPlan> = {
     name: "Premium Mensal",
     description: "Mensagens ilimitadas por mês",
     price: 5990, // R$ 59,90
-    stripePriceId: "price_1SUDMMGYEWk0KjWQc0iOPAfh",
+    stripePriceId: "price_1SUtpYROt9620AeFP5ROMYos",
     features: [
       "Mensagens ilimitadas por mês",
       "Prioridade na geração",
