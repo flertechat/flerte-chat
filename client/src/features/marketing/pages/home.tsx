@@ -782,12 +782,12 @@ export default function Home() {
               <div className="text-center mb-6">
                 <h3 className="text-lg font-black text-white mb-1">Pro Semanal</h3>
                 <div className="text-3xl font-black text-white mb-1">R$9,90</div>
-                <p className="text-pink-100 text-xs">200 msg/mês</p>
+                <p className="text-pink-100 text-xs">50 msg/semana</p>
               </div>
               <ul className="space-y-2 mb-6">
                 <li className="flex items-start gap-2">
                   <Check className="w-4 h-4 text-green-300 flex-shrink-0 mt-0.5" />
-                  <span className="text-white text-xs"><strong>200</strong> msg/mês</span>
+                  <span className="text-white text-xs"><strong>50</strong> msg/sem</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <Check className="w-4 h-4 text-green-300 flex-shrink-0 mt-0.5" />
@@ -811,12 +811,12 @@ export default function Home() {
               <div className="text-center mb-6">
                 <h3 className="text-lg font-black text-gray-900 mb-1">Pro Mensal</h3>
                 <div className="text-3xl font-black text-gray-900 mb-1">R$29,90</div>
-                <p className="text-gray-500 text-xs">50 msg/semana</p>
+                <p className="text-gray-500 text-xs">200 msg/mês</p>
               </div>
               <ul className="space-y-2 mb-6">
                 <li className="flex items-start gap-2">
                   <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700 text-xs"><strong>50</strong> msg/sem</span>
+                  <span className="text-gray-700 text-xs"><strong>200</strong> msg/mês</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
