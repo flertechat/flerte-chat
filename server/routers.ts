@@ -149,8 +149,12 @@ export const appRouter = router({
     generateMessage: protectedProcedure
       .input((val: unknown) => {
         if (typeof val === "object" && val !== null) {
-          const data = val as { context?: string; tone?: string };
-          return { context: data.context || "", tone: data.tone || "natural" };
+          const data = val as { context?: string; tone?: string; length?: string };
+          return {
+            context: data.context || "",
+            tone: data.tone || "natural",
+            length: data.length || "normal"
+          };
         }
         throw new Error("Invalid input");
       })
@@ -397,6 +401,7 @@ IMPORTANTE: Gere APENAS a mensagem de resposta, sem explicações, sem numeraç�
 "${input.context || "Oi"}"
 
 Gere UMA resposta no tom ${input.tone === "bold" ? "SAFADO/OUSADO" : input.tone === "funny" ? "ENGRAÇADO" : "NORMAL/MADURO"}.
+Tamanho: ${input.length === "short" ? "CURTA (máximo 5 palavras + 1 emoji)" : "NORMAL (1-3 linhas)"}
 
 ${input.tone === "bold" ? `
 INSTRUÇÕES EXTRAS PARA TOM SAFADO:

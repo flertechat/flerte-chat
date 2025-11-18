@@ -39,6 +39,7 @@ export default function Dashboard() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [copied, setCopied] = useState<string | null>(null);
   const [tone, setTone] = useState<"natural" | "bold" | "funny">("bold");
+  const [messageLength, setMessageLength] = useState<"normal" | "short">("normal");
   const [showContactModal, setShowContactModal] = useState(false);
   const [showHistoryModal, setShowHistoryModal] = useState(false);
   const [selectedConversationId, setSelectedConversationId] = useState<number | null>(null);
@@ -179,6 +180,7 @@ export default function Dashboard() {
     generateMutation.mutate({
       context: context.trim(),
       tone,
+      length: messageLength,
     });
   };
 
@@ -309,7 +311,7 @@ export default function Dashboard() {
             </div>
 
             {/* Tone Selector */}
-            <div className="mb-6 md:mb-8 w-full max-w-md">
+            <div className="mb-4 md:mb-6 w-full max-w-md">
               <p className="text-xs sm:text-sm font-semibold text-foreground mb-3">Escolha o tom:</p>
               <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                 {toneOptions.map((option) => (
@@ -326,6 +328,35 @@ export default function Dashboard() {
                     {option.label}
                   </button>
                 ))}
+              </div>
+            </div>
+
+            {/* Message Length Selector */}
+            <div className="mb-6 md:mb-8 w-full max-w-md">
+              <p className="text-xs sm:text-sm font-semibold text-foreground mb-3">Tamanho da resposta:</p>
+              <div className="flex gap-2 sm:gap-3">
+                <button
+                  onClick={() => setMessageLength("normal")}
+                  className={`flex-1 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl font-bold transition-all text-sm sm:text-base ${
+                    messageLength === "normal"
+                      ? "bg-gradient-to-r from-purple-500 to-indigo-600 text-white scale-105 shadow-lg"
+                      : "bg-muted text-muted-foreground hover:bg-muted/80"
+                  }`}
+                >
+                  <span className="text-xl sm:text-2xl mr-1.5 sm:mr-2">📝</span>
+                  Normal
+                </button>
+                <button
+                  onClick={() => setMessageLength("short")}
+                  className={`flex-1 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl font-bold transition-all text-sm sm:text-base ${
+                    messageLength === "short"
+                      ? "bg-gradient-to-r from-emerald-500 to-teal-600 text-white scale-105 shadow-lg"
+                      : "bg-muted text-muted-foreground hover:bg-muted/80"
+                  }`}
+                >
+                  <span className="text-xl sm:text-2xl mr-1.5 sm:mr-2">⚡</span>
+                  Curta (máx 5 palavras)
+                </button>
               </div>
             </div>
           </div>
