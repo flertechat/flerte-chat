@@ -16,12 +16,12 @@ interface ThemeProviderProps {
 
 export function ThemeProvider({
   children,
-  defaultTheme = "dark",
+  defaultTheme = "coral",
 }: ThemeProviderProps) {
   const [colorTheme, setColorTheme] = useState<ColorTheme>(() => {
     const stored = localStorage.getItem("colorTheme");
-    // Always default to dark theme
-    return (stored as ColorTheme) || "dark";
+    // Default to coral theme
+    return (stored as ColorTheme) || "coral";
   });
 
   useEffect(() => {
