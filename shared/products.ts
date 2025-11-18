@@ -33,25 +33,25 @@ export const SUBSCRIPTION_PLANS: Record<string, SubscriptionPlan> = {
   proWeekly: {
     id: "proWeekly",
     name: "Pro Semanal",
-    description: "200 mensagens por mês",
+    description: "50 mensagens por semana",
     price: 990, // R$ 9,90
     stripePriceId: "price_1SUtnaROt9620AeF15uSi74D",
     features: [
-      "200 mensagens por mês",
+      "50 mensagens por semana",
       "Histórico ilimitado",
       "Favoritos ilimitados",
     ],
-    credits: 200,
+    credits: 50,
     popular: true,
   },
   proMonthly: {
     id: "proMonthly",
     name: "Pro Mensal",
-    description: "50 mensagens por semana",
+    description: "200 mensagens por mês",
     price: 2990, // R$ 29,90
     stripePriceId: "price_1SUtoSROt9620AeFzlPnP0He",
     features: [
-      "50 mensagens por semana",
+      "200 mensagens por mês",
       "Histórico ilimitado",
       "Favoritos ilimitados",
     ],
