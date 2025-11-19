@@ -257,7 +257,7 @@ export default function Plans() {
               <ul className="space-y-4 mb-8 flex-1">
                 <li className="flex items-start gap-3">
                   <div className="bg-coral-500/20 p-1 rounded-full"><Check className="w-3 h-3 text-coral-500" /></div>
-                  <span className="text-white font-medium">50 mensagens/{billingCycle === 'weekly' ? 'sem' : 'mês'}</span>
+                  <span className="text-white font-medium">{billingCycle === 'weekly' ? '50 mensagens/sem' : '200 mensagens/mês'}</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <div className="bg-coral-500/20 p-1 rounded-full"><Check className="w-3 h-3 text-coral-500" /></div>
