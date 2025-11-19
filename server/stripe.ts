@@ -9,6 +9,9 @@ export const stripe = new Stripe(ENV.stripeSecretKey, {
   apiVersion: '2025-10-29.clover',
 });
 
+console.log('[Stripe] Initialized with key prefix:', ENV.stripeSecretKey.substring(0, 8) + '...');
+
+
 export interface CreateCheckoutSessionParams {
   userId: number;
   userEmail: string;

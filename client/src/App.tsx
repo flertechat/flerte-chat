@@ -6,6 +6,7 @@ import ErrorBoundary from "@/shared/components/error-boundary";
 import { ThemeProvider } from "@/shared/contexts/ThemeContext";
 import Home from "@/features/marketing/pages/home";
 import Dashboard from "@/features/flerte/pages/dashboard";
+import RoleplayPage from "@/features/flerte/pages/roleplay";
 import Login from "@/features/auth/pages/login";
 import Plans from "@/features/subscription/pages/plans";
 import Success from "@/features/subscription/pages/success";
@@ -20,6 +21,7 @@ function Router() {
       <Route path={"/"} component={Home} />
       <Route path={"/login"} component={Login} />
       <Route path={"/app"} component={Dashboard} />
+      <Route path={"/roleplay"} component={RoleplayPage} />
       <Route path={"/plans"} component={Plans} />
       <Route path={"/subscription"} component={Subscription} />
       <Route path={"/success"} component={Success} />

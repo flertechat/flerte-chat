@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-type ColorTheme = "coral" | "purple" | "teal" | "dark";
+type ColorTheme = "light" | "dark";
 
 interface ThemeContextType {
   colorTheme: ColorTheme;
@@ -16,26 +16,25 @@ interface ThemeProviderProps {
 
 export function ThemeProvider({
   children,
-  defaultTheme = "coral",
+  defaultTheme = "light",
 }: ThemeProviderProps) {
   const [colorTheme, setColorTheme] = useState<ColorTheme>(() => {
     const stored = localStorage.getItem("colorTheme");
-    // Default to coral theme
-    return (stored as ColorTheme) || "coral";
+    // Default to light theme
+    return (stored as ColorTheme) || "light";
   });
 
   useEffect(() => {
     const root = document.documentElement;
 
     // Remove all theme classes
-    root.classList.remove("theme-coral", "theme-purple", "theme-teal", "dark");
+    root.classList.remove("dark");
 
     // Add current theme class
     if (colorTheme === "dark") {
       root.classList.add("dark");
-    } else {
-      root.classList.add(`theme-${colorTheme}`);
     }
+    // Light theme is default (no class needed)
 
     // Save to localStorage
     localStorage.setItem("colorTheme", colorTheme);
@@ -43,10 +42,8 @@ export function ThemeProvider({
 
   const cycleTheme = () => {
     setColorTheme(prev => {
-      if (prev === "coral") return "purple";
-      if (prev === "purple") return "teal";
-      if (prev === "teal") return "dark";
-      return "coral";
+      if (prev === "light") return "dark";
+      return "light";
     });
   };
 

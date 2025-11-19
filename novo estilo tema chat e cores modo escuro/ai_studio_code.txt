@@ -1,0 +1,330 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { User, Message, ChatSession, Tone, Length } from '../../shared/types';
+import { TONES } from '../../shared/constants';
+import { generateFlirtyResponses } from './services/geminiService';
+import { SendIcon, SparklesIcon, CopyIcon, MenuIcon, UserIcon } from '../../shared/components/Icons';
+
+interface ChatDashboardProps {
+  user: User;
+  updateUser: (u: User) => void;
+}
+
+export const ChatDashboard: React.FC<ChatDashboardProps> = ({ user, updateUser }) => {
+  const [inputMsg, setInputMsg] = useState('');
+  const [selectedTone, setSelectedTone] = useState<Tone>('normal');
+  const [selectedLength, setSelectedLength] = useState<Length>('normal');
+  
+  // Mock de sessões (Histórico)
+  const [sessions, setSessions] = useState<ChatSession[]>([
+    { id: '1', preview: 'Oi, sumida...', timestamp: Date.now() - 100000, messages: [], lastTone: 'safado' },
+    { id: '2', preview: 'Qual a boa de hoje?', timestamp: Date.now() - 500000, messages: [], lastTone: 'normal' },
+  ]);
+  const [activeSessionId, setActiveSessionId] = useState<string>(sessions[0].id);
+  
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [showSidebar, setShowSidebar] = useState(false);
+  
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+
+  const activeSession = sessions.find(s => s.id === activeSessionId) || sessions[0];
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [activeSession?.messages, loading]);
+
+  const handleGenerate = async () => {
+    if (!inputMsg.trim()) return;
+    
+    if (user.credits <= 0 && user.plan === 'free') {
+       setError("Sem créditos! Faça um upgrade.");
+       setTimeout(() => navigate('/plans'), 2000);
+       return;
+    }
+
+    setError(null);
+    setLoading(true);
+
+    const userMsg: Message = {
+      id: Date.now().toString(),
+      role: 'user',
+      content: inputMsg,
+      timestamp: Date.now()
+    };
+
+    // Atualização Otimista
+    const updatedSessions = sessions.map(s => 
+      s.id === activeSessionId 
+        ? { ...s, messages: [...s.messages, userMsg] }
+        : s
+    );
+    setSessions(updatedSessions);
+    setInputMsg('');
+
+    try {
+      const suggestions = await generateFlirtyResponses(userMsg.content as string, selectedTone, selectedLength);
+      
+      const aiMsg: Message = {
+        id: (Date.now() + 1).toString(),
+        role: 'ai',
+        content: suggestions,
+        tone: selectedTone,
+        length: selectedLength,
+        timestamp: Date.now()
+      };
+
+      setSessions(prev => prev.map(s => 
+        s.id === activeSessionId 
+          ? { 
+              ...s, 
+              messages: [...s.messages, aiMsg],
+              preview: (userMsg.content as string).substring(0, 25) + '...',
+              lastTone: selectedTone
+            }
+          : s
+      ));
+
+      if (user.credits < 1000) {
+        updateUser({ ...user, credits: user.credits - 1 });
+      }
+
+    } catch (err) {
+      setError("Erro ao conectar com a IA. Tente novamente.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const createNewSession = () => {
+    const newSession: ChatSession = {
+      id: Date.now().toString(),
+      preview: 'Nova Conversa',
+      timestamp: Date.now(),
+      messages: [],
+      lastTone: 'normal'
+    };
+    setSessions([newSession, ...sessions]);
+    setActiveSessionId(newSession.id);
+    if (window.innerWidth < 768) setShowSidebar(false);
+  };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+  };
+
+  return (
+    <div className="flex h-[calc(100vh-64px)] max-w-7xl mx-auto bg-white dark:bg-navy-900 shadow-xl overflow-hidden md:rounded-2xl md:my-4 md:border border-slate-200 dark:border-navy-700">
+      
+      {/* Sidebar History */}
+      <div className={`fixed inset-y-0 left-0 z-40 w-72 bg-slate-50 dark:bg-navy-800 transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0 border-r border-slate-200 dark:border-navy-700 ${showSidebar ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className="p-4 h-full flex flex-col">
+          <button 
+            onClick={createNewSession}
+            className="w-full mb-4 py-3 px-4 bg-coral-500 hover:bg-coral-600 text-white rounded-xl font-bold shadow-md flex items-center justify-center gap-2 transition-all active:scale-95"
+          >
+            <span className="text-xl">+</span> Nova Conversa
+          </button>
+
+          <div className="flex-1 overflow-y-auto space-y-2 custom-scrollbar">
+            {sessions.map(session => (
+              <button
+                key={session.id}
+                onClick={() => {
+                  setActiveSessionId(session.id);
+                  if (window.innerWidth < 768) setShowSidebar(false);
+                }}
+                className={`w-full text-left p-3 rounded-xl transition-all ${
+                  activeSessionId === session.id
+                    ? 'bg-white dark:bg-navy-700 shadow-sm border border-slate-200 dark:border-navy-600'
+                    : 'hover:bg-slate-200 dark:hover:bg-navy-700/50 text-slate-500 dark:text-slate-400'
+                }`}
+              >
+                <p className="font-medium text-sm truncate dark:text-slate-200">{session.preview}</p>
+                <div className="flex justify-between items-center mt-1">
+                   <span className="text-[10px] uppercase text-coral-500 font-bold tracking-wider">{session.lastTone}</span>
+                   <span className="text-[10px] text-slate-400">{new Date(session.timestamp).toLocaleDateString()}</span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Overlay for Mobile Sidebar */}
+      {showSidebar && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-30 md:hidden backdrop-blur-sm"
+          onClick={() => setShowSidebar(false)}
+        />
+      )}
+
+      {/* Main Chat Area */}
+      <div className="flex-1 flex flex-col h-full relative bg-slate-50/50 dark:bg-navy-900/50">
+        {/* Header */}
+        <div className="p-4 border-b border-slate-200 dark:border-navy-700 bg-white/80 dark:bg-navy-900/80 backdrop-blur flex items-center gap-3 z-20 sticky top-0">
+           <button onClick={() => setShowSidebar(!showSidebar)} className="md:hidden text-slate-500 dark:text-slate-300">
+             <MenuIcon className="w-6 h-6" />
+           </button>
+           <div>
+             <h2 className="text-lg font-bold text-navy-900 dark:text-white flex items-center gap-2">
+               {activeSession.messages.length === 0 ? "Oi, sumida! 👋" : "Chat Ativo"}
+               <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+             </h2>
+             <p className="text-xs text-slate-500 dark:text-slate-400">FlerteChat IA • Brasileiro Autêntico 🇧🇷</p>
+           </div>
+        </div>
+
+        {/* Messages */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-6">
+          {activeSession.messages.length === 0 && (
+            <div className="h-full flex flex-col items-center justify-center text-center text-slate-400 space-y-6 opacity-60">
+              <div className="w-24 h-24 bg-coral-100 dark:bg-navy-800 rounded-full flex items-center justify-center animate-bounce-slow">
+                 <SparklesIcon className="w-12 h-12 text-coral-500" />
+              </div>
+              <div className="max-w-sm px-4">
+                <p className="font-medium mb-2 dark:text-slate-300">Nenhuma mensagem ainda</p>
+                <p className="text-sm">Cole a mensagem que você recebeu e deixe a IA criar a resposta perfeita para o crush.</p>
+              </div>
+            </div>
+          )}
+
+          {activeSession.messages.map((msg) => (
+            <div key={msg.id} className={`flex w-full ${msg.role === 'user' ? 'justify-start' : 'justify-end'}`}>
+              <div className={`max-w-[90%] md:max-w-[75%] flex gap-3 ${msg.role === 'user' ? 'flex-row' : 'flex-row-reverse'}`}>
+                {/* Avatar */}
+                <div className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center shadow-sm ${msg.role === 'user' ? 'bg-white dark:bg-navy-700 text-slate-400' : 'bg-coral-500 text-white'}`}>
+                   {msg.role === 'user' ? <UserIcon className="w-5 h-5" /> : <SparklesIcon className="w-5 h-5" />}
+                </div>
+
+                {/* Content */}
+                <div className="flex flex-col space-y-2 w-full">
+                  {msg.role === 'user' ? (
+                    <div className="bg-white dark:bg-navy-800 p-4 rounded-2xl rounded-tl-none border border-slate-200 dark:border-navy-700 shadow-sm text-slate-700 dark:text-slate-200 leading-relaxed">
+                      {msg.content}
+                    </div>
+                  ) : (
+                    // AI Suggestions
+                    <div className="space-y-3">
+                      {(msg.content as string[]).map((suggestion, idx) => (
+                        <div key={idx} className="bg-gradient-to-br from-coral-50 to-white dark:from-navy-800 dark:to-navy-800/80 border border-coral-100 dark:border-navy-600 p-4 rounded-2xl rounded-tr-none shadow-sm hover:shadow-md transition-all group relative">
+                          <p className="text-navy-900 dark:text-slate-200 pr-8 font-medium">{suggestion}</p>
+                          <button 
+                            onClick={() => copyToClipboard(suggestion)}
+                            className="absolute top-3 right-3 text-slate-400 hover:text-coral-500 opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-coral-50 dark:hover:bg-navy-700 rounded"
+                            title="Copiar"
+                          >
+                            <CopyIcon className="w-4 h-4" />
+                          </button>
+                          <div className="mt-3 flex justify-end items-center gap-2 opacity-70 group-hover:opacity-100 transition-opacity">
+                             <span className="text-[10px] uppercase font-bold text-coral-500 px-2 py-0.5 bg-coral-100 dark:bg-navy-900 rounded-full">{msg.tone}</span>
+                             {msg.length && <span className="text-[10px] uppercase font-bold text-slate-500 px-2 py-0.5 bg-slate-100 dark:bg-navy-900 rounded-full">{msg.length}</span>}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <span className="text-[10px] text-slate-400 self-end px-1">
+                    {new Date(msg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+          {loading && (
+             <div className="flex justify-end w-full">
+               <div className="flex items-center space-x-2 bg-coral-50 dark:bg-navy-800 px-4 py-3 rounded-2xl rounded-tr-none border border-coral-100 dark:border-navy-700">
+                 <div className="w-2 h-2 bg-coral-400 rounded-full animate-bounce" style={{ animationDelay: '0s' }} />
+                 <div className="w-2 h-2 bg-coral-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
+                 <div className="w-2 h-2 bg-coral-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }} />
+               </div>
+             </div>
+          )}
+          <div ref={messagesEndRef} />
+        </div>
+
+        {/* Input Area */}
+        <div className="p-4 bg-white dark:bg-navy-900 border-t border-slate-200 dark:border-navy-700 z-20 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+          {error && (
+            <div className="mb-3 p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg text-sm flex items-center animate-shake">
+              ⚠️ {error}
+            </div>
+          )}
+
+          {/* Controls Row */}
+          <div className="flex flex-col sm:flex-row justify-between gap-3 mb-3">
+            {/* Tone Selector */}
+            <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+              {TONES.map((tone) => (
+                <button
+                  key={tone.id}
+                  onClick={() => setSelectedTone(tone.id as Tone)}
+                  className={`flex items-center px-3 py-1.5 rounded-full text-xs font-bold transition-all whitespace-nowrap border ${
+                    selectedTone === tone.id
+                      ? 'bg-navy-900 dark:bg-coral-500 text-white border-transparent shadow-md transform scale-105'
+                      : 'bg-slate-50 dark:bg-navy-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-navy-700 hover:bg-slate-100 dark:hover:bg-navy-700'
+                  }`}
+                >
+                  <span className="mr-1.5">{tone.emoji}</span>
+                  {tone.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Length Selector */}
+            <div className="flex bg-slate-100 dark:bg-navy-800 p-1 rounded-lg self-start sm:self-auto">
+              {(['curto', 'normal'] as Length[]).map((len) => (
+                <button
+                  key={len}
+                  onClick={() => setSelectedLength(len)}
+                  className={`px-3 py-1 rounded-md text-xs font-bold capitalize transition-all ${
+                    selectedLength === len
+                      ? 'bg-white dark:bg-navy-700 text-coral-500 shadow-sm'
+                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
+                  }`}
+                >
+                  {len}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Input Field */}
+          <div className="relative flex items-end gap-2">
+            <textarea
+              value={inputMsg}
+              onChange={(e) => setInputMsg(e.target.value)}
+              placeholder="Cole a mensagem recebida aqui..."
+              className="w-full bg-slate-50 dark:bg-navy-800 text-slate-900 dark:text-white rounded-2xl border border-slate-200 dark:border-navy-700 focus:border-coral-500 focus:ring-1 focus:ring-coral-500 p-4 min-h-[60px] max-h-[120px] resize-none text-sm shadow-inner placeholder:text-slate-400"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  handleGenerate();
+                }
+              }}
+            />
+            <button
+              onClick={handleGenerate}
+              disabled={loading || !inputMsg.trim()}
+              className="h-[60px] w-[60px] flex items-center justify-center bg-coral-500 hover:bg-coral-600 disabled:bg-slate-300 dark:disabled:bg-navy-700 disabled:cursor-not-allowed text-white rounded-2xl shadow-lg shadow-coral-500/20 transition-all transform hover:scale-105 active:scale-95"
+            >
+              {loading ? <span className="animate-spin text-xl">✨</span> : <SendIcon className="w-6 h-6" />}
+            </button>
+          </div>
+          
+          <div className="flex justify-between items-center mt-2">
+             <span className="text-[10px] text-slate-400 dark:text-slate-500">Pressione Enter para enviar</span>
+             <span className={`text-xs font-bold ${user.credits === 0 ? 'text-red-500' : 'text-slate-500 dark:text-slate-400'}`}>
+               {user.credits > 1000 ? '∞ Créditos' : `${user.credits} créditos restantes`}
+             </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

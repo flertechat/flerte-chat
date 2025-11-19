@@ -54,18 +54,18 @@ export default function Home() {
             <img src={APP_LOGO} alt="FlerteChat" className="h-8 md:h-10 object-contain logo-pulse" />
           </div>
           <div className="flex items-center gap-1 md:gap-6">
-            <a href="#como-funciona" className="hidden sm:block text-gray-700 hover:text-gray-900 text-xs md:text-sm font-medium border-b-2 border-dotted border-transparent hover:border-gray-400 transition-all">
+            <a href="#como-funciona" className="hidden sm:block text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white text-xs md:text-sm font-medium border-b-2 border-dotted border-transparent hover:border-gray-400 dark:hover:border-gray-500 transition-all">
               Como funciona?
             </a>
-            <a href="#faq" className="hidden md:block text-gray-700 hover:text-gray-900 text-sm font-medium border-b-2 border-dotted border-transparent hover:border-gray-400 transition-all">
+            <a href="#faq" className="hidden md:block text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white text-sm font-medium border-b-2 border-dotted border-transparent hover:border-gray-400 dark:hover:border-gray-500 transition-all">
               Perguntas frequentes
             </a>
-            <a href="#avaliacoes" className="hidden md:block text-gray-700 hover:text-gray-900 text-sm font-medium border-b-2 border-dotted border-transparent hover:border-gray-400 transition-all">
+            <a href="#avaliacoes" className="hidden md:block text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white text-sm font-medium border-b-2 border-dotted border-transparent hover:border-gray-400 dark:hover:border-gray-500 transition-all">
               Avaliações
             </a>
             <Button
               onClick={() => setLocation("/plans")}
-              className="text-gray-700 hover:text-gray-900 text-xs md:text-sm font-medium border-b-2 border-dotted border-transparent hover:border-gray-400 transition-all bg-transparent hover:bg-transparent shadow-none"
+              className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white text-xs md:text-sm font-medium border-b-2 border-dotted border-transparent hover:border-gray-400 dark:hover:border-gray-500 transition-all bg-transparent hover:bg-transparent shadow-none"
             >
               Planos
             </Button>
@@ -73,7 +73,7 @@ export default function Home() {
               onClick={cycleTheme}
               variant="ghost"
               size="icon"
-              className="text-gray-700 hover:text-gray-900 hover:bg-gray-100 h-8 w-8 md:h-10 md:w-10"
+              className="text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 h-8 w-8 md:h-10 md:w-10"
               title="Mudar tema"
             >
               <Moon className="h-4 w-4 md:h-5 md:w-5" />
@@ -98,180 +98,180 @@ export default function Home() {
           <Flame className="w-40 h-40 text-white" />
         </div>
 
-      <main className="container max-w-7xl mx-auto px-3 md:px-4 relative z-10">
-        <div ref={heroRef} className="scroll-animate grid lg:grid-cols-2 gap-8 md:gap-12 items-center mb-12 md:mb-20">
-          {/* Left: Headline + CTA */}
-          <div className="text-white text-center lg:text-left">
-            {/* Badge de pessoas online */}
-            <div className="flex justify-center lg:justify-start mb-4">
-              <OnlineUsersBadge />
-            </div>
-
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-4 md:mb-6 leading-tight">
-              Nunca Mais Fique no Vácuo 🔥
-            </h1>
-            <p className="text-base sm:text-lg md:text-xl mb-3 md:mb-4 opacity-95 font-semibold">
-              Transforme qualquer mensagem em uma resposta que deixa a pessoa querendo mais
-            </p>
-            <p className="text-sm sm:text-base md:text-lg mb-6 md:mb-8 opacity-85">
-              IA treinada com <strong>91.600 mensagens reais</strong> de flerte. Respostas safadas, engraçadas ou românticas em 3 segundos.
-            </p>
-            
-            {/* Avatares de usuários */}
-            <div className="flex items-center justify-center lg:justify-start gap-4 mb-6 md:mb-8">
-              <div className="flex -space-x-2 md:-space-x-3">
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white overflow-hidden bg-white">
-                  <img src="/avatar-1.jpg" alt="Usuário satisfeito do FlerteChat" className="w-full h-full object-cover" />
-                </div>
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white overflow-hidden bg-white">
-                  <img src="/avatar-2.jpg" alt="Usuária satisfeita do FlerteChat" className="w-full h-full object-cover" />
-                </div>
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white overflow-hidden bg-white">
-                  <img src="/avatar-3.jpg" alt="Usuário feliz do FlerteChat" className="w-full h-full object-cover" />
-                </div>
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white overflow-hidden bg-white">
-                  <img src="/avatar-4.jpg" alt="Usuária feliz do FlerteChat" className="w-full h-full object-cover" />
-                </div>
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white bg-white/20 backdrop-blur-sm flex items-center justify-center text-white font-bold text-xs md:text-sm">
-                  +3
-                </div>
+        <main className="container max-w-7xl mx-auto px-3 md:px-4 relative z-10">
+          <div ref={heroRef} className="scroll-animate grid lg:grid-cols-2 gap-8 md:gap-12 items-center mb-12 md:mb-20">
+            {/* Left: Headline + CTA */}
+            <div className="text-white text-center lg:text-left">
+              {/* Badge de pessoas online */}
+              <div className="flex justify-center lg:justify-start mb-4">
+                <OnlineUsersBadge />
               </div>
-            </div>
-            <p className="text-xs sm:text-sm mb-6 md:mb-8 opacity-90 font-bold flex items-center justify-center lg:justify-start gap-2">
-              <Flame className="w-4 h-4 text-yellow-300" />
-              Junte-se a <strong>milhares</strong> conquistando dates agora!
-            </p>
 
-            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center lg:justify-start">
-              <Button
-                onClick={() => setLocation("/app")}
-                size="lg"
-                className="bg-white text-pink-600 hover:bg-gray-100 text-base md:text-xl px-8 md:px-12 py-4 md:py-6 font-black shadow-2xl rounded-2xl w-full sm:w-auto hover:scale-105 transition-transform"
-              >
-                <Flame className="w-5 h-5 md:w-6 md:h-6 mr-2 md:mr-3 text-pink-600" />
-                Começar Grátis
-              </Button>
-              <Button
-                onClick={() => setLocation("/plans")}
-                variant="outline"
-                size="lg"
-                className="bg-white/10 border-2 border-white text-white hover:bg-white/20 font-semibold px-6 md:px-8 py-4 md:py-6 rounded-2xl w-full sm:w-auto hover:scale-105 transition-transform"
-              >
-                Ver Planos 🔥
-              </Button>
-            </div>
-          </div>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-4 md:mb-6 leading-tight">
+                Nunca Mais Fique no Vácuo 🔥
+              </h1>
+              <p className="text-base sm:text-lg md:text-xl mb-3 md:mb-4 opacity-95 font-semibold">
+                Transforme qualquer mensagem em uma resposta que deixa a pessoa querendo mais
+              </p>
+              <p className="text-sm sm:text-base md:text-lg mb-6 md:mb-8 opacity-85">
+                IA treinada com <strong>91.600 mensagens reais</strong> de flerte. Respostas safadas, engraçadas ou românticas em 3 segundos.
+              </p>
 
-          {/* Right: Chat Demo com círculos decorativos */}
-          <div className="relative mt-8 lg:mt-0">
-            {/* Círculos decorativos - ocultos em mobile */}
-            <div className="hidden lg:block absolute -top-20 -right-20 w-96 h-96 rounded-full bg-gradient-to-br from-orange-400/40 to-orange-500/40 blur-3xl"></div>
-            <div className="hidden lg:block absolute -top-10 -right-10 w-80 h-80 rounded-full bg-gradient-to-br from-orange-300/30 to-pink-400/30 blur-2xl"></div>
-            <div className="hidden lg:block absolute top-10 right-10 w-64 h-64 rounded-full bg-gradient-to-br from-pink-300/20 to-orange-300/20 blur-xl"></div>
-            
-            {/* iPhone Mockup */}
-            <div className="relative z-10 mx-auto w-[280px] sm:w-[320px] bg-black rounded-[2.5rem] sm:rounded-[3rem] p-2 sm:p-3 shadow-2xl">
-              {/* Notch */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-7 bg-black rounded-b-3xl z-20"></div>
-              
-              {/* Screen */}
-              <div className="bg-white rounded-[2.5rem] overflow-hidden h-[600px] relative">
-                {/* Status Bar */}
-                <div className="bg-gray-50 px-6 py-3 flex items-center justify-between text-xs">
-                  <span className="font-semibold">9:41</span>
-                  <div className="flex items-center gap-1">
-                    <div className="w-4 h-3 border border-gray-400 rounded-sm"></div>
+              {/* Avatares de usuários */}
+              <div className="flex items-center justify-center lg:justify-start gap-4 mb-6 md:mb-8">
+                <div className="flex -space-x-2 md:-space-x-3">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white overflow-hidden bg-white">
+                    <img src="/avatar-1.jpg" alt="Usuário satisfeito do FlerteChat" className="w-full h-full object-cover" />
                   </div>
-                </div>
-                
-                {/* Chat Header */}
-                <div className="bg-white border-b px-4 py-3 flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-pink-200 bg-white">
-                    <img src="/maria-avatar.jpg" alt="Maria" className="w-full h-full object-cover" />
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white overflow-hidden bg-white">
+                    <img src="/avatar-2.jpg" alt="Usuária satisfeita do FlerteChat" className="w-full h-full object-cover" />
                   </div>
-                  <div>
-                    <div className="font-bold text-sm">Maria</div>
-                    <div className="text-xs text-green-500">Online</div>
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white overflow-hidden bg-white">
+                    <img src="/avatar-3.jpg" alt="Usuário feliz do FlerteChat" className="w-full h-full object-cover" />
                   </div>
-                </div>
-                
-                {/* Messages */}
-                <div className="p-4 space-y-4 bg-gray-50 h-[480px]">
-                  {/* Mensagem recebida 1 */}
-                  <div className="flex justify-start">
-                    <div className="bg-white rounded-2xl rounded-tl-sm px-4 py-3 max-w-[75%] shadow-sm">
-                      <p className="text-sm text-gray-800">Ai Mateus... tô com mt vontade de te ver hj 😏</p>
-                    </div>
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white overflow-hidden bg-white">
+                    <img src="/avatar-4.jpg" alt="Usuária feliz do FlerteChat" className="w-full h-full object-cover" />
                   </div>
-
-                  {/* Mensagem enviada (IA) */}
-                  <div className="flex justify-end">
-                    <div className="bg-gradient-to-br from-pink-500 to-rose-500 rounded-2xl rounded-tr-sm px-4 py-3 max-w-[75%] shadow-md">
-                      <p className="text-sm text-white font-medium">Cê tá me deixando louco falando assim... vem logo q eu vou te comer gostoso 🔥😈</p>
-                    </div>
-                  </div>
-
-                  {/* Mensagem recebida 2 */}
-                  <div className="flex justify-start">
-                    <div className="bg-white rounded-2xl rounded-tl-sm px-4 py-3 max-w-[75%] shadow-sm">
-                      <p className="text-sm text-gray-800">Tô molhadinha só de pensar... vem msm?</p>
-                      <p className="text-xs text-gray-500 mt-1">10:45</p>
-                    </div>
-                  </div>
-
-                  {/* Mensagem enviada 2 (IA) */}
-                  <div className="flex justify-end">
-                    <div className="bg-gradient-to-br from-pink-600 to-rose-600 rounded-2xl rounded-tr-sm px-4 py-3 max-w-[75%] shadow-md">
-                      <p className="text-sm text-white font-medium">Vou sim bb... e vc vai gozar mt hj, isso eu garanto 😏💦</p>
-                    </div>
-                  </div>
-
-                  {/* Mensagem recebida 3 */}
-                  <div className="flex justify-start">
-                    <div className="bg-white rounded-2xl rounded-tl-sm px-4 py-3 max-w-[75%] shadow-sm">
-                      <p className="text-sm text-gray-800">Promete? Então chega logo 🔥😘</p>
-                    </div>
-                  </div>
-
-                  {/* Mensagem enviada 3 (IA) */}
-                  <div className="flex justify-end">
-                    <div className="bg-gradient-to-br from-pink-600 to-rose-600 rounded-2xl rounded-tr-sm px-4 py-3 max-w-[75%] shadow-md">
-                      <p className="text-sm text-white font-medium">Já tô saindo... se prepara q vou te foder bem gostoso 😈🔥</p>
-                    </div>
-                  </div>
-
-                  {/* Input area */}
-                  <div className="absolute bottom-4 left-4 right-4 bg-white rounded-full px-4 py-2 flex items-center gap-2 shadow-lg">
-                    <span className="text-sm text-gray-400 flex-1">Message</span>
-                    <div className="w-6 h-6 rounded-full bg-gray-200"></div>
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-white bg-white/20 backdrop-blur-sm flex items-center justify-center text-white font-bold text-xs md:text-sm">
+                    +3
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
+              <p className="text-xs sm:text-sm mb-6 md:mb-8 opacity-90 font-bold flex items-center justify-center lg:justify-start gap-2">
+                <Flame className="w-4 h-4 text-yellow-300" />
+                Junte-se a <strong>milhares</strong> conquistando dates agora!
+              </p>
 
-        {/* Social Proof */}
-        <div ref={statsRef} className="scroll-animate bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20">
-          <div className="grid md:grid-cols-3 gap-8 text-center text-white">
-            <div>
-              <div className="text-5xl font-black mb-2">10.000+</div>
-              <div className="text-lg opacity-90">Mensagens Geradas</div>
-            </div>
-            <div>
-              <div className="text-5xl font-black mb-2">4.9/5</div>
-              <div className="text-lg opacity-90 flex items-center justify-center gap-1">
-                <Star className="w-5 h-5 fill-yellow-300 text-yellow-300" />
-                Avaliação Média
+              <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center lg:justify-start">
+                <Button
+                  onClick={() => setLocation("/app")}
+                  size="lg"
+                  className="bg-white text-pink-600 hover:bg-gray-100 text-base md:text-xl px-8 md:px-12 py-4 md:py-6 font-black shadow-2xl rounded-2xl w-full sm:w-auto hover:scale-105 transition-transform"
+                >
+                  <Flame className="w-5 h-5 md:w-6 md:h-6 mr-2 md:mr-3 text-pink-600" />
+                  Começar Grátis
+                </Button>
+                <Button
+                  onClick={() => setLocation("/plans")}
+                  variant="outline"
+                  size="lg"
+                  className="bg-white/10 border-2 border-white text-white hover:bg-white/20 font-semibold px-6 md:px-8 py-4 md:py-6 rounded-2xl w-full sm:w-auto hover:scale-105 transition-transform"
+                >
+                  Ver Planos 🔥
+                </Button>
               </div>
             </div>
-            <div>
-              <div className="text-5xl font-black mb-2">95%</div>
-              <div className="text-lg opacity-90">Taxa de Sucesso</div>
+
+            {/* Right: Chat Demo com círculos decorativos */}
+            <div className="relative mt-8 lg:mt-0">
+              {/* Círculos decorativos - ocultos em mobile */}
+              <div className="hidden lg:block absolute -top-20 -right-20 w-96 h-96 rounded-full bg-gradient-to-br from-orange-400/40 to-orange-500/40 blur-3xl"></div>
+              <div className="hidden lg:block absolute -top-10 -right-10 w-80 h-80 rounded-full bg-gradient-to-br from-orange-300/30 to-pink-400/30 blur-2xl"></div>
+              <div className="hidden lg:block absolute top-10 right-10 w-64 h-64 rounded-full bg-gradient-to-br from-pink-300/20 to-orange-300/20 blur-xl"></div>
+
+              {/* iPhone Mockup */}
+              <div className="relative z-10 mx-auto w-[280px] sm:w-[320px] bg-black rounded-[2.5rem] sm:rounded-[3rem] p-2 sm:p-3 shadow-2xl">
+                {/* Notch */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-7 bg-black rounded-b-3xl z-20"></div>
+
+                {/* Screen */}
+                <div className="bg-white rounded-[2.5rem] overflow-hidden h-[600px] relative">
+                  {/* Status Bar */}
+                  <div className="bg-gray-50 px-6 py-3 flex items-center justify-between text-xs">
+                    <span className="font-semibold">9:41</span>
+                    <div className="flex items-center gap-1">
+                      <div className="w-4 h-3 border border-gray-400 rounded-sm"></div>
+                    </div>
+                  </div>
+
+                  {/* Chat Header */}
+                  <div className="bg-white border-b px-4 py-3 flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-pink-200 bg-white">
+                      <img src="/maria-avatar.jpg" alt="Maria" className="w-full h-full object-cover" />
+                    </div>
+                    <div>
+                      <div className="font-bold text-sm">Maria</div>
+                      <div className="text-xs text-green-500">Online</div>
+                    </div>
+                  </div>
+
+                  {/* Messages */}
+                  <div className="p-4 space-y-4 bg-gray-50 h-[480px]">
+                    {/* Mensagem recebida 1 */}
+                    <div className="flex justify-start">
+                      <div className="bg-white rounded-2xl rounded-tl-sm px-4 py-3 max-w-[75%] shadow-sm">
+                        <p className="text-sm text-gray-800">Ai Mateus... tô com mt vontade de te ver hj 😏</p>
+                      </div>
+                    </div>
+
+                    {/* Mensagem enviada (IA) */}
+                    <div className="flex justify-end">
+                      <div className="bg-gradient-to-br from-pink-500 to-rose-500 rounded-2xl rounded-tr-sm px-4 py-3 max-w-[75%] shadow-md">
+                        <p className="text-sm text-white font-medium">Cê tá me deixando louco falando assim... vem logo q eu vou te comer gostoso 🔥😈</p>
+                      </div>
+                    </div>
+
+                    {/* Mensagem recebida 2 */}
+                    <div className="flex justify-start">
+                      <div className="bg-white rounded-2xl rounded-tl-sm px-4 py-3 max-w-[75%] shadow-sm">
+                        <p className="text-sm text-gray-800">Tô molhadinha só de pensar... vem msm?</p>
+                        <p className="text-xs text-gray-500 mt-1">10:45</p>
+                      </div>
+                    </div>
+
+                    {/* Mensagem enviada 2 (IA) */}
+                    <div className="flex justify-end">
+                      <div className="bg-gradient-to-br from-pink-600 to-rose-600 rounded-2xl rounded-tr-sm px-4 py-3 max-w-[75%] shadow-md">
+                        <p className="text-sm text-white font-medium">Vou sim bb... e vc vai gozar mt hj, isso eu garanto 😏💦</p>
+                      </div>
+                    </div>
+
+                    {/* Mensagem recebida 3 */}
+                    <div className="flex justify-start">
+                      <div className="bg-white rounded-2xl rounded-tl-sm px-4 py-3 max-w-[75%] shadow-sm">
+                        <p className="text-sm text-gray-800">Promete? Então chega logo 🔥😘</p>
+                      </div>
+                    </div>
+
+                    {/* Mensagem enviada 3 (IA) */}
+                    <div className="flex justify-end">
+                      <div className="bg-gradient-to-br from-pink-600 to-rose-600 rounded-2xl rounded-tr-sm px-4 py-3 max-w-[75%] shadow-md">
+                        <p className="text-sm text-white font-medium">Já tô saindo... se prepara q vou te foder bem gostoso 😈🔥</p>
+                      </div>
+                    </div>
+
+                    {/* Input area */}
+                    <div className="absolute bottom-4 left-4 right-4 bg-white rounded-full px-4 py-2 flex items-center gap-2 shadow-lg">
+                      <span className="text-sm text-gray-400 flex-1">Message</span>
+                      <div className="w-6 h-6 rounded-full bg-gray-200"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </main>
+
+          {/* Social Proof */}
+          <div ref={statsRef} className="scroll-animate bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20">
+            <div className="grid md:grid-cols-3 gap-8 text-center text-white">
+              <div>
+                <div className="text-5xl font-black mb-2">10.000+</div>
+                <div className="text-lg opacity-90">Mensagens Geradas</div>
+              </div>
+              <div>
+                <div className="text-5xl font-black mb-2">4.9/5</div>
+                <div className="text-lg opacity-90 flex items-center justify-center gap-1">
+                  <Star className="w-5 h-5 fill-yellow-300 text-yellow-300" />
+                  Avaliação Média
+                </div>
+              </div>
+              <div>
+                <div className="text-5xl font-black mb-2">95%</div>
+                <div className="text-lg opacity-90">Taxa de Sucesso</div>
+              </div>
+            </div>
+          </div>
+        </main>
       </section>
 
       {/* Carrossel de Demonstração */}
@@ -410,11 +410,10 @@ export default function Home() {
                 <button
                   key={index}
                   onClick={() => setActiveSlide(index)}
-                  className={`transition-all duration-300 rounded-full ${
-                    activeSlide === index
+                  className={`transition-all duration-300 rounded-full ${activeSlide === index
                       ? 'w-12 h-3 bg-gradient-to-r from-pink-500 to-rose-500'
                       : 'w-3 h-3 bg-gray-300 hover:bg-gray-400'
-                  }`}
+                    }`}
                   aria-label={`Ir para slide ${index + 1}`}
                 />
               ))}
@@ -436,299 +435,299 @@ export default function Home() {
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-rose-500 rounded-full blur-3xl"></div>
         </div>
 
-      <main className="container max-w-7xl mx-auto px-3 md:px-4 relative z-10">
-        <div id="como-funciona" ref={howItWorksRef} className="scroll-animate">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white px-6 py-2 rounded-full font-bold mb-6 border border-white/20">
-              <Zap className="w-5 h-5 text-yellow-400" />
-              <span>Simples, Rápido e Eficaz</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6">
-              Como Funciona?
-            </h2>
-            <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
-              Em 3 passos simples, você vai de "sem resposta" para "conquistando" em segundos
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-            {/* Step 1 */}
-            <div className="relative group">
-              <div className="bg-gradient-to-br from-pink-500/20 to-rose-500/20 backdrop-blur-sm rounded-3xl p-8 text-center border-2 border-pink-500/30 hover:border-pink-500 transition-all duration-300 transform hover:scale-105 hover:-translate-y-2">
-                {/* Número animado */}
-                <div className="relative mb-8">
-                  <div className="absolute inset-0 bg-gradient-to-br from-pink-500 to-rose-600 rounded-full blur-xl opacity-50 group-hover:opacity-100 transition-opacity"></div>
-                  <div className="relative w-24 h-24 bg-gradient-to-br from-pink-500 to-rose-600 rounded-full flex items-center justify-center mx-auto text-white text-4xl font-black shadow-2xl">
-                    1
-                  </div>
-                </div>
-
-                <div className="mb-4">
-                  <MessageCircle className="w-12 h-12 text-pink-400 mx-auto mb-4" />
-                </div>
-
-                <h3 className="text-2xl sm:text-3xl font-black text-white mb-4">Cole a Mensagem</h3>
-                <p className="text-gray-300 text-lg leading-relaxed">
-                  Recebeu aquela mensagem difícil? Cole no app e deixa a IA trabalhar pra você 📱
-                </p>
+        <main className="container max-w-7xl mx-auto px-3 md:px-4 relative z-10">
+          <div id="como-funciona" ref={howItWorksRef} className="scroll-animate">
+            <div className="text-center mb-16">
+              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white px-6 py-2 rounded-full font-bold mb-6 border border-white/20">
+                <Zap className="w-5 h-5 text-yellow-400" />
+                <span>Simples, Rápido e Eficaz</span>
               </div>
-
-              {/* Seta conectora - apenas em desktop */}
-              <div className="hidden md:block absolute top-1/2 -right-6 transform -translate-y-1/2 z-20">
-                <div className="text-pink-500 text-4xl">→</div>
-              </div>
-            </div>
-
-            {/* Step 2 */}
-            <div className="relative group">
-              <div className="bg-gradient-to-br from-purple-500/20 to-violet-500/20 backdrop-blur-sm rounded-3xl p-8 text-center border-2 border-purple-500/30 hover:border-purple-500 transition-all duration-300 transform hover:scale-105 hover:-translate-y-2">
-                {/* Número animado */}
-                <div className="relative mb-8">
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-violet-600 rounded-full blur-xl opacity-50 group-hover:opacity-100 transition-opacity"></div>
-                  <div className="relative w-24 h-24 bg-gradient-to-br from-purple-500 to-violet-600 rounded-full flex items-center justify-center mx-auto text-white text-4xl font-black shadow-2xl">
-                    2
-                  </div>
-                </div>
-
-                <div className="mb-4">
-                  <Sparkles className="w-12 h-12 text-purple-400 mx-auto mb-4" />
-                </div>
-
-                <h3 className="text-2xl sm:text-3xl font-black text-white mb-4">Escolha o Tom</h3>
-                <p className="text-gray-300 text-lg leading-relaxed">
-                  Normal, Safado ou Engraçado - você decide como quer conquistar 🎯
-                </p>
-              </div>
-
-              {/* Seta conectora - apenas em desktop */}
-              <div className="hidden md:block absolute top-1/2 -right-6 transform -translate-y-1/2 z-20">
-                <div className="text-purple-500 text-4xl">→</div>
-              </div>
-            </div>
-
-            {/* Step 3 */}
-            <div className="relative group">
-              <div className="bg-gradient-to-br from-orange-500/20 to-amber-500/20 backdrop-blur-sm rounded-3xl p-8 text-center border-2 border-orange-500/30 hover:border-orange-500 transition-all duration-300 transform hover:scale-105 hover:-translate-y-2">
-                {/* Número animado */}
-                <div className="relative mb-8">
-                  <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-amber-600 rounded-full blur-xl opacity-50 group-hover:opacity-100 transition-opacity"></div>
-                  <div className="relative w-24 h-24 bg-gradient-to-br from-orange-500 to-amber-600 rounded-full flex items-center justify-center mx-auto text-white text-4xl font-black shadow-2xl">
-                    3
-                  </div>
-                </div>
-
-                <div className="mb-4">
-                  <Flame className="w-12 h-12 text-orange-400 mx-auto mb-4" />
-                </div>
-
-                <h3 className="text-2xl sm:text-3xl font-black text-white mb-4">Copie e Conquiste</h3>
-                <p className="text-gray-300 text-lg leading-relaxed">
-                  Escolha entre 3 respostas perfeitas e mande a que mais combina com você 🔥
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Call to action extra */}
-          <div className="text-center mt-16">
-            <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm px-8 py-4 rounded-2xl border border-white/20">
-              <Zap className="w-6 h-6 text-yellow-400" />
-              <p className="text-white font-bold text-lg">
-                Tempo médio de resposta: <span className="text-yellow-400">3 segundos ⚡</span>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6">
+                Como Funciona?
+              </h2>
+              <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
+                Em 3 passos simples, você vai de "sem resposta" para "conquistando" em segundos
               </p>
             </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+              {/* Step 1 */}
+              <div className="relative group">
+                <div className="bg-gradient-to-br from-pink-500/20 to-rose-500/20 backdrop-blur-sm rounded-3xl p-8 text-center border-2 border-pink-500/30 hover:border-pink-500 transition-all duration-300 transform hover:scale-105 hover:-translate-y-2">
+                  {/* Número animado */}
+                  <div className="relative mb-8">
+                    <div className="absolute inset-0 bg-gradient-to-br from-pink-500 to-rose-600 rounded-full blur-xl opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                    <div className="relative w-24 h-24 bg-gradient-to-br from-pink-500 to-rose-600 rounded-full flex items-center justify-center mx-auto text-white text-4xl font-black shadow-2xl">
+                      1
+                    </div>
+                  </div>
+
+                  <div className="mb-4">
+                    <MessageCircle className="w-12 h-12 text-pink-400 mx-auto mb-4" />
+                  </div>
+
+                  <h3 className="text-2xl sm:text-3xl font-black text-white mb-4">Cole a Mensagem</h3>
+                  <p className="text-gray-300 text-lg leading-relaxed">
+                    Recebeu aquela mensagem difícil? Cole no app e deixa a IA trabalhar pra você 📱
+                  </p>
+                </div>
+
+                {/* Seta conectora - apenas em desktop */}
+                <div className="hidden md:block absolute top-1/2 -right-6 transform -translate-y-1/2 z-20">
+                  <div className="text-pink-500 text-4xl">→</div>
+                </div>
+              </div>
+
+              {/* Step 2 */}
+              <div className="relative group">
+                <div className="bg-gradient-to-br from-purple-500/20 to-violet-500/20 backdrop-blur-sm rounded-3xl p-8 text-center border-2 border-purple-500/30 hover:border-purple-500 transition-all duration-300 transform hover:scale-105 hover:-translate-y-2">
+                  {/* Número animado */}
+                  <div className="relative mb-8">
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-violet-600 rounded-full blur-xl opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                    <div className="relative w-24 h-24 bg-gradient-to-br from-purple-500 to-violet-600 rounded-full flex items-center justify-center mx-auto text-white text-4xl font-black shadow-2xl">
+                      2
+                    </div>
+                  </div>
+
+                  <div className="mb-4">
+                    <Sparkles className="w-12 h-12 text-purple-400 mx-auto mb-4" />
+                  </div>
+
+                  <h3 className="text-2xl sm:text-3xl font-black text-white mb-4">Escolha o Tom</h3>
+                  <p className="text-gray-300 text-lg leading-relaxed">
+                    Normal, Safado ou Engraçado - você decide como quer conquistar 🎯
+                  </p>
+                </div>
+
+                {/* Seta conectora - apenas em desktop */}
+                <div className="hidden md:block absolute top-1/2 -right-6 transform -translate-y-1/2 z-20">
+                  <div className="text-purple-500 text-4xl">→</div>
+                </div>
+              </div>
+
+              {/* Step 3 */}
+              <div className="relative group">
+                <div className="bg-gradient-to-br from-orange-500/20 to-amber-500/20 backdrop-blur-sm rounded-3xl p-8 text-center border-2 border-orange-500/30 hover:border-orange-500 transition-all duration-300 transform hover:scale-105 hover:-translate-y-2">
+                  {/* Número animado */}
+                  <div className="relative mb-8">
+                    <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-amber-600 rounded-full blur-xl opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                    <div className="relative w-24 h-24 bg-gradient-to-br from-orange-500 to-amber-600 rounded-full flex items-center justify-center mx-auto text-white text-4xl font-black shadow-2xl">
+                      3
+                    </div>
+                  </div>
+
+                  <div className="mb-4">
+                    <Flame className="w-12 h-12 text-orange-400 mx-auto mb-4" />
+                  </div>
+
+                  <h3 className="text-2xl sm:text-3xl font-black text-white mb-4">Copie e Conquiste</h3>
+                  <p className="text-gray-300 text-lg leading-relaxed">
+                    Escolha entre 3 respostas perfeitas e mande a que mais combina com você 🔥
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Call to action extra */}
+            <div className="text-center mt-16">
+              <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm px-8 py-4 rounded-2xl border border-white/20">
+                <Zap className="w-6 h-6 text-yellow-400" />
+                <p className="text-white font-bold text-lg">
+                  Tempo médio de resposta: <span className="text-yellow-400">3 segundos ⚡</span>
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
-      </main>
+        </main>
       </section>
 
       {/* Features com Imagens */}
       <section className="bg-theme-gradient py-16 md:py-24">
-      <main className="container max-w-7xl mx-auto px-4">
-        <div ref={whyChooseRef} className="scroll-animate">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-6 drop-shadow-xl">
-              Por Que Escolher o Flerte Chat?
-            </h2>
-            <p className="text-xl text-white/90 max-w-3xl mx-auto">
-              A ferramenta que transforma seus dates em conquistas reais
-            </p>
-          </div>
+        <main className="container max-w-7xl mx-auto px-4">
+          <div ref={whyChooseRef} className="scroll-animate">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-6 drop-shadow-xl">
+                Por Que Escolher o Flerte Chat?
+              </h2>
+              <p className="text-xl text-white/90 max-w-3xl mx-auto">
+                A ferramenta que transforma seus dates em conquistas reais
+              </p>
+            </div>
 
-          {/* Feature 1 */}
-          <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
-            <div className="order-2 lg:order-1 relative group">
-              {/* Imagem com overlay romântico/sexy */}
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl transform group-hover:scale-105 transition-all duration-500">
-                <div className="absolute inset-0 bg-gradient-to-br from-pink-500/30 to-rose-600/30 z-10"></div>
-                <img
-                  src="/couple-flirting.jpg"
-                  alt="Casal apaixonado se beijando intensamente - flerte e conquista real"
-                  className="w-full h-[400px] md:h-[500px] object-cover"
-                />
-                {/* Badge flutuante */}
-                <div className="absolute bottom-6 left-6 bg-white/95 backdrop-blur-sm rounded-2xl px-6 py-3 z-20 shadow-xl">
-                  <p className="text-pink-600 font-black text-lg flex items-center gap-2">
-                    <Heart className="w-5 h-5 fill-pink-600" />
-                    95% Taxa de Sucesso
-                  </p>
+            {/* Feature 1 */}
+            <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
+              <div className="order-2 lg:order-1 relative group">
+                {/* Imagem com overlay romântico/sexy */}
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl transform group-hover:scale-105 transition-all duration-500">
+                  <div className="absolute inset-0 bg-gradient-to-br from-pink-500/30 to-rose-600/30 z-10"></div>
+                  <img
+                    src="/couple-flirting.jpg"
+                    alt="Casal apaixonado se beijando intensamente - flerte e conquista real"
+                    className="w-full h-[400px] md:h-[500px] object-cover"
+                  />
+                  {/* Badge flutuante */}
+                  <div className="absolute bottom-6 left-6 bg-white/95 backdrop-blur-sm rounded-2xl px-6 py-3 z-20 shadow-xl">
+                    <p className="text-pink-600 font-black text-lg flex items-center gap-2">
+                      <Heart className="w-5 h-5 fill-pink-600" />
+                      95% Taxa de Sucesso
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="text-white order-1 lg:order-2">
+                <div className="inline-flex items-center gap-2 bg-rose-600 rounded-full px-6 py-3 mb-6 shadow-lg">
+                  <Flame className="w-5 h-5" />
+                  <span className="font-bold">MAIS POPULAR</span>
+                </div>
+                <h3 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-6 leading-tight">
+                  Respostas que Provocam, Seduzem e Conquistam 💋
+                </h3>
+                <p className="text-xl mb-8 opacity-95 leading-relaxed">
+                  Nossa IA foi treinada com <strong>91.600 mensagens reais</strong> de flerte. Ela entende o contexto,
+                  capta a vibe e gera respostas tão naturais e provocantes que parecem escritas por você.
+                </p>
+                <ul className="space-y-4">
+                  <li className="flex items-start gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                    <Check className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
+                    <span className="text-lg font-semibold">100% brasileiro - com gírias, safadeza e expressões autênticas 🇧🇷</span>
+                  </li>
+                  <li className="flex items-start gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                    <Check className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
+                    <span className="text-lg font-semibold">3 tons: Normal, Safado ou Engraçado - você escolhe a vibe 😏</span>
+                  </li>
+                  <li className="flex items-start gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                    <Check className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
+                    <span className="text-lg font-semibold">Respostas em menos de 3 segundos - strike while the iron is hot ⚡</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Feature 2 */}
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div className="text-white">
+                <div className="inline-flex items-center gap-2 bg-orange-600 rounded-full px-6 py-3 mb-6 shadow-lg">
+                  <Zap className="w-5 h-5" />
+                  <span className="font-bold">SUPER RÁPIDO</span>
+                </div>
+                <h3 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-6 leading-tight">
+                  Nunca Mais Deixe no Vácuo 🚀
+                </h3>
+                <p className="text-xl mb-8 opacity-95 leading-relaxed">
+                  Acabou aquela ansiedade de não saber o que responder. Com o Flerte Chat,
+                  você sempre tem a resposta perfeita, provocante e irresistível na ponta dos dedos.
+                </p>
+                <ul className="space-y-4">
+                  <li className="flex items-start gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                    <Check className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
+                    <span className="text-lg font-semibold">Responda em segundos, não em horas - mantenha o fogo aceso 🔥</span>
+                  </li>
+                  <li className="flex items-start gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                    <Check className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
+                    <span className="text-lg font-semibold">Conversas fluindo naturalmente - sem bloqueios, só conquistas 💬</span>
+                  </li>
+                  <li className="flex items-start gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-4">
+                    <Check className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
+                    <span className="text-lg font-semibold">Impressione com criatividade e ousadia - seja inesquecível 😈</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="relative group">
+                {/* Imagem com overlay romântico/sexy */}
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl transform group-hover:scale-105 transition-all duration-500">
+                  <div className="absolute inset-0 bg-gradient-to-br from-orange-500/30 to-amber-600/30 z-10"></div>
+                  <img
+                    src="/couple-texting.jpg"
+                    alt="Casal jovem se olhando apaixonadamente, sorrindo e flertando - romance e paixão"
+                    className="w-full h-[400px] md:h-[500px] object-cover"
+                  />
+                  {/* Badge flutuante */}
+                  <div className="absolute bottom-6 right-6 bg-white/95 backdrop-blur-sm rounded-2xl px-6 py-3 z-20 shadow-xl">
+                    <p className="text-orange-600 font-black text-lg flex items-center gap-2">
+                      <Flame className="w-5 h-5 fill-orange-600" />
+                      10.000+ Mensagens
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="text-white order-1 lg:order-2">
-              <div className="inline-flex items-center gap-2 bg-rose-600 rounded-full px-6 py-3 mb-6 shadow-lg">
-                <Flame className="w-5 h-5" />
-                <span className="font-bold">MAIS POPULAR</span>
-              </div>
-              <h3 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-6 leading-tight">
-                Respostas que Provocam, Seduzem e Conquistam 💋
-              </h3>
-              <p className="text-xl mb-8 opacity-95 leading-relaxed">
-                Nossa IA foi treinada com <strong>91.600 mensagens reais</strong> de flerte. Ela entende o contexto,
-                capta a vibe e gera respostas tão naturais e provocantes que parecem escritas por você.
-              </p>
-              <ul className="space-y-4">
-                <li className="flex items-start gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-4">
-                  <Check className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
-                  <span className="text-lg font-semibold">100% brasileiro - com gírias, safadeza e expressões autênticas 🇧🇷</span>
-                </li>
-                <li className="flex items-start gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-4">
-                  <Check className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
-                  <span className="text-lg font-semibold">3 tons: Normal, Safado ou Engraçado - você escolhe a vibe 😏</span>
-                </li>
-                <li className="flex items-start gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-4">
-                  <Check className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
-                  <span className="text-lg font-semibold">Respostas em menos de 3 segundos - strike while the iron is hot ⚡</span>
-                </li>
-              </ul>
-            </div>
           </div>
-
-          {/* Feature 2 */}
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="text-white">
-              <div className="inline-flex items-center gap-2 bg-orange-600 rounded-full px-6 py-3 mb-6 shadow-lg">
-                <Zap className="w-5 h-5" />
-                <span className="font-bold">SUPER RÁPIDO</span>
-              </div>
-              <h3 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-6 leading-tight">
-                Nunca Mais Deixe no Vácuo 🚀
-              </h3>
-              <p className="text-xl mb-8 opacity-95 leading-relaxed">
-                Acabou aquela ansiedade de não saber o que responder. Com o Flerte Chat,
-                você sempre tem a resposta perfeita, provocante e irresistível na ponta dos dedos.
-              </p>
-              <ul className="space-y-4">
-                <li className="flex items-start gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-4">
-                  <Check className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
-                  <span className="text-lg font-semibold">Responda em segundos, não em horas - mantenha o fogo aceso 🔥</span>
-                </li>
-                <li className="flex items-start gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-4">
-                  <Check className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
-                  <span className="text-lg font-semibold">Conversas fluindo naturalmente - sem bloqueios, só conquistas 💬</span>
-                </li>
-                <li className="flex items-start gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-4">
-                  <Check className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
-                  <span className="text-lg font-semibold">Impressione com criatividade e ousadia - seja inesquecível 😈</span>
-                </li>
-              </ul>
-            </div>
-            <div className="relative group">
-              {/* Imagem com overlay romântico/sexy */}
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl transform group-hover:scale-105 transition-all duration-500">
-                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/30 to-amber-600/30 z-10"></div>
-                <img
-                  src="/couple-texting.jpg"
-                  alt="Casal jovem se olhando apaixonadamente, sorrindo e flertando - romance e paixão"
-                  className="w-full h-[400px] md:h-[500px] object-cover"
-                />
-                {/* Badge flutuante */}
-                <div className="absolute bottom-6 right-6 bg-white/95 backdrop-blur-sm rounded-2xl px-6 py-3 z-20 shadow-xl">
-                  <p className="text-orange-600 font-black text-lg flex items-center gap-2">
-                    <Flame className="w-5 h-5 fill-orange-600" />
-                    10.000+ Mensagens
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </main>
+        </main>
       </section>
 
       {/* Depoimentos */}
       <section className="bg-white py-10 md:py-16">
-      <main className="container max-w-7xl mx-auto px-3 md:px-4">
-        <div id="avaliacoes" ref={testimonialsRef} className="scroll-animate">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 text-center mb-8 md:mb-12">
-            O Que Nossos Usuários Dizem
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-            <div className="bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-2xl">
-              <div className="flex gap-1 mb-4">
-                {[1,2,3,4,5].map(i => (
-                  <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                ))}
-              </div>
-              <p className="text-gray-700 mb-6 text-lg" style={{fontWeight: '600'}}>
-                "Cara, esse app salvou minha vida! Tava travado numa conversa e o Flerte Chat 
-                me deu UMA resposta que fez ela rir demais. Agora a gente tá saindo 😂"
-              </p>
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-200 bg-white">
-                  <img src="/avatar-1.jpg" alt="Rafael" className="w-full h-full object-cover" />
+        <main className="container max-w-7xl mx-auto px-3 md:px-4">
+          <div id="avaliacoes" ref={testimonialsRef} className="scroll-animate">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 text-center mb-8 md:mb-12">
+              O Que Nossos Usuários Dizem
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+              <div className="bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-2xl">
+                <div className="flex gap-1 mb-4">
+                  {[1, 2, 3, 4, 5].map(i => (
+                    <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                  ))}
                 </div>
-                <div>
-                  <div className="font-bold text-gray-900">Rafael, 25</div>
-                  <div className="text-sm text-gray-500">São Paulo, SP</div>
+                <p className="text-gray-700 mb-6 text-lg" style={{ fontWeight: '600' }}>
+                  "Cara, esse app salvou minha vida! Tava travado numa conversa e o Flerte Chat
+                  me deu UMA resposta que fez ela rir demais. Agora a gente tá saindo 😂"
+                </p>
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-200 bg-white">
+                    <img src="/avatar-1.jpg" alt="Rafael" className="w-full h-full object-cover" />
+                  </div>
+                  <div>
+                    <div className="font-bold text-gray-900">Rafael, 25</div>
+                    <div className="text-sm text-gray-500">São Paulo, SP</div>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-2xl">
-              <div className="flex gap-1 mb-4">
-                {[1,2,3,4,5].map(i => (
-                  <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                ))}
-              </div>
-              <p className="text-gray-700 mb-6 text-base md:text-lg" style={{fontWeight: '600'}}>
-                "Melhor investimento que fiz! As respostas são tão naturais que ninguém 
-                percebe que foi IA. Já consegui 3 dates esse mês 🔥"
-              </p>
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-200 bg-white">
-                  <img src="/avatar-2.jpg" alt="Marcos" className="w-full h-full object-cover" />
+              <div className="bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-2xl">
+                <div className="flex gap-1 mb-4">
+                  {[1, 2, 3, 4, 5].map(i => (
+                    <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                  ))}
                 </div>
-                <div>
-                  <div className="font-bold text-gray-900">Marcos, 28</div>
-                  <div className="text-sm text-gray-500">Rio de Janeiro, RJ</div>
+                <p className="text-gray-700 mb-6 text-base md:text-lg" style={{ fontWeight: '600' }}>
+                  "Melhor investimento que fiz! As respostas são tão naturais que ninguém
+                  percebe que foi IA. Já consegui 3 dates esse mês 🔥"
+                </p>
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-200 bg-white">
+                    <img src="/avatar-2.jpg" alt="Marcos" className="w-full h-full object-cover" />
+                  </div>
+                  <div>
+                    <div className="font-bold text-gray-900">Marcos, 28</div>
+                    <div className="text-sm text-gray-500">Rio de Janeiro, RJ</div>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-2xl">
-              <div className="flex gap-1 mb-4">
-                {[1,2,3,4,5].map(i => (
-                  <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                ))}
-              </div>
-              <p className="text-gray-700 mb-6 text-base md:text-lg">
-                "Eu sou péssima pra flertar por texto, mas com esse app eu pareço 
-                profissional! Recomendo demais ❤️"
-              </p>
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-200 bg-white">
-                  <img src="/avatar-3.jpg" alt="Carolina" className="w-full h-full object-cover" />
+              <div className="bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-2xl">
+                <div className="flex gap-1 mb-4">
+                  {[1, 2, 3, 4, 5].map(i => (
+                    <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                  ))}
                 </div>
-                <div>
-                  <div className="font-bold text-gray-900">Carolina, 23</div>
-                  <div className="text-sm text-gray-500">Belo Horizonte, MG</div>
+                <p className="text-gray-700 mb-6 text-base md:text-lg">
+                  "Eu sou péssima pra flertar por texto, mas com esse app eu pareço
+                  profissional! Recomendo demais ❤️"
+                </p>
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-200 bg-white">
+                    <img src="/avatar-3.jpg" alt="Carolina" className="w-full h-full object-cover" />
+                  </div>
+                  <div>
+                    <div className="font-bold text-gray-900">Carolina, 23</div>
+                    <div className="text-sm text-gray-500">Belo Horizonte, MG</div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </main>
+        </main>
       </section>
 
       {/* Planos e Preços */}
@@ -742,7 +741,7 @@ export default function Home() {
               Comece grátis e desbloqueie recursos premium quando precisar
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6 max-w-7xl mx-auto">
             {/* Plano Free */}
             <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-200 hover:shadow-xl transition-all">
@@ -897,7 +896,7 @@ export default function Home() {
               </Button>
             </div>
           </div>
-          
+
           <p className="text-center text-gray-500 mt-12 text-sm">
             Todos os planos incluem garantia de 7 dias. Cancele quando quiser, sem complicação.
           </p>
@@ -915,7 +914,7 @@ export default function Home() {
               Protegemos seus dados com os mais altos padrões de segurança
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <div className="bg-white rounded-2xl p-8 shadow-lg text-center">
               <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -953,7 +952,7 @@ export default function Home() {
               </p>
             </div>
           </div>
-          
+
           <div className="text-center mt-12">
             <p className="text-gray-500 text-sm max-w-2xl mx-auto">
               Não compartilhamos, vendemos ou armazenamos suas conversas. Nosso compromisso é com sua privacidade e segurança.
@@ -964,38 +963,38 @@ export default function Home() {
 
       {/* CTA Final */}
       <section className="bg-theme-gradient py-10 md:py-16">
-      <main className="container max-w-7xl mx-auto px-3 md:px-4">
-        <div ref={ctaRef} className="scroll-animate text-center bg-white/10 backdrop-blur-md rounded-2xl md:rounded-3xl p-6 sm:p-10 md:p-16 border-2 border-white/30 shadow-2xl">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white mb-4 md:mb-6 drop-shadow-xl">
-            Pronto para Impressionar?
-          </h2>
-          <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/95 mb-6 md:mb-8 max-w-3xl mx-auto">
-            Junte-se a milhares de pessoas que já estão conquistando com mensagens irresistíveis. 
-            <span className="font-bold"> Comece grátis agora!</span>
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-            <Button
-              onClick={handleGetStarted}
-              size="lg"
-              className="bg-white text-rose-600 hover:bg-gray-100 text-lg sm:text-xl md:text-2xl px-8 sm:px-12 md:px-16 py-6 sm:py-7 md:py-8 font-black shadow-2xl"
-            >
-              <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 mr-2 md:mr-3" />
-              Começar Grátis
-            </Button>
+        <main className="container max-w-7xl mx-auto px-3 md:px-4">
+          <div ref={ctaRef} className="scroll-animate text-center bg-white/10 backdrop-blur-md rounded-2xl md:rounded-3xl p-6 sm:p-10 md:p-16 border-2 border-white/30 shadow-2xl">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white mb-4 md:mb-6 drop-shadow-xl">
+              Pronto para Impressionar?
+            </h2>
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/95 mb-6 md:mb-8 max-w-3xl mx-auto">
+              Junte-se a milhares de pessoas que já estão conquistando com mensagens irresistíveis.
+              <span className="font-bold"> Comece grátis agora!</span>
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
+              <Button
+                onClick={handleGetStarted}
+                size="lg"
+                className="bg-white text-rose-600 hover:bg-gray-100 text-lg sm:text-xl md:text-2xl px-8 sm:px-12 md:px-16 py-6 sm:py-7 md:py-8 font-black shadow-2xl"
+              >
+                <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 mr-2 md:mr-3" />
+                Começar Grátis
+              </Button>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 mt-6 md:mt-8">
+              <div className="bg-black/40 backdrop-blur-md rounded-xl md:rounded-2xl p-3 md:p-4 border border-white/20">
+                <p className="text-white font-black text-center text-sm sm:text-base md:text-lg">Sem cartão de crédito</p>
+              </div>
+              <div className="bg-black/40 backdrop-blur-md rounded-xl md:rounded-2xl p-3 md:p-4 border border-white/20">
+                <p className="text-white font-black text-center text-sm sm:text-base md:text-lg">10 mensagens grátis</p>
+              </div>
+              <div className="bg-black/40 backdrop-blur-md rounded-xl md:rounded-2xl p-3 md:p-4 border border-white/20">
+                <p className="text-white font-black text-center text-sm sm:text-base md:text-lg">Cancele quando quiser</p>
+              </div>
+            </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 mt-6 md:mt-8">
-            <div className="bg-black/40 backdrop-blur-md rounded-xl md:rounded-2xl p-3 md:p-4 border border-white/20">
-              <p className="text-white font-black text-center text-sm sm:text-base md:text-lg">Sem cartão de crédito</p>
-            </div>
-            <div className="bg-black/40 backdrop-blur-md rounded-xl md:rounded-2xl p-3 md:p-4 border border-white/20">
-              <p className="text-white font-black text-center text-sm sm:text-base md:text-lg">10 mensagens grátis</p>
-            </div>
-            <div className="bg-black/40 backdrop-blur-md rounded-xl md:rounded-2xl p-3 md:p-4 border border-white/20">
-              <p className="text-white font-black text-center text-sm sm:text-base md:text-lg">Cancele quando quiser</p>
-            </div>
-          </div>
-        </div>
-      </main>
+        </main>
       </section>
 
       {/* Footer */}
@@ -1008,7 +1007,7 @@ export default function Home() {
                 <img src={APP_LOGO} alt="Logo" className="w-10 h-10 object-contain logo-pulse" />
                 <span className="font-bold text-2xl text-white app-title">{APP_TITLE}</span>
               </div>
-              <p className="text-white/80 text-lg mb-4" style={{fontWeight: '800'}}>"Sua arma secreta para quebrar o gelo"</p>
+              <p className="text-white/80 text-lg mb-4" style={{ fontWeight: '800' }}>"Sua arma secreta para quebrar o gelo"</p>
               <div className="flex gap-4">
                 {/* Redes sociais removidas */}
               </div>
@@ -1039,7 +1038,7 @@ export default function Home() {
           </div>
         </div>
       </footer>
-      
+
       {/* Back to Top Button */}
       <BackToTop />
     </div>
