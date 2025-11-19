@@ -85,19 +85,25 @@ export const appRouter = router({
         }
 
         const { email, sub: openId, name } = payload;
+        console.log("[Google Auth] Payload received:", { email, openId, name });
 
         let user = await getUserByEmail(email);
+        console.log("[Google Auth] Existing user check:", user ? `Found user ${user.id}` : "No existing user");
 
         if (!user) {
+          console.log("[Google Auth] Creating new user with Google auth");
           user = await createUser({
             email,
             name: name || email.split("@")[0],
             openId: `google_${openId}`,
             loginMethod: "google",
           });
+          console.log("[Google Auth] New user created:", user.id);
         }
 
         const token = await generateToken(user.id);
+        console.log("[Google Auth] Token generated successfully for user:", user.id);
+        console.log("[Google Auth] Returning user and token to client");
         return { user, token };
       }),
 
@@ -123,8 +129,8 @@ export const appRouter = router({
         subscription = await createSubscription({
           userId: ctx.user.id,
           plan: "free",
-          creditsRemaining: 10,
-          creditsTotal: 10,
+          creditsRemaining: 5,
+          creditsTotal: 5,
           status: "active",
         });
       }

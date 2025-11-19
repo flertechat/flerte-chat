@@ -14,6 +14,7 @@ import Subscription from "@/features/subscription/pages/subscription";
 import Privacy from "@/features/marketing/pages/privacy";
 import Terms from "@/features/marketing/pages/terms";
 import FAQ from "@/features/marketing/pages/faq";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 function Router() {
   return (
@@ -38,12 +39,14 @@ function Router() {
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider defaultTheme="dark">
-        <TooltipProvider>
-          <Toaster />
-          <Router />
-        </TooltipProvider>
-      </ThemeProvider>
+      <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || "YOUR_GOOGLE_CLIENT_ID"}>
+        <ThemeProvider defaultTheme="dark">
+          <TooltipProvider>
+            <Toaster />
+            <Router />
+          </TooltipProvider>
+        </ThemeProvider>
+      </GoogleOAuthProvider>
     </ErrorBoundary>
   );
 }

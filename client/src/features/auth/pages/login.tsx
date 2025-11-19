@@ -29,8 +29,16 @@ export default function Login() {
 
   const googleLoginMutation = trpc.auth.googleLogin.useMutation({
     onSuccess: (data) => {
+      console.log("[Google Login] Success! User:", data.user);
+      console.log("[Google Login] Token:", data.token);
+      console.log("[Google Login] Saving token to localStorage...");
       localStorage.setItem("token", data.token);
+      console.log("[Google Login] Redirecting to /app...");
       setLocation("/app");
+    },
+    onError: (error) => {
+      console.error("[Google Login] Error:", error);
+      alert("Erro no login: " + error.message);
     },
   });
 
@@ -70,12 +78,17 @@ export default function Login() {
           <div className="mb-6 flex justify-center">
             <GoogleLogin
               onSuccess={credentialResponse => {
+                console.log("[Google Button] Credential received");
                 if (credentialResponse.credential) {
+                  console.log("[Google Button] Calling googleLogin mutation...");
                   googleLoginMutation.mutate({ idToken: credentialResponse.credential });
+                } else {
+                  console.error("[Google Button] No credential in response");
                 }
               }}
               onError={() => {
-                console.error("Google Login Failed");
+                console.error("[Google Button] Login failed");
+                alert("Erro ao fazer login com Google. Tente novamente.");
               }}
               theme="filled_black"
               shape="pill"
