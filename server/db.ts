@@ -1,7 +1,7 @@
 import { eq, and, desc } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
-import { InsertUser, users, subscriptions, conversations, messages, transactions, referrals, messageRatings, InsertSubscription, InsertConversation, InsertMessage, InsertTransaction, InsertReferral, InsertMessageRating } from "../drizzle/schema";
+import { InsertUser, users, subscriptions, conversations, messages, transactions, referrals, messageRatings, roleplayUsage, InsertSubscription, InsertConversation, InsertMessage, InsertTransaction, InsertReferral, InsertMessageRating, InsertRoleplayUsage } from "../drizzle/schema";
 import { ENV } from './_core/env';
 import { nanoid } from 'nanoid';
 
@@ -434,4 +434,131 @@ export async function addMessageRating(data: InsertMessageRating) {
 
   await db.insert(messageRatings).values(data);
   return true;
+}
+
+// Roleplay Usage helpers - Rate limiting for date simulator
+const ROLEPLAY_MESSAGE_LIMIT = 30;
+const ROLEPLAY_WINDOW_HOURS = 3;
+
+export async function checkRoleplayLimit(userId: number): Promise<{
+  allowed: boolean;
+  remaining: number;
+  resetAt: Date;
+}> {
+  const db = await getDb();
+  if (!db) return { allowed: true, remaining: ROLEPLAY_MESSAGE_LIMIT, resetAt: new Date() };
+
+  // Get or create usage record
+  let usage = await db
+    .select()
+    .from(roleplayUsage)
+    .where(eq(roleplayUsage.userId, userId))
+    .limit(1)
+    .then(rows => rows[0]);
+
+  const now = new Date();
+
+  if (!usage) {
+    // First time user - create record
+    await db.insert(roleplayUsage).values({
+      userId,
+      messagesUsed: 0,
+      windowStartedAt: now,
+      lastMessageAt: now,
+    });
+    return {
+      allowed: true,
+      remaining: ROLEPLAY_MESSAGE_LIMIT,
+      resetAt: new Date(now.getTime() + ROLEPLAY_WINDOW_HOURS * 60 * 60 * 1000),
+    };
+  }
+
+  // Check if window has expired (3 hours passed)
+  const windowStartMs = new Date(usage.windowStartedAt).getTime();
+  const nowMs = now.getTime();
+  const windowDurationMs = ROLEPLAY_WINDOW_HOURS * 60 * 60 * 1000;
+  const windowExpired = (nowMs - windowStartMs) >= windowDurationMs;
+
+  if (windowExpired) {
+    // Reset the window
+    await db
+      .update(roleplayUsage)
+      .set({
+        messagesUsed: 0,
+        windowStartedAt: now,
+        updatedAt: now,
+      })
+      .where(eq(roleplayUsage.userId, userId));
+
+    return {
+      allowed: true,
+      remaining: ROLEPLAY_MESSAGE_LIMIT,
+      resetAt: new Date(nowMs + windowDurationMs),
+    };
+  }
+
+  // Window is still active - check if limit reached
+  const remaining = ROLEPLAY_MESSAGE_LIMIT - usage.messagesUsed;
+  const resetAt = new Date(windowStartMs + windowDurationMs);
+
+  return {
+    allowed: remaining > 0,
+    remaining: Math.max(0, remaining),
+    resetAt,
+  };
+}
+
+export async function incrementRoleplayUsage(userId: number): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+
+  const now = new Date();
+
+  // Get current usage
+  const usage = await db
+    .select()
+    .from(roleplayUsage)
+    .where(eq(roleplayUsage.userId, userId))
+    .limit(1)
+    .then(rows => rows[0]);
+
+  if (!usage) {
+    // Create new record
+    await db.insert(roleplayUsage).values({
+      userId,
+      messagesUsed: 1,
+      windowStartedAt: now,
+      lastMessageAt: now,
+    });
+    return;
+  }
+
+  // Check if window expired
+  const windowStartMs = new Date(usage.windowStartedAt).getTime();
+  const nowMs = now.getTime();
+  const windowDurationMs = ROLEPLAY_WINDOW_HOURS * 60 * 60 * 1000;
+  const windowExpired = (nowMs - windowStartMs) >= windowDurationMs;
+
+  if (windowExpired) {
+    // Reset and set to 1
+    await db
+      .update(roleplayUsage)
+      .set({
+        messagesUsed: 1,
+        windowStartedAt: now,
+        lastMessageAt: now,
+        updatedAt: now,
+      })
+      .where(eq(roleplayUsage.userId, userId));
+  } else {
+    // Increment counter
+    await db
+      .update(roleplayUsage)
+      .set({
+        messagesUsed: usage.messagesUsed + 1,
+        lastMessageAt: now,
+        updatedAt: now,
+      })
+      .where(eq(roleplayUsage.userId, userId));
+  }
 }

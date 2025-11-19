@@ -36,7 +36,7 @@ export const subscriptions = pgTable("subscriptions", {
   userId: integer("userId").notNull().unique(),
   plan: varchar("plan", { length: 50 }).notNull().default("free"), // "free", "pro_weekly", "pro_monthly", "premium_weekly", "premium_monthly"
   status: varchar("status", { length: 50 }).notNull().default("active"), // "active", "cancelled", "expired"
-  creditsRemaining: integer("creditsRemaining").notNull().default(10), // Free users start with 10 credits
+  creditsRemaining: integer("creditsRemaining").notNull().default(10), // Free users start with 5 credits
   creditsTotal: integer("creditsTotal").notNull().default(10), // Total credits for the plan
   startDate: timestamp("startDate").defaultNow().notNull(),
   endDate: timestamp("endDate"), // Null for free plan
@@ -131,3 +131,20 @@ export const messageRatings = pgTable("messageRatings", {
 
 export type MessageRating = typeof messageRatings.$inferSelect;
 export type InsertMessageRating = typeof messageRatings.$inferInsert;
+
+/**
+ * Roleplay Usage table: tracks rate limiting for roleplay/date simulator
+ * Users get 30 messages per 3-hour window
+ */
+export const roleplayUsage = pgTable("roleplayUsage", {
+  id: serial("id").primaryKey(),
+  userId: integer("userId").notNull().unique(),
+  messagesUsed: integer("messagesUsed").notNull().default(0), // Messages used in current window
+  windowStartedAt: timestamp("windowStartedAt").defaultNow().notNull(), // When current 3-hour window started
+  lastMessageAt: timestamp("lastMessageAt").defaultNow().notNull(), // Last message timestamp
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+});
+
+export type RoleplayUsage = typeof roleplayUsage.$inferSelect;
+export type InsertRoleplayUsage = typeof roleplayUsage.$inferInsert;

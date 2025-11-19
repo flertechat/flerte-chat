@@ -386,13 +386,44 @@ export const appRouter = router({
         };
       }),
 
+    getRoleplayLimit: protectedProcedure.query(async ({ ctx }) => {
+      if (!ctx.user) throw new TRPCError({ code: "UNAUTHORIZED" });
+      const { checkRoleplayLimit } = await import("./db");
+      return checkRoleplayLimit(ctx.user.id);
+    }),
+
     roleplay: protectedProcedure
       .input(z.object({
         message: z.string(),
         history: z.array(z.object({ role: z.enum(["user", "assistant"]), content: z.string() })).optional(),
         persona: z.enum(["hard_to_get", "shy", "funny", "romantic", "direct"])
       }))
-      .mutation(async ({ input }) => {
+      .mutation(async ({ ctx, input }) => {
+        if (!ctx.user) throw new TRPCError({ code: "UNAUTHORIZED" });
+
+        // Check rate limit
+        const { checkRoleplayLimit, incrementRoleplayUsage } = await import("./db");
+        const limitCheck = await checkRoleplayLimit(ctx.user.id);
+
+        if (!limitCheck.allowed) {
+          const hoursRemaining = Math.ceil((limitCheck.resetAt.getTime() - Date.now()) / (1000 * 60 * 60));
+          const minutesRemaining = Math.ceil((limitCheck.resetAt.getTime() - Date.now()) / (1000 * 60));
+
+          let timeMessage;
+          if (hoursRemaining > 1) {
+            timeMessage = `${hoursRemaining} horas`;
+          } else if (minutesRemaining > 60) {
+            timeMessage = "1 hora";
+          } else {
+            timeMessage = `${minutesRemaining} minutos`;
+          }
+
+          throw new TRPCError({
+            code: "TOO_MANY_REQUESTS",
+            message: `Você atingiu o limite de 30 mensagens no simulador de date. Novo limite disponível em ${timeMessage}.`
+          });
+        }
+
         const { message, history = [], persona } = input;
 
         const personas = {
@@ -434,9 +465,13 @@ export const appRouter = router({
         const contentStr = typeof content === 'string' ? content : JSON.stringify(content);
         const result = JSON.parse(contentStr);
 
+        // Increment usage counter after successful message
+        await incrementRoleplayUsage(ctx.user.id);
+
         return {
           message: result.response,
-          feedback: result.feedback
+          feedback: result.feedback,
+          remaining: limitCheck.remaining - 1, // Return updated remaining count
         };
       }),
 
