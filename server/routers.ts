@@ -85,25 +85,19 @@ export const appRouter = router({
         }
 
         const { email, sub: openId, name } = payload;
-        console.log("Google login payload:", { email, openId, name });
 
         let user = await getUserByEmail(email);
 
         if (!user) {
-          console.log("Creating new user from Google login:", email);
           user = await createUser({
             email,
             name: name || email.split("@")[0],
             openId: `google_${openId}`,
             loginMethod: "google",
           });
-          console.log("User created successfully:", user.id);
-        } else {
-          console.log("Existing user found:", user.id);
         }
 
         const token = await generateToken(user.id);
-        console.log("Token generated for user:", user.id);
         return { user, token };
       }),
 

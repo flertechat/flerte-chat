@@ -29,12 +29,8 @@ export default function Login() {
 
   const googleLoginMutation = trpc.auth.googleLogin.useMutation({
     onSuccess: (data) => {
-      console.log("Google login successful:", data);
       localStorage.setItem("token", data.token);
       setLocation("/app");
-    },
-    onError: (error) => {
-      console.error("Google login error:", error);
     },
   });
 
@@ -74,12 +70,8 @@ export default function Login() {
           <div className="mb-6 flex justify-center">
             <GoogleLogin
               onSuccess={credentialResponse => {
-                console.log("Google credential received:", credentialResponse);
                 if (credentialResponse.credential) {
-                  console.log("Calling googleLogin mutation...");
                   googleLoginMutation.mutate({ idToken: credentialResponse.credential });
-                } else {
-                  console.error("No credential in response");
                 }
               }}
               onError={() => {
