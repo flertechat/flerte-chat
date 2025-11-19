@@ -20,8 +20,7 @@ export function ThemeProvider({
 }: ThemeProviderProps) {
   const [colorTheme, setColorTheme] = useState<ColorTheme>(() => {
     const stored = localStorage.getItem("colorTheme");
-    // Default to light theme
-    return (stored as ColorTheme) || "light";
+    return (stored as ColorTheme) || defaultTheme;
   });
 
   useEffect(() => {
