@@ -96,7 +96,7 @@ export default function Plans() {
           </div>
           {isAuthenticated && user && (
             <div className="hidden md:block text-sm text-slate-300">
-              Olá, <span className="text-coral-400 font-semibold">{user.name || "Usuário"}</span>!
+              Olá, <span className="text-coral-400 font-semibold">{user.name?.split(' ')[0] || "Usuário"}</span>!
             </div>
           )}
         </div>
