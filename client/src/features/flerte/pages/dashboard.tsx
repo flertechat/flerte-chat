@@ -19,7 +19,7 @@ const ContactModal = lazy(() =>
 );
 
 export default function Dashboard() {
-  const { user, isAuthenticated, loading } = useAuth();
+  const { user, isAuthenticated, loading, logout: supabaseLogout } = useAuth();
   const [, setLocation] = useLocation();
   const [context, setContext] = useState("");
   const [copied, setCopied] = useState<string | null>(null);
@@ -80,9 +80,11 @@ export default function Dashboard() {
   });
 
   const logoutMutation = trpc.auth.logout.useMutation({
-    onSuccess: () => {
+    onSuccess: async () => {
+      localStorage.removeItem("token");
+      await supabaseLogout();
       toast.success("Até logo!");
-      setLocation("/");
+      setLocation("/login");
     },
   });
 

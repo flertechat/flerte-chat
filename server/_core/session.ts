@@ -1,11 +1,21 @@
-import { randomBytes } from "crypto";
+import { SignJWT, jwtVerify } from "jose";
+import { ENV } from "./env";
 
-export function generateToken(userId: number) {
-    // Implementação simples de token. Em produção, use JWT ou sessions no banco.
-    // Aqui retornamos um token opaco que poderia ser mapeado para o user.
-    // Para simplificar e compatibilidade com o código que escrevi, vamos retornar um mock JWT
-    // ou apenas uma string.
-    // Se o sistema espera JWT, isso pode falhar.
-    // Mas como eu reescrevi o router, eu controlo o que é retornado.
-    return Buffer.from(JSON.stringify({ userId, exp: Date.now() + 86400000 })).toString('base64');
+const SECRET = new TextEncoder().encode(ENV.cookieSecret || "default-secret-do-not-use-in-prod-or-you-will-be-hacked");
+
+export async function generateToken(userId: number) {
+  return await new SignJWT({ userId })
+    .setProtectedHeader({ alg: "HS256" })
+    .setIssuedAt()
+    .setExpirationTime("30d")
+    .sign(SECRET);
+}
+
+export async function verifyToken(token: string) {
+  try {
+    const { payload } = await jwtVerify(token, SECRET);
+    return payload as { userId: number };
+  } catch (e) {
+    return null;
+  }
 }

@@ -7,7 +7,21 @@
       "Bash(npm run check:*)",
       "Bash(npx vite:*)",
       "Bash(npm run dev:*)",
-      "Bash(robocopy:*)"
+      "Bash(robocopy:*)",
+      "Bash(git push:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nfix: Corrige tema padrão para respeitar defaultTheme prop\n\nO ThemeContext estava ignorando a prop defaultTheme e sempre usando \"light\" como fallback.\nAgora o tema dark será aplicado corretamente na primeira visita do usuário.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git commit -m \"$(cat <<''EOF''\nfeat: Implementa tema dark como padrão na landing page\n\nAltera a landing page para usar o tema dark (navy/coral) por padrão, \nmantendo a consistência visual com o dashboard. As seções hero, features \ne CTA agora respondem ao tema dark/light corretamente.\n\nMudanças:\n- Seções principais agora usam gradiente navy no modo dark\n- Adiciona classes CSS customizadas para cores navy\n- Tema padrão configurado como dark\n- Alternância de tema funcional via botão lua\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git commit:*)",
+      "Bash(cat:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(taskkill /F /PID 2228)",
+      "Bash(taskkill //F //PID 2228)",
+      "Bash(npx drizzle-kit push)",
+      "Bash(taskkill:*)",
+      "Bash(git reset:*)",
+      "Bash(pnpm install:*)"
     ],
     "deny": [],
     "ask": []

@@ -80,10 +80,7 @@ export const AppSidebar = memo(({
                 <div className="space-y-1 mb-6">
                     <Button
                         variant="ghost"
-                        onClick={onNewChat} // Assuming clicking "Chat Principal" goes to new chat or resets view, but usually it just stays on chat. Ideally we have a prop for "onNavigateToChat". For now, let's use onNewChat or just leave it as a visual indicator if we are in chat mode.
-                        // Actually, let's make it navigate to root app if possible, or just be a button.
-                        // Since onNewChat resets the current chat, it's close enough for "Chat Principal" in this context, or we can add a specific handler.
-                        // Let's use a simple button that looks active if NOT roleplay.
+                        onClick={onNewChat}
                         className={`w-full justify-start h-10 rounded-xl transition-colors ${!isRoleplayActive ? 'bg-navy-700 text-coral-500' : 'text-slate-400 hover:bg-navy-700/50 hover:text-white'}`}
                     >
                         <MessageSquare className="w-4 h-4 mr-2" />
@@ -164,27 +161,23 @@ export const AppSidebar = memo(({
                     </div>
 
                     {/* Actions */}
-                    <div className="flex items-center gap-2">
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={cycleTheme}
-                            className="flex-1 h-10 rounded-xl hover:bg-navy-700 text-slate-400 hover:text-white transition-colors"
-                            title="Alternar Tema"
-                        >
-                            {colorTheme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-                        </Button>
+                    <Button
+                        variant="ghost"
+                        onClick={cycleTheme}
+                        className="w-full justify-start h-10 rounded-xl hover:bg-navy-700 text-slate-400 hover:text-white transition-colors"
+                    >
+                        {colorTheme === 'dark' ? <Sun className="w-5 h-5 mr-2" /> : <Moon className="w-5 h-5 mr-2" />}
+                        Alternar Tema
+                    </Button>
 
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={onLogout}
-                            className="flex-1 h-10 rounded-xl hover:bg-red-900/20 text-slate-400 hover:text-red-400 transition-colors"
-                            title="Sair"
-                        >
-                            <LogOut className="w-5 h-5" />
-                        </Button>
-                    </div>
+                    <Button
+                        variant="ghost"
+                        onClick={onLogout}
+                        className="w-full justify-start h-10 rounded-xl hover:bg-red-900/20 text-slate-400 hover:text-red-400 transition-colors"
+                    >
+                        <LogOut className="w-5 h-5 mr-2" />
+                        Sair da Conta
+                    </Button>
                 </div>
             </div>
         </div>

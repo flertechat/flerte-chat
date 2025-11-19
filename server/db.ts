@@ -12,12 +12,16 @@ let _client: ReturnType<typeof postgres> | null = null;
 export async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
     try {
+      console.log("[Database] Connecting to database...");
       _client = postgres(process.env.DATABASE_URL);
       _db = drizzle(_client);
+      console.log("[Database] Successfully connected to database");
     } catch (error) {
-      console.warn("[Database] Failed to connect:", error);
+      console.error("[Database] Failed to connect:", error);
       _db = null;
     }
+  } else if (!process.env.DATABASE_URL) {
+    console.error("[Database] DATABASE_URL not found in environment variables");
   }
   return _db;
 }
@@ -100,7 +104,10 @@ export async function getUserByOpenId(openId: string) {
 
 export async function createUser(user: InsertUser) {
   const db = await getDb();
-  if (!db) throw new Error("Database not available");
+  if (!db) {
+    console.error("[Database] Database not available when creating user");
+    throw new Error("Database not available");
+  }
 
   // Generate openId if not present (for email/password auth)
   const userWithOpenId = {
@@ -109,14 +116,27 @@ export async function createUser(user: InsertUser) {
     loginMethod: user.loginMethod || 'email',
   };
 
-  const result = await db.insert(users).values(userWithOpenId).returning();
-  return result[0];
+  console.log("[Database] Attempting to create user:", { email: userWithOpenId.email, openId: userWithOpenId.openId });
+
+  try {
+    const result = await db.insert(users).values(userWithOpenId).returning();
+    console.log("[Database] User created successfully in DB:", result[0]);
+    return result[0];
+  } catch (error) {
+    console.error("[Database] Error creating user:", error);
+    throw error;
+  }
 }
 
 export async function getUserByEmail(email: string) {
   const db = await getDb();
-  if (!db) return undefined;
+  if (!db) {
+    console.error("[Database] Cannot get user by email: database not available");
+    return undefined;
+  }
+  console.log("[Database] Searching for user by email:", email);
   const result = await db.select().from(users).where(eq(users.email, email)).limit(1);
+  console.log("[Database] User search result:", result[0] ? `Found user ${result[0].id}` : "User not found");
   return result[0];
 }
 
