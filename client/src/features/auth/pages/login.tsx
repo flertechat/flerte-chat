@@ -1,48 +1,54 @@
 import { useState } from "react";
-import { supabase } from "@/lib/supabase";
 import { Button } from "@/shared/components/ui/button";
-import { APP_LOGO, APP_TITLE } from "@/shared/constants/app";
+import { APP_TITLE } from "@/shared/constants/app";
 import { useLocation } from "wouter";
 import { Flame } from "lucide-react";
+import { trpc } from "@/lib/trpc";
+import { GoogleLogin } from '@react-oauth/google';
 
 export default function Login() {
   const [, setLocation] = useLocation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [name, setName] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
+
+  const loginMutation = trpc.auth.login.useMutation({
+    onSuccess: (data) => {
+      localStorage.setItem("token", data.token);
+      setLocation("/app");
+    },
+  });
+
+  const registerMutation = trpc.auth.register.useMutation({
+    onSuccess: (data) => {
+      localStorage.setItem("token", data.token);
+      setLocation("/app");
+    },
+  });
+
+  const googleLoginMutation = trpc.auth.googleLogin.useMutation({
+    onSuccess: (data) => {
+      console.log("Google login successful:", data);
+      localStorage.setItem("token", data.token);
+      setLocation("/app");
+    },
+    onError: (error) => {
+      console.error("Google login error:", error);
+    },
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
-
-    try {
-      if (isSignUp) {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            emailRedirectTo: `${window.location.origin}/app`,
-          },
-        });
-        if (error) throw error;
-        alert("Cadastro realizado! Verifique seu email para confirmar.");
-      } else {
-        const { error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-        if (error) throw error;
-        setLocation("/app");
-      }
-    } catch (err: any) {
-      setError(err.message || "Erro ao autenticar");
-    } finally {
-      setLoading(false);
+    if (isSignUp) {
+      registerMutation.mutate({ email, password, name });
+    } else {
+      loginMutation.mutate({ email, password });
     }
   };
+
+  const loading = loginMutation.isPending || registerMutation.isPending || googleLoginMutation.isPending;
+  const error = loginMutation.error?.message || registerMutation.error?.message || googleLoginMutation.error?.message;
 
   return (
     <div className="min-h-screen dark bg-background flex items-center justify-center p-4">
@@ -64,7 +70,53 @@ export default function Login() {
             {isSignUp ? "Criar Conta" : "Entrar"}
           </h2>
 
+          {/* Google Login */}
+          <div className="mb-6 flex justify-center">
+            <GoogleLogin
+              onSuccess={credentialResponse => {
+                console.log("Google credential received:", credentialResponse);
+                if (credentialResponse.credential) {
+                  console.log("Calling googleLogin mutation...");
+                  googleLoginMutation.mutate({ idToken: credentialResponse.credential });
+                } else {
+                  console.error("No credential in response");
+                }
+              }}
+              onError={() => {
+                console.error("Google Login Failed");
+              }}
+              theme="filled_black"
+              shape="pill"
+              width="100%"
+            />
+          </div>
+
+          <div className="relative mb-6">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t border-border" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-card px-2 text-muted-foreground">
+                Ou continue com email
+              </span>
+            </div>
+          </div>
+
           <form onSubmit={handleSubmit} className="space-y-4">
+            {isSignUp && (
+              <div>
+                <label className="block text-sm font-medium mb-2 text-foreground">Nome</label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required={isSignUp}
+                  className="w-full px-4 py-3 bg-background text-foreground border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary placeholder:text-muted-foreground"
+                  placeholder="Seu nome"
+                />
+              </div>
+            )}
+
             {/* Email */}
             <div>
               <label className="block text-sm font-medium mb-2 text-foreground">Email</label>
@@ -114,7 +166,6 @@ export default function Login() {
             <button
               onClick={() => {
                 setIsSignUp(!isSignUp);
-                setError(null);
               }}
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
