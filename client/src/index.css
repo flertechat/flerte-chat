@@ -286,7 +286,25 @@
 }
 
 /* Theme Color Variables */
+.bg-theme-gradient {
+  background: linear-gradient(135deg, #ff6b7a 0%, #ff8fa3 50%, #e64558 100%);
+}
 
+/* Theme Flerte */
+.theme-flerte {
+  /* Tema coral/rosa para landing page */
+}
+
+/* Navy colors for dark mode */
+.from-navy-900 {
+  --tw-gradient-from: var(--color-navy-900) !important;
+  --tw-gradient-to: rgb(10 14 39 / 0) !important;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
+}
+
+.to-navy-800 {
+  --tw-gradient-to: var(--color-navy-800) !important;
+}
 
 /* Esconder scrollbar no carrossel */
 .scrollbar-hide::-webkit-scrollbar {

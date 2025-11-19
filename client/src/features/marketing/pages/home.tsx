@@ -89,7 +89,7 @@ export default function Home() {
       </header>
 
       {/* Hero Section com Chat Demo */}
-      <section className="theme-flerte bg-theme-gradient py-8 md:py-16 relative overflow-hidden">
+      <section className="bg-gradient-to-br from-pink-500 to-rose-500 dark:from-navy-900 dark:to-navy-800 py-8 md:py-16 relative overflow-hidden">
         {/* Flame icons decorativos */}
         <div className="absolute top-10 left-10 opacity-10">
           <Flame className="w-32 h-32 text-white" />
@@ -542,7 +542,7 @@ export default function Home() {
       </section>
 
       {/* Features com Imagens */}
-      <section className="bg-theme-gradient py-16 md:py-24">
+      <section className="bg-gradient-to-br from-pink-500 to-rose-500 dark:bg-gradient-to-br dark:from-navy-900 dark:to-navy-800 py-16 md:py-24">
         <main className="container max-w-7xl mx-auto px-4">
           <div ref={whyChooseRef} className="scroll-animate">
             <div className="text-center mb-16">
@@ -962,7 +962,7 @@ export default function Home() {
       </section>
 
       {/* CTA Final */}
-      <section className="bg-theme-gradient py-10 md:py-16">
+      <section className="bg-gradient-to-br from-pink-500 to-rose-500 dark:bg-gradient-to-br dark:from-navy-900 dark:to-navy-800 py-10 md:py-16">
         <main className="container max-w-7xl mx-auto px-3 md:px-4">
           <div ref={ctaRef} className="scroll-animate text-center bg-white/10 backdrop-blur-md rounded-2xl md:rounded-3xl p-6 sm:p-10 md:p-16 border-2 border-white/30 shadow-2xl">
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white mb-4 md:mb-6 drop-shadow-xl">
