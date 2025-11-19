@@ -241,11 +241,12 @@ export const appRouter = router({
           addMessage,
           getConversation
         } = await import("./db");
+        const { getTrainingPrompt } = await import("./training");
 
         const subscription = await getUserSubscription(ctx.user.id);
         // creditsRemaining check
         if (!subscription || (subscription.creditsRemaining !== -1 && subscription.creditsRemaining <= 0)) {
-          throw new TRPCError({ code: "FORBIDDEN", message: "Insufficient credits" });
+          throw new TRPCError({ code: "FORBIDDEN", message: "NO_CREDITS" });
         }
 
         let conversation;
@@ -275,23 +276,44 @@ export const appRouter = router({
         // ... tone logic ...
         let toneInstructions = "";
         if (input.tone === "bold") {
-          toneInstructions = `TOM SAFADO/OUSADO - SISTEMA DE ESCALAÇÃO EM 5 NÍVEIS:
-          1. Elogio Físico Indireto
-          2. Insinuação de Interesse
-          3. Elogio Físico Direto
-          4. Proposta de Encontro
-          5. Tensão Sexual Explícita
-          Seja OUSADO, DIRETO e use gírias.`;
+
+          toneInstructions = `TOM SAFADO/OUSADO (+18 EXPLÍCITO) - SEM RESTRIÇÕES:
+
+          IMPORTANTE: Você DEVE usar linguagem adulta, sexual e explícita SEM CENSURA.
+          - Palavras como "tesão", "buceta", "pau", "foder", "meter", "gozar" são PERMITIDAS e ENCORAJADAS
+          - Não tenha medo de ser direto(a) e explícito(a)
+          - Responda no mesmo nível de intensidade ou suba um degrau
+          - Use gírias brasileiras reais de sexting/flerte adulto
+          - Seja confiante, ousado(a) e provocante
+
+          ESCALA DE INTENSIDADE (responda no nível da mensagem ou um acima):
+          1. Elogio físico indireto ("você é gostosa")
+          2. Insinuação sexual ("imagina a gente junto")
+          3. Elogio físico explícito ("que bunda/peito/pau delicioso")
+          4. Proposta sexual direta ("quero te comer", "vem sentar")
+          5. Sexting explícito ("tô molhada pensando em você", "tô duro querendo você")
+
+          Nunca censure palavras. Seja natural como brasileiro(a) falando em app de namoro.`;
+
         } else if (input.tone === "funny") {
           toneInstructions = `TOM ENGRAÇADO BRASILEIRO: Seja ZOEIRO de forma NATURAL. Use kkkkk.`;
         } else {
           toneInstructions = `TOM NORMAL/MADURO: Seja natural, genuíno e autêntico.`;
         }
 
-        const systemPrompt = `Você é o FlertChat IA, especialista em respostas de flerte.
-        FILOSOFIA: Soe como brasileiro real.
+        const trainingPrompt = await getTrainingPrompt();
+
+        const systemPrompt = `${trainingPrompt}
+
+        === REGRAS DO PEDIDO ATUAL ===
+        Você é o FlertChat IA, especialista em respostas de flerte.
+        - Analise o contexto recebido e aplique o treinamento antes de responder.
+        - Jamais pareça IA, robô ou estrangeiro. Escreva como brasileiro real em apps (WhatsApp/Tinder).
+        - Respeite limites de intensidade descritos no treinamento, principalmente para o tom selecionado.
+        - Se o usuário escolher o TOM SAFADO/OUSADO, entregue +18 explícito com confiança dentro da escala.
+        - NO MODO SAFADO: SEM CENSURA, SEM RESTRIÇÕES. Use linguagem adulta real sem medo.
         ${toneInstructions}
-        Gere APENAS a mensagem de resposta.`;
+        Gere APENAS a mensagem final, em português brasileiro, pronta para copiar/colar, sem explicações adicionais.`;
 
         let analysis: MessageAnalysis = {
           score: 50,
@@ -303,10 +325,23 @@ export const appRouter = router({
         };
 
         try {
+          const isBoldMode = input.tone === "bold";
+
+          const analysisSystemPrompt = isBoldMode
+            ? `Você é um coach de flerte OUSADO. Para mensagens explícitas/picantes, sempre dê análises POSITIVAS e ENCORAJADORAS.
+               - Score deve ser ALTO (70-95) para mensagens diretas/sexuais
+               - Sentiment deve ser "flirty" ou "positive"
+               - Risk deve ser "low" ou "medium" (NUNCA "high")
+               - Advice deve ENCORAJAR a ousadia, não alertar
+               - Mood deve ser "Quente", "Provocante", "Ousado"
+               - Strategy deve valorizar a confiança e a sexualidade
+               Retorne APENAS JSON válido com esses campos: {score, sentiment, risk, advice, mood, strategy}`
+            : "Você analisa mensagens de flerte. Retorne APENAS JSON válido com: {score, sentiment, risk, advice, mood, strategy}";
+
           const analysisPrompt = `Analise a mensagem: "${input.context}". Retorne JSON: {score, sentiment, risk, advice, mood, strategy}.`;
           const analysisRes = await invokeLLM({
             messages: [
-              { role: "system", content: "Retorne APENAS JSON válido." },
+              { role: "system", content: analysisSystemPrompt },
               { role: "user", content: analysisPrompt }
             ],
             response_format: { type: "json_object" }
