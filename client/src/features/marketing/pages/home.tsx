@@ -987,7 +987,7 @@ export default function Home() {
                 <p className="text-white font-black text-center text-sm sm:text-base md:text-lg">Sem cartão de crédito</p>
               </div>
               <div className="bg-black/40 backdrop-blur-md rounded-xl md:rounded-2xl p-3 md:p-4 border border-white/20">
-                <p className="text-white font-black text-center text-sm sm:text-base md:text-lg">10 mensagens grátis</p>
+                <p className="text-white font-black text-center text-sm sm:text-base md:text-lg">5 mensagens grátis</p>
               </div>
               <div className="bg-black/40 backdrop-blur-md rounded-xl md:rounded-2xl p-3 md:p-4 border border-white/20">
                 <p className="text-white font-black text-center text-sm sm:text-base md:text-lg">Cancele quando quiser</p>

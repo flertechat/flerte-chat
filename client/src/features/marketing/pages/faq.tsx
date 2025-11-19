@@ -19,7 +19,7 @@ export default function FAQ() {
     },
     {
       question: "Como funcionam os planos pagos?",
-      answer: "Oferecemos três planos: Free (10 mensagens grátis), Pro (50 mensagens/semana ou 200/mês) e Premium (ilimitado). Os planos Pro e Premium têm opções semanais e mensais com preços diferenciados."
+      answer: "Oferecemos três planos: Free (5 mensagens grátis), Pro (50 mensagens/semana ou 200/mês) e Premium (ilimitado). Os planos Pro e Premium têm opções semanais e mensais com preços diferenciados."
     },
     {
       question: "Posso cancelar minha assinatura a qualquer momento?",

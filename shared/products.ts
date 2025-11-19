@@ -24,11 +24,11 @@ export const SUBSCRIPTION_PLANS: Record<string, SubscriptionPlan> = {
     price: 0,
     stripePriceId: "",
     features: [
-      "10 mensagens grátis",
+      "5 mensagens grátis",
       "Todos os tons de voz",
       "Upload de imagem",
     ],
-    credits: 10,
+    credits: 5,
   },
   proWeekly: {
     id: "proWeekly",

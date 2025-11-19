@@ -201,7 +201,7 @@ export default function Plans() {
               <ul className="space-y-4 mb-8 flex-1">
                 <li className="flex items-start gap-3">
                   <div className="bg-navy-700 p-1 rounded-full"><Check className="w-3 h-3 text-white" /></div>
-                  <span className="text-slate-300">10 mensagens grátis</span>
+                  <span className="text-slate-300">5 mensagens grátis</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <div className="bg-navy-700 p-1 rounded-full"><Check className="w-3 h-3 text-white" /></div>
